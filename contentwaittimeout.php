@@ -10,7 +10,9 @@
 
 /**
 * This script starts parallel publishing processes in order to trigger lock wait timeouts
+* Launch it using $./bin/php/ezexec.phhp contentwaittimeout.php
 *
+* To customize the class, parent node or concurrency level, modify the 3 variables below.
 * @package tests
 */
 
