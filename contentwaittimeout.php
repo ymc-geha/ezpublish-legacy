@@ -16,13 +16,27 @@
 * @package tests
 */
 
-$parentNode = 70;
+$parentNode = 755;
 $contentClass = 'article';
 $concurrencyLevel = 20;
 
 $currentJobs = array();
 $signalQueue = array();
 
+// Create the containing folder... NOT
+// if mt_rand is initialized (it is in eZContentObject::create), and the process is forked, each fork will get the SAME
+// "random" value when calling mt_rand again
+/*$container = new ezpObject( 'folder', $parentNode );
+$container->name = "Bench on $contentClass [concurrency: $concurrencyLevel]";
+$container->publish();
+
+eZDB::instance()->close();
+unset( $GLOBALS['eZDBGlobalInstance'] );
+sleep( 5 );
+
+$parentNode = $container->attribute( 'main_node_id' );
+echo "Main node ID: $parentNode\n";
+*/
 for( $i = 0; $i < $concurrencyLevel; $i++ )
 {
     $pid = pcntl_fork();
@@ -30,7 +44,6 @@ for( $i = 0; $i < $concurrencyLevel; $i++ )
     {
         // Problem launching the job
         error_log( 'Could not launch new job, exiting' );
-        return false;
     }
     else if ( $pid > 1 )
     {
@@ -41,15 +54,18 @@ for( $i = 0; $i < $concurrencyLevel; $i++ )
         // Forked child, do your deeds....
         $exitStatus = 0; //Error code if you need to or whatever
         $myPid = getmypid();
-        // echo "#{$myPid}: publishing object\n";
+
+        // No need if the DB ain't initialized before forking
+        /*$db = eZDB::instance( false, false, true );
+        eZDB::setInstance( $db );
+        echo "#{$myPid}: DB Connection: " . ( $db->IsConnected() ? ' connected' : 'not connected' ) . "\n";*/
 
         // suppress error output
         fclose( STDERR );
 
         $object = new ezpObject( $contentClass, $parentNode );
         $object->title = "Wait Timeout Test, pid {$myPid}\n";
-        @$object->publish();
-        // echo "#{$myPid}: done\n";
+        $object->publish();
 
         eZExecution::cleanExit();
     }
@@ -79,4 +95,5 @@ while ( !empty( $currentJobs ) )
     }
 }
 echo "Done waiting.\n\nResult: $errors errors out of $concurrencyLevel publishing operations\n";
+echo "Failures: " . ( round( $errors / $concurrencyLevel * 100, 0 ) ). "%\n";
 ?>
