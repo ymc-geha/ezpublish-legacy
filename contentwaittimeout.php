@@ -42,11 +42,12 @@ $optParentNode = 2;
 $optContentClass = 'article';
 $optConcurrencyLevel = 20;
 $optGenerateContent = false;
+$optQuiet = false;
 
 if ( $options['content-class'] )
     $optContentClass = $options['content-class'];
 if ( $options['concurrency-level'] )
-    $optConcurrencyLevel = $options['concurrency-level'];
+    $optConcurrencyLevel = (int)$options['concurrency-level'];
 if ( $options['parent-node'] )
     $optParentNode = $options['parent-node'];
 if ( $options['generate-content'] )
@@ -55,7 +56,7 @@ if ( $options['generate-content'] )
 $cli->output( "Options:" );
 $cli->output( " * Concurrency level: $optConcurrencyLevel" );
 $cli->output( " * Content class: $optContentClass" );
-$cli->output( " * Generate content: $optGenerateContent" );
+$cli->output( " * Generate content: " . ( $optGenerateContent ? 'yes' : 'no' ) );
 $cli->output();
 
 $currentJobs = array();
@@ -111,7 +112,8 @@ for( $i = 0; $i < $optConcurrencyLevel; $i++ )
     }
 }
 
-echo "Main process: waiting for children...\n";
+if ( $script->verboseOutputLevel() > 0 )
+    $cli->output( "Main process: waiting for children...", false );
 $errors = 0;
 while ( !empty( $currentJobs ) )
 {
@@ -123,17 +125,24 @@ while ( !empty( $currentJobs ) )
             if ( $exitCode != 0 )
             {
                 $errors++;
-                echo "process #$pid exited with code $exitCode\n";
+                if ( !$optQuiet )
+                if ( $script->verboseOutputLevel() > 0 )
+                    $cli->output( "process #$pid exited with code $exitCode" );
             }
             else
             {
-                echo "process #$pid exited successfully\n";
+                if ( !$optQuiet )
+                if ( $script->verboseOutputLevel() > 0 )
+                    $cli->output( "process #$pid exited successfully" );
             }
             unset( $currentJobs[$index] );
         }
         usleep( 100 );
     }
 }
-echo "Done waiting.\n\nResult: $errors errors out of $optConcurrencyLevel publishing operations\n";
-echo "Failures: " . ( round( $errors / $optConcurrencyLevel * 100, 0 ) ). "%\n";
+if ( $script->verboseOutputLevel() > 0 )
+    $cli->output( "Done waiting\n" );
+$cli->output( "Result: $errors errors out of $optConcurrencyLevel publishing operations" );
+$cli->output( "Failures: " . ( round( $errors / $optConcurrencyLevel * 100, 0 ) ). "%" );
+eZExecution::cleanExit();
 ?>
