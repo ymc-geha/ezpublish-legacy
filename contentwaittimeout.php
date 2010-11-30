@@ -17,7 +17,7 @@
 */
 
 $parentNode = 755;
-$contentClass = 'article';
+$contentClass = 'big_article';
 $concurrencyLevel = 20;
 
 $currentJobs = array();
@@ -65,6 +65,7 @@ for( $i = 0; $i < $concurrencyLevel; $i++ )
 
         $object = new ezpObject( $contentClass, $parentNode );
         $object->title = "Wait Timeout Test, pid {$myPid}\n";
+        $object->body = file_get_contents( 'xmltextsource.txt' );
         $object->publish();
 
         eZExecution::cleanExit();
