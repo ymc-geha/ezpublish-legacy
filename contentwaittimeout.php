@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
 * File containing the contentwaittimeout.php script
@@ -16,9 +17,46 @@
 * @package tests
 */
 
-$parentNode = 755;
-$contentClass = 'big_article';
-$concurrencyLevel = 20;
+
+require 'autoload.php';
+
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => "eZ Publish Parallel publishing benchmark",
+                                     'use-session' => false,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
+
+$script->startup();
+
+$options = $script->getOptions( "[content-class:][concurrency-level:][parent-node:][generate-content]",
+"",
+array( 'content-class'     => "Identifier of the content class used for testing.",
+       'concurrency-level' => "Parallel processes to use",
+       'generate-content' => "Wether content should  be generated or not (not fully supported yet)",
+       'parent-node'       => "Container content should be created in" ) );
+$sys = eZSys::instance();
+
+$script->initialize();
+
+$optParentNode = 2;
+$optContentClass = 'article';
+$optConcurrencyLevel = 20;
+$optGenerateContent = false;
+
+if ( $options['content-class'] )
+    $optContentClass = $options['content-class'];
+if ( $options['concurrency-level'] )
+    $optConcurrencyLevel = $options['concurrency-level'];
+if ( $options['parent-node'] )
+    $optParentNode = $options['parent-node'];
+if ( $options['generate-content'] )
+    $optGenerateContent = true;
+
+$cli->output( "Options:" );
+$cli->output( " * Concurrency level: $optConcurrencyLevel" );
+$cli->output( " * Content class: $optContentClass" );
+$cli->output( " * Generate content: $optGenerateContent" );
+$cli->output();
 
 $currentJobs = array();
 $signalQueue = array();
@@ -37,7 +75,7 @@ sleep( 5 );
 $parentNode = $container->attribute( 'main_node_id' );
 echo "Main node ID: $parentNode\n";
 */
-for( $i = 0; $i < $concurrencyLevel; $i++ )
+for( $i = 0; $i < $optConcurrencyLevel; $i++ )
 {
     $pid = pcntl_fork();
     if ( $pid == - 1 )
@@ -63,9 +101,10 @@ for( $i = 0; $i < $concurrencyLevel; $i++ )
         // suppress error output
         fclose( STDERR );
 
-        $object = new ezpObject( $contentClass, $parentNode );
+        $object = new ezpObject( $optContentClass, $optParentNode );
         $object->title = "Wait Timeout Test, pid {$myPid}\n";
-        $object->body = file_get_contents( 'xmltextsource.txt' );
+        if ( $optGenerateContent === true )
+            $object->body = file_get_contents( 'xmltextsource.txt' );
         $object->publish();
 
         eZExecution::cleanExit();
@@ -95,6 +134,6 @@ while ( !empty( $currentJobs ) )
         usleep( 100 );
     }
 }
-echo "Done waiting.\n\nResult: $errors errors out of $concurrencyLevel publishing operations\n";
-echo "Failures: " . ( round( $errors / $concurrencyLevel * 100, 0 ) ). "%\n";
+echo "Done waiting.\n\nResult: $errors errors out of $optConcurrencyLevel publishing operations\n";
+echo "Failures: " . ( round( $errors / $optConcurrencyLevel * 100, 0 ) ). "%\n";
 ?>
