@@ -28,12 +28,13 @@ $script = eZScript::instance( array( 'description' => "eZ Publish Parallel publi
 
 $script->startup();
 
-$options = $script->getOptions( "[content-class:][concurrency-level:][parent-node:][generate-content]",
+$options = $script->getOptions( "[b:|batches-count:][c:|content-class:][l:|concurrency-level:][p:|parent-node:][g|generate-content]",
 "",
-array( 'content-class'     => "Identifier of the content class used for testing.",
-       'concurrency-level' => "Parallel processes to use",
-       'generate-content' => "Wether content should  be generated or not (not fully supported yet)",
-       'parent-node'       => "Container content should be created in" ) );
+array( 'content-class'     => "Identifier of the content class used for testing [default: article]",
+       'concurrency-level' => "Parallel processes to use [default: 20]",
+       'generate-content'  => "Wether content should  be generated or not (not fully supported yet) [default: off]",
+       'parent-node'       => "Container content should be created in [default: 2]",
+       'batches-count'     => "How many times a concurrent batch should be started [default: 1]" ) );
 $sys = eZSys::instance();
 
 $script->initialize();
@@ -43,17 +44,22 @@ $optContentClass = 'article';
 $optConcurrencyLevel = 20;
 $optGenerateContent = false;
 $optQuiet = false;
+$optBatchesCount = 1;
 
 if ( $options['content-class'] )
     $optContentClass = $options['content-class'];
+if ( $options['batches-count'] )
+    $optBatchesCount = $options['batches-count'];
 if ( $options['concurrency-level'] )
     $optConcurrencyLevel = (int)$options['concurrency-level'];
 if ( $options['parent-node'] )
     $optParentNode = $options['parent-node'];
 if ( $options['generate-content'] )
     $optGenerateContent = true;
+$originalParentNodeId = $optParentNode;
 
 $cli->output( "Options:" );
+$cli->output( " * Batches count: $optBatchesCount" );
 $cli->output( " * Concurrency level: $optConcurrencyLevel" );
 $cli->output( " * Content class: $optContentClass" );
 $cli->output( " * Generate content: " . ( $optGenerateContent ? 'yes' : 'no' ) );
@@ -62,87 +68,98 @@ $cli->output();
 $currentJobs = array();
 $signalQueue = array();
 
-// Create the containing folder... NOT
-// if mt_rand is initialized (it is in eZContentObject::create), and the process is forked, each fork will get the SAME
-// "random" value when calling mt_rand again
-/*$container = new ezpObject( 'folder', $parentNode );
-$container->name = "Bench on $contentClass [concurrency: $concurrencyLevel]";
-$container->publish();
-
-eZDB::instance()->close();
-unset( $GLOBALS['eZDBGlobalInstance'] );
-sleep( 5 );
-
-$parentNode = $container->attribute( 'main_node_id' );
-echo "Main node ID: $parentNode\n";
-*/
-for( $i = 0; $i < $optConcurrencyLevel; $i++ )
+for( $iteration = 0; $iteration < $optBatchesCount; $iteration++ )
 {
-    $pid = pcntl_fork();
-    if ( $pid == - 1 )
+    $db = eZDB::instance( false, false, true );
+    eZDB::setInstance( $db );
+
+    if ( $script->verboseOutputLevel() > 0 )
+        $cli->output("Iteration {$iteration}/{$optBatchesCount}" );
+
+    // Create the containing folder...
+    // if mt_rand is initialized (it is in eZContentObject::create), and the process is forked, each fork will get the SAME
+    // "random" value when calling mt_rand again. This will cause duplicate key errors on ezcontentobject.remote_id
+    // this patch IS required
+    $container = new ezpObject( 'folder', $originalParentNodeId );
+    $container->name = "Bench on {$optContentClass}, iteration ". ( $iteration + 1 ) ."/{$optBatchesCount} [concurrency: {$optConcurrencyLevel}]";
+    $container->publish();
+
+    eZDB::instance()->close();
+    unset( $GLOBALS['eZDBGlobalInstance'] );
+
+    $optParentNode = $container->attribute( 'main_node_id' );
+    if ( $script->verboseOutputLevel() > 0 )
+        $cli->output( "Container ID: {$optParentNode}" );
+
+    for( $i = 0; $i < $optConcurrencyLevel; $i++ )
     {
+        $pid = pcntl_fork();
         // Problem launching the job
-        error_log( 'Could not launch new job, exiting' );
-    }
-    else if ( $pid > 1 )
-    {
-        $currentJobs[] = $pid;
-    }
-    else
-    {
-        // Forked child, do your deeds....
-        $exitStatus = 0; //Error code if you need to or whatever
-        $myPid = getmypid();
-
-        // No need if the DB ain't initialized before forking
-        /*$db = eZDB::instance( false, false, true );
-        eZDB::setInstance( $db );
-        echo "#{$myPid}: DB Connection: " . ( $db->IsConnected() ? ' connected' : 'not connected' ) . "\n";*/
-
-        // suppress error output
-        fclose( STDERR );
-
-        $object = new ezpObject( $optContentClass, $optParentNode );
-        $object->title = "Wait Timeout Test, pid {$myPid}\n";
-        if ( $optGenerateContent === true )
-            $object->body = file_get_contents( 'xmltextsource.txt' );
-        $object->publish();
-
-        eZExecution::cleanExit();
-    }
-}
-
-if ( $script->verboseOutputLevel() > 0 )
-    $cli->output( "Main process: waiting for children...", false );
-$errors = 0;
-while ( !empty( $currentJobs ) )
-{
-    foreach( $currentJobs as $index => $pid )
-    {
-        if( pcntl_waitpid( $pid, $exitStatus, WNOHANG ) > 0 )
+        if ( $pid == - 1 )
         {
-            $exitCode = pcntl_wexitstatus( $exitStatus );
-            if ( $exitCode != 0 )
-            {
-                $errors++;
-                if ( !$optQuiet )
-                if ( $script->verboseOutputLevel() > 0 )
-                    $cli->output( "process #$pid exited with code $exitCode" );
-            }
-            else
-            {
-                if ( !$optQuiet )
-                if ( $script->verboseOutputLevel() > 0 )
-                    $cli->output( "process #$pid exited successfully" );
-            }
-            unset( $currentJobs[$index] );
+            error_log( 'Could not launch new job, exiting' );
         }
-        usleep( 100 );
+        // parent process
+        else if ( $pid > 1 )
+        {
+            $currentJobs[] = $pid;
+        }
+        // Forked child
+        else
+        {
+            $exitStatus = 0; //Error code if you need to or whatever
+            $myPid = getmypid();
+
+            // No need if the DB ain't initialized before forking
+            $db = eZDB::instance( false, false, true );
+            eZDB::setInstance( $db );
+
+            // suppress error output due to fatal DB errors
+            // exceptions from the DB layer would allow for better information output
+            fclose( STDERR );
+
+            $object = new ezpObject( $optContentClass, $optParentNode );
+            $object->title = "Wait Timeout Test, pid {$myPid}\n";
+            if ( $optGenerateContent === true )
+                $object->body = file_get_contents( 'xmltextsource.txt' );
+            $object->publish();
+
+            eZExecution::cleanExit();
+        }
     }
+
+    if ( $script->verboseOutputLevel() > 0 )
+        $cli->output( "Main process: waiting for children..." );
+        $errors = 0;
+    while ( !empty( $currentJobs ) )
+    {
+        foreach( $currentJobs as $index => $pid )
+        {
+            if( pcntl_waitpid( $pid, $exitStatus, WNOHANG ) > 0 )
+            {
+                $exitCode = pcntl_wexitstatus( $exitStatus );
+                if ( $exitCode != 0 )
+                {
+                    $errors++;
+                    if ( !$optQuiet )
+                        if ( $script->verboseOutputLevel() > 0 )
+                            $cli->output( "process #$pid exited with code $exitCode" );
+                }
+                else
+                {
+                    if ( !$optQuiet )
+                        if ( $script->verboseOutputLevel() > 0 )
+                            $cli->output( "process #$pid exited successfully" );
+                }
+                unset( $currentJobs[$index] );
+            }
+            usleep( 100 );
+        }
+    }
+    if ( $script->verboseOutputLevel() > 0 )
+        $cli->output( "Done waiting\n" );
+    $failurePercentage = round( $errors / $optConcurrencyLevel * 100, 0 );
+    $cli->output( "Result: {$errors} errors out of {$optConcurrencyLevel} publishing operations ({$failurePercentage}%)" );
 }
-if ( $script->verboseOutputLevel() > 0 )
-    $cli->output( "Done waiting\n" );
-$cli->output( "Result: $errors errors out of $optConcurrencyLevel publishing operations" );
-$cli->output( "Failures: " . ( round( $errors / $optConcurrencyLevel * 100, 0 ) ). "%" );
 eZExecution::cleanExit();
 ?>
