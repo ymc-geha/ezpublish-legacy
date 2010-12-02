@@ -58,11 +58,21 @@ if ( $options['generate-content'] )
     $optGenerateContent = true;
 $originalParentNodeId = $optParentNode;
 
+$db = eZDB::instance();
+$mysqlOptions = $db->arrayQuery( "SHOW VARIABLES LIKE 'innodb_lock_wait_timeout'" );
+$mysqlInnoDBLockWaitTimeout = $mysqlOptions[0]['Value'];
+$mysqlOptions = $db->arrayQuery( "SHOW VARIABLES LIKE 'max_connections'" );
+$mysqlMaxConnections = $mysqlOptions[0]['Value'];
+
 $cli->output( "Options:" );
 $cli->output( " * Batches count: $optBatchesCount" );
 $cli->output( " * Concurrency level: $optConcurrencyLevel" );
 $cli->output( " * Content class: $optContentClass" );
 $cli->output( " * Generate content: " . ( $optGenerateContent ? 'yes' : 'no' ) );
+$cli->output();
+$cli->output( "Settings:" );
+$cli->output( " * mysql.innodb_lock_wait_timeout: $mysqlInnoDBLockWaitTimeout seconds" );
+$cli->output( " * mysql.max_connections: $mysqlMaxConnections" );
 $cli->output();
 
 $currentJobs = array();
@@ -153,7 +163,6 @@ for( $iteration = 0; $iteration < $optBatchesCount; $iteration++ )
                 }
                 unset( $currentJobs[$index] );
             }
-            usleep( 100 );
         }
     }
     if ( $script->verboseOutputLevel() > 0 )
