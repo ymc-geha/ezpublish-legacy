@@ -3787,6 +3787,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $totalChildCount = 0;
         $totalLoneNodeCount = 0;
         $canRemoveAll = true;
+        $hasPendingObject = false;
 
         $db = eZDB::instance();
         $db->begin();
@@ -3795,7 +3796,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         foreach ( $deleteIDArray as $deleteID )
         {
-            $hasPendingObject = false;
             $node = eZContentObjectTreeNode::fetch( $deleteID );
             if ( $node === null )
                 continue;
@@ -3825,7 +3825,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $moveToTrashAllowed = false;
                 }
                 $readableChildCount = $node->subTreeCount( array( 'Limitation' => array() ) );
-                $childCount = $node->subTreeCount();
+                $childCount = $node->subTreeCount( array( 'IgnoreVisibility' => true ) );
                 $totalChildCount += $childCount;
 
                 $allAssignedNodes = $object->attribute( 'assigned_nodes' );
@@ -3858,7 +3858,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     if ( $accessResult['accessWord'] == 'limited' )
                     {
                         $limitationList = $accessResult['policies'];
-                        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
+                        $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList, 'IgnoreVisibility' => true ) );
                         $canRemoveSubtree = ( $removeableChildCount == $childCount );
                         $canRemove = $canRemoveSubtree;
                     }
@@ -3871,6 +3871,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                             'SortBy' => array( 'path' , false ),
                                                             'Offset' => $offset,
                                                             'Limit' => $limitCount,
+                                                            'IgnoreVisibility' => true,
                                                             'AsObject' => false ) );
                         // fetch pending node assignment(pending object)
                         $idList = array();
@@ -3888,9 +3889,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             break;
                         }
-                        $childCount = eZNodeAssignment::fetchChildCountByVersionStatus( $idList,
+                        $pendingChildCount = eZNodeAssignment::fetchChildCountByVersionStatus( $idList,
                                                                                        eZContentObjectVersion::STATUS_PENDING );
-                        if( $childCount !== 0 )
+                        if( $pendingChildCount !== 0 )
                         {
                             // there is pending object
                             $hasPendingObject = true;
@@ -3916,7 +3917,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         // so we should fetch subitems sorted by 'path_string' DESC
                         $children = $node->subTree( array( 'Limitation' => array(),
                                                            'SortBy' => array( 'path' , false ),
-                                                           'Limit' => 100 ) );
+                                                           'Limit' => 100,
+                                                           'IgnoreVisibility' => true ) );
                         if ( !$children )
                             break;
 
