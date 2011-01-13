@@ -222,8 +222,8 @@ else
 }
 
 if ( $logSearchStats &&
-     trim( $searchText ) != "" &&
      isset( $searchData['SearchCount'] ) &&
+     trim( $searchText ) !== '' &&
      is_numeric( $searchData['SearchCount'] ) )
 {
     eZSearchLog::addPhrase( $searchText, $searchData["SearchCount"] );
