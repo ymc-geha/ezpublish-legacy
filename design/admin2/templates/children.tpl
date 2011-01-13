@@ -14,7 +14,7 @@
                                                          'objectname_filter', $view_parameters.namefilter ) )
      $children    = array()
      $priority    = and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count ) }
-     
+
 
 <!-- Children START -->
 
@@ -33,7 +33,7 @@
 
 {* DESIGN: Header START *}<div class="box-header">
 
-    <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'up-16x16-grey.png'|ezimage} alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items (%children_count)'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
+    <h2 class="context-title"><a href={$node.depth|gt(1)|choose('/'|ezurl,$node.parent.url_alias|ezurl )} title="{'Up one level.'|i18n(  'design/admin/node/view/full'  )}"><img src={'up-16x16-grey.png'|ezimage} width="16" height="16" alt="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" title="{'Up one level.'|i18n( 'design/admin/node/view/full' )}" /></a>&nbsp;{'Sub items (%children_count)'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $children_count ) )}</h2>
 
 {* DESIGN: Header END *}</div>
 
@@ -78,8 +78,8 @@
 
 </div>
 
-{* Load yui code for subitems diplay even if current node has no children (since cache blocks  does not vary by this) *}
-{ezscript_require( array('ezjsc::yui2', 'ezjsc::yui3', 'ezajaxsubitems_datatable.js') )}
+{* Load yui code for subitems display even if current node has no children (since cache blocks does not vary by this) *}
+{ezscript_require( array('ezjsc::yui2', 'ezajaxsubitems_datatable.js') )}
 
 <!-- Children END -->
 

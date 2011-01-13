@@ -27,7 +27,7 @@
 {section show=$policies}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" title="{'Invert selection.'|i18n( 'design/admin/role/edit' )}" onclick="ezjs_toggleCheckboxes( document.roleedit, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Module'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Function'|i18n( 'design/admin/role/edit' )}</th>
     <th>{'Limitations'|i18n( 'design/admin/role/edit' )}</th>
@@ -116,7 +116,7 @@
 </form>
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 jQuery(function( $ )//called on document.ready
 {

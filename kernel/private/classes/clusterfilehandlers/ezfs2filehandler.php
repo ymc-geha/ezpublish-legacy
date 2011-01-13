@@ -648,6 +648,8 @@ class eZFS2FileHandler extends eZFSFileHandler
     {
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteLocal( '$path' )", __METHOD__ );
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
     }
 
     /**
@@ -676,7 +678,11 @@ class eZFS2FileHandler extends eZFSFileHandler
                 $mtime = @filemtime( $file );
                 if ( $expiry === false ||
                     $mtime < $expiry ) // remove it if it is too old
+                {
                     @unlink( $file );
+
+                    eZClusterFileHandler::cleanupEmptyDirectories( $file );
+                }
                 ++$count;
             }
             else if ( is_dir( $file ) )
@@ -777,8 +783,22 @@ class eZFS2FileHandler extends eZFSFileHandler
      * (FS based)
      * 
      * @since 4.3
+     * @deprecated Deprecated as of 4.5, use {@link eZFS2FileHandler::requiresPurge()} instead.
+     * @return bool
      */
     public function requiresBinaryPurge()
+    {
+        return false;
+    }
+
+    /**
+     * eZFS2 doesn't require purge as it already purges files in realtime
+     * (FS based)
+     *
+     * @since 4.5.0
+     * @return bool
+     **/
+    public function requiresPurge()
     {
         return false;
     }

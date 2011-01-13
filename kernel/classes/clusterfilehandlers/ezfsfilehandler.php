@@ -783,6 +783,9 @@ class eZFSFileHandler
         {
             eZDir::recursiveDelete( $path );
         }
+
+        eZClusterFileHandler::cleanupEmptyDirectories( $path );
+
         $this->loadMetaData( true );
 
         eZDebug::accumulatorStop( 'dbfile' );
@@ -849,7 +852,11 @@ class eZFSFileHandler
                 $mtime = @filemtime( $file );
                 if ( $expiry === false ||
                      $mtime < $expiry ) // remove it if it is too old
+                {
                     @unlink( $file );
+
+                    eZClusterFileHandler::cleanupEmptyDirectories( $file );
+                }
                 ++$count;
             }
             else if ( is_dir( $file ) )
@@ -1049,8 +1056,22 @@ class eZFSFileHandler
      * Files are stored on plain FS and removed using FS functions
      *
      * @since 4.3
+     * @deprecated Deprecated as of 4.5, use {@link eZFSFileHandler::requiresPurge()} instead.
+     * @return bool
      */
     public function requiresBinaryPurge()
+    {
+        return false;
+    }
+
+    /**
+     * eZFS does not require binary purge.
+     * Files are stored on plain FS and removed using FS functions
+     *
+     * @since 4.5.0
+     * @return bool
+     **/
+    public function requiresPurge()
     {
         return false;
     }

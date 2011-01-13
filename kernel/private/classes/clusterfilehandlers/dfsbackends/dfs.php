@@ -141,13 +141,21 @@ class eZDFSFileHandlerDFSBackend
             $ret = true;
             foreach( $filePath as $file )
             {
-                $locRet = @unlink( $this->makeDFSPath( $file ) );
+                $dfsPath = $this->makeDFSPath( $file );
+                $locRet = @unlink( $dfsPath );
                 $ret = $ret and $locRet;
+
+                if ( $locRet )
+                    eZClusterFileHandler::cleanupEmptyDirectories( $dfsPath );
             }
         }
         else
         {
-            $ret = @unlink( $this->makeDFSPath( $filePath ) );
+            $dfsPath = $this->makeDFSPath( $filePath );
+            $ret = @unlink( $dfsPath );
+
+            if ( $ret )
+                eZClusterFileHandler::cleanupEmptyDirectories( $dfsPath );
         }
 
         $this->accumulatorStop();
@@ -239,7 +247,10 @@ class eZDFSFileHandlerDFSBackend
         $oldPath = $this->makeDFSPath( $oldPath );
         $newPath = $this->makeDFSPath( $newPath );
 
-        $ret = rename( $oldPath, $newPath );
+        $ret = eZFile::rename( $oldPath, $newPath, true );
+
+        if ( $ret )
+            eZClusterFileHandler::cleanupEmptyDirectories( $oldPath );
 
         $this->accumulatorStop();
 

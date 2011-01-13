@@ -351,7 +351,10 @@ a.yuimenuitemlabel-disabled{
 
 /* TOP TOOLBAR STYLE */
 .yui-button {
-    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     border-color: #CCCCCC;
     border: 1px solid #CCCCCC;
     text-decoration: none;
@@ -373,7 +376,10 @@ a.yuimenuitemlabel-disabled{
 }
 
 .yui-button button {
-    background: url("../../images/2/gradient-to-darker.png") repeat-x scroll center bottom #F5F5F5;
+    background-color: #f0f0f0;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fdfdfd), to(#e4e3e4));
+    background-image: -moz-linear-gradient(top,  #fdfdfd,  #e4e3e4);
+    background-image: -ms-linear-gradient(top,  #fdfdfd,  #e4e3e4);
     color: #0B4E7A;
     cursor: pointer;
     display: block;
@@ -386,28 +392,28 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezbtn-more button {
-    background: url("../../images/2/icon-arrow-down.png") no-repeat scroll 98% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 98% -126px;
     padding-right: 1.7em;
 }
 
 #ezbtn-items-button { 
-    background: url(../../images/2/icon-check-16x16.png) no-repeat scroll 5% 50% transparent; 
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% 2px;
     padding-left: 2em;
 }
 
 #ezbtn-new-button {
-    background: url(../../images/2/icon-add-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -94px;
     padding-left: 2em;
 }
 
 .yui-button-disabled #ezbtn-new-button {
-    background: url(../../images/2/icon-add-disabled-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -294px;
     padding-left: 2em;
     color: #888
 }
 
 #ezbtn-options-button {
-    background: url(../../images/2/icon-options-16x16.png) no-repeat scroll 5% 50% transparent;
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -326px;
     padding-left: 2em;
 }
 
@@ -416,7 +422,7 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezopt-menu-move {
-    background-image: url('../../images/2/icon-move-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -157px;
 }
 
 #ezopt-menu-edit {
@@ -428,10 +434,14 @@ a.yuimenuitemlabel-disabled{
 }
 
 #ezopt-menu-check {
-    background-image: url('../../images/2/icon-checked-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -61px;
 }
 #ezopt-menu-uncheck {
-    background-image: url('../../images/2/icon-unchecked-16x16.png');
+    background: transparent url(../../images/icons-sprite.png) no-repeat 5% -29px;
+}
+
+#ezopt-menu-toggle {
+    background-image: url('../../images/2/toggle-button-16x16.png');
 }
 
 #ezopt-menu-view {
@@ -456,6 +466,7 @@ a.yuimenuitemlabel-disabled{
 #ezopt-menu-preview, 
 #ezopt-menu-check, 
 #ezopt-menu-uncheck,
+#ezopt-menu-toggle,
 #ezopt-menu-view,
 #ezopt-menu-copy,
 #ezopt-menu-copy-subtree,
@@ -463,5 +474,11 @@ a.yuimenuitemlabel-disabled{
 #ezopt-menu-list {
     background-repeat: no-repeat;
     background-position: 5% 50%;
+    padding-left: 1em;
+}
+
+#ezopt-menu-uncheck {
+    background-repeat: no-repeat;
+    background-position: 3% 50%;
     padding-left: 1em;
 }

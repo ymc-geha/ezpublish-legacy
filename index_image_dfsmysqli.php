@@ -65,7 +65,9 @@ if ( !$db )
 if ( !mysqli_set_charset( $db, defined( 'STORAGE_CHARSET' ) ? STORAGE_CHARSET : 'utf8' ) )
     _die( "Failed to set character set.\n" );
 
-$filename = ltrim( $_SERVER['SCRIPT_NAME'], "/" ); // Issue #015459
+$filename = ltrim( $_SERVER['REQUEST_URI'], '/');
+if ( ( $queryPos = strpos( $filename, '?' ) ) !== false )
+    $filename = substr( $filename, 0, $queryPos );
 
 // Fetch file metadata.
 $filePathHash = md5( $filename );
@@ -94,6 +96,8 @@ mysqli_free_result( $res );
 
 // Fetch file data.
 $dfsFilePath = MOUNT_POINT_PATH . '/' . $filename;
+// Set cache time out to 100 minutes by default
+$expiry = defined( 'EXPIRY_TIMEOUT' ) ? EXPIRY_TIMEOUT : 6000;
 if ( file_exists( $dfsFilePath ) )
 {
     // Output HTTP headers.
@@ -106,8 +110,7 @@ if ( file_exists( $dfsFilePath ) )
     header( "Content-Length: $size" );
     header( "Content-Type: $mimeType" );
     header( "Last-Modified: $mdate" );
-    /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
-    header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT' );
+    header( "Expires: " . gmdate('D, d M Y H:i:s', time() + $expiry) . ' GMT' );
     header( "Connection: close" );
     header( "X-Powered-By: eZ Publish" );
     header( "Accept-Ranges: none" );

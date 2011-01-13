@@ -75,14 +75,14 @@
     {let from_language_object=$object.languages[$from_language]}
 
     {'Translating content from %from_lang to %to_lang'|i18n( 'design/admin/content/edit',, hash(
-        '%from_lang', concat( $from_language_object.name, '&nbsp;<img src="', $from_language_object.locale|flag_icon, '" style="vertical-align: middle;" alt="', $from_language_object.locale, '" />' ),
-        '%to_lang', concat( $translation_list[$language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$language_index].language_code|flag_icon, '" style="vertical-align: middle;" alt="', $translation_list[$language_index].language_code, '" />' ) ) )}
+        '%from_lang', concat( $from_language_object.name, '&nbsp;<img src="', $from_language_object.locale|flag_icon, '" width="18" height="12" style="vertical-align: middle;" alt="', $from_language_object.locale, '" />' ),
+        '%to_lang', concat( $translation_list[$language_index].locale.intl_language_name, '&nbsp;<img src="', $translation_list[$language_index].language_code|flag_icon, '" width="18" height="12" style="vertical-align: middle;" alt="', $translation_list[$language_index].language_code, '" />' ) ) )}
 
     {/let}
 
 {else}
 
-    {$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
+    {$translation_list[$language_index].locale.intl_language_name}&nbsp;<img src="{$translation_list[$language_index].language_code|flag_icon}" width="18" height="12" style="vertical-align: middle;" alt="{$translation_list[$language_index].language_code}" />
 
 {/if}
 
@@ -150,13 +150,12 @@
 
 
 {literal}
-<script language="JavaScript" type="text/javascript">
-<!--
+<script type="text/javascript">
 jQuery(function( $ )//called on document.ready
 {
     var docScrollTop = 0, el = $('#editform input:text:enabled:first');
 
-    if ( document.body.scrollTop !== undefined ) 
+    if ( document.body.scrollTop !== undefined )
     	docScrollTop = document.body.scrollTop;// DOM compliant
     else if ( document.documentElement.scrollTop  !== undefined )
     	docScrollTop = document.documentElement.scrollTop;// IE6 standards mode;
@@ -177,6 +176,5 @@ function confirmDiscard( question )
     // Ask user if she really wants do it, return this to the handler.
     return confirm( question );
 }
--->
 </script>
 {/literal}

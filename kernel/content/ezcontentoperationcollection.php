@@ -858,16 +858,7 @@ class eZContentOperationCollection
 
             $nodeIDList[] = $node->attribute( 'node_id' );
         }
-
-        // Give other search engines that the default one a chance to reindex
-        // when removing locations.
-        // include_once( 'kernel/classes/ezsearch.php' );
-        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-        {
-            // include_once( 'kernel/content/ezcontentoperationcollection.php' );
-            eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
-        }
-
+        
         eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
 
         if ( $mainNodeChanged )
@@ -877,6 +868,13 @@ class eZContentOperationCollection
             $mainNodeID = $mainNode->attribute( 'node_id' );
             eZContentObjectTreeNode::updateMainNodeID( $mainNodeID, $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
         }
+
+        // Give other search engines that the default one a chance to reindex
+        // when removing locations.        
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {            
+            eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
+        }        
 
         $db->commit();
 
@@ -937,14 +935,6 @@ class eZContentOperationCollection
                 $objectIdList[$objectId] = eZContentObject::fetch( $objectId );
         }
 
-        // Give other search engines that the default one a chance to reindex
-        // when removing locations.
-        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-        {
-            foreach ( $objectIdList as $objectId => $object )
-                eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
-        }
-
         eZNodeAssignment::purgeByID( array_keys( $nodeAssignmentIdList ) );
 
         foreach ( array_keys( $mainNodeChanged ) as $objectId )
@@ -954,6 +944,14 @@ class eZContentOperationCollection
             $mainNodeChanged[$objectId] = $allNodes[0];
             eZContentObjectTreeNode::updateMainNodeID( $allNodes[0]->attribute( 'node_id' ), $objectId, false, $allNodes[0]->attribute( 'parent_node_id' ) );
         }
+
+        // Give other search engines that the default one a chance to reindex
+        // when removing locations.
+        if ( !eZSearch::getEngine() instanceof eZSearchEngine )
+        {
+            foreach ( $objectIdList as $objectId => $object )
+                eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
+        }        
 
         $db->commit();
 
@@ -1496,6 +1494,40 @@ class eZContentOperationCollection
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         return array( 'status' => true );
+    }
+
+    /**
+     * Sends the published object/version for publishing to the queue
+     * Used by the content/publish operation
+     * @param int $objectId
+     * @param int $version
+     *
+     * @return array( status => int )
+     * @since 4.5
+     */
+    public static function sendToPublishingQueue( $objectId, $version )
+    {
+        $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
+
+        if ( $asyncEnabled === true )
+        {
+            // if the object is already in the process queue, we move ahead
+            if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
+            {
+                return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+            }
+            // the object isn't in the process queue, this means this is the first time we execute this method
+            // the object must be queued
+            else
+            {
+                ezpContentPublishingQueue::add( $objectId, $version );
+                return array( 'status' => eZModuleOperationInfo::STATUS_HALTED, 'redirect_url' => "content/queued/{$objectId}/{$version}" );
+            }
+        }
+        else
+        {
+            return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
+        }
     }
 }
 ?>

@@ -126,6 +126,7 @@ class eZOrder extends eZPersistentObject
                                                       'status' => 'statusObject',
                                                       'status_modification_list' => 'statusModificationList',
                                                       'product_items' => 'productItems',
+                                                      'product_items_ordered' => 'productItemsOrdered',
                                                       'order_items' => 'orderItems',
                                                       'product_total_inc_vat' => 'productTotalIncVAT',
                                                       'product_total_ex_vat' => 'productTotalExVAT',
@@ -788,12 +789,18 @@ class eZOrder extends eZPersistentObject
         return $bestMatch;
     }
 
-    function productItems( $asObject=true )
+    /**
+     * Fetch product items that bellongs ot the order
+     *
+     * @param bool $asObject
+     * @param array|null $sorts Array with sort data sent directly to {@link eZPersistentObject::fetchObjectList()}
+     */
+    function productItems( $asObject = true, array $sorts = null )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                    ),
                                                        null,
+                                                       array( 'productcollection_id' => $this->ProductCollectionID ),
+                                                       $sorts,
                                                        null,
                                                        $asObject );
 
@@ -862,6 +869,17 @@ class eZOrder extends eZPersistentObject
             $addedProducts[] = $addedProduct;
         }
         return $addedProducts;
+    }
+
+    /**
+     * Fetch product items ordered by id ( the order they where added to order )
+     *
+     * @param bool $asObject
+     * @param bool $order True (default) for ascending[0->9] and false for decending[9->0]
+     */
+    function productItemsOrdered( $asObject = true, $order = true )
+    {
+        return $this->productItems( $asObject, array( 'id' => ( $order ? 'asc' : 'desc' )) );
     }
 
     function productTotalIncVAT()

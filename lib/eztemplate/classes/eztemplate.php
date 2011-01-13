@@ -786,7 +786,6 @@ class eZTemplate
 
         if ( $resourceData )
         {
-            $root = null;
             eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
             $this->appendTemplateFetch( $resourceData['template-filename'] );
 
@@ -902,7 +901,6 @@ class eZTemplate
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
         $resourceData['key-data'] = "file:" . $file;
-        $key = md5( $resourceData['key-data'] );
         $extraParameters = array();
 
         // Disable caching/compiling while fetchin the resource
@@ -2210,13 +2208,13 @@ class eZTemplate
         $pathList = $this->autoloadPathList();
         foreach ( $pathList as $path )
         {
-            $autoloadFile = $path . '/eztemplateautoload.php';
+            $autoloadFile = $path . 'eztemplateautoload.php';
             if ( file_exists( $autoloadFile ) )
             {
                 unset( $eZTemplateOperatorArray );
                 unset( $eZTemplateFunctionArray );
                 include( $autoloadFile );
-                if ( isset( $eZTemplateOperatorArray ) and
+                if ( isset( $eZTemplateOperatorArray ) &&
                      is_array( $eZTemplateOperatorArray ) )
                 {
                     foreach ( $eZTemplateOperatorArray as $operatorDefinition )
@@ -2224,7 +2222,7 @@ class eZTemplate
                         $this->registerAutoloadOperators( $operatorDefinition );
                     }
                 }
-                if ( isset( $eZTemplateFunctionArray ) and
+                if ( isset( $eZTemplateFunctionArray ) &&
                      is_array( $eZTemplateFunctionArray ) )
                 {
                     foreach ( $eZTemplateFunctionArray as $functionDefinition )
@@ -2232,6 +2230,12 @@ class eZTemplate
                         $this->registerAutoloadFunctions( $functionDefinition );
                     }
                 }
+            }
+            else
+            {
+                eZDebug::writeWarning( "Path '$path' does not have the file 'eztemplateautoload.php' allthough it reported it had one.\n" .
+                                       "Looked for file '" . $autoloadFile . "'\n" .
+                                       "Check the setting [TemplateSettings]/ExtensionAutoloadPath or AutoloadPathList in your site.ini settings." );
             }
         }
     }
@@ -2376,7 +2380,7 @@ class eZTemplate
             $autoLoadPathList   = $ini->variable( 'TemplateSettings', 'AutoloadPathList' );
 
             $extensionAutoloadPath = $ini->variable( 'TemplateSettings', 'ExtensionAutoloadPath' );
-            $extensionPathList     = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads' );
+            $extensionPathList     = eZExtension::expandedPathList( $extensionAutoloadPath, 'autoloads/' );
 
             $autoLoadPathList = array_unique( array_merge( $compatAutoLoadPath, $autoLoadPathList, $extensionPathList ) );
 
@@ -2391,7 +2395,7 @@ class eZTemplate
 
     /**
      * Reset shared instance of the eZTemplate class and factory flag
-     * as used by {@see eZTemplate::instance()} and {@see eZTemplate::factory()}
+     * as used by {@link eZTemplate::instance()} and {@link eZTemplate::factory()}
      *
      * @since 4.3
      */
@@ -2681,16 +2685,16 @@ class eZTemplate
     public $TestCompile;
 
     /**
-     * Singelton instance of eZTemplate used by {@see eZTemplate::instance()}
-     * Reset with {@see eZTemplate::resetInstance()}
+     * Singelton instance of eZTemplate used by {@link eZTemplate::instance()}
+     * Reset with {@link eZTemplate::resetInstance()}
      *
      * @var null|eZTemplate
      */
     protected static $instance;
 
     /**
-     * Factory flag as used by {@see eZTemplate::factory()}
-     * Reset with {@see eZTemplate::resetInstance()}
+     * Factory flag as used by {@link eZTemplate::factory()}
+     * Reset with {@link eZTemplate::resetInstance()}
      *
      * @var bool
      */

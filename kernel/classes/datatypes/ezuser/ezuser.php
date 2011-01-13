@@ -380,7 +380,7 @@ class eZUser extends eZPersistentObject
             $sql = "SELECT $selectText
 FROM ezuservisit, ezuser
 WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
-      ezuservisit.expiration_time > '$time' AND
+      ezuservisit.current_visit_timestamp > '$time' AND
       ezuser.contentobject_id = ezuservisit.user_id
 $sortText";
             $rows = $db->arrayQuery( $sql, $parameters );
@@ -396,7 +396,7 @@ $sortText";
             $sql = "SELECT $selectText
 FROM ezuservisit, ezuser, ezcontentobject
 WHERE ezuservisit.user_id != '" . self::anonymousId() . "' AND
-      ezuservisit.expiration_time > '$time' AND
+      ezuservisit.current_visit_timestamp > '$time' AND
       ezuser.contentobject_id = ezuservisit.user_id AND
       ezcontentobject.id = ezuser.contentobject_id
 $sortText";
@@ -1876,6 +1876,37 @@ WHERE user_id = '" . $userID . "' AND
         }
         else if ( $access['accessWord'] == 'limited' )
         {
+            $hasSubtreeLimitation = false;
+            $subtreeLimitationResult = false;
+
+            // Trying first to discover if a subtree limitation exists.
+            // Only the main node of the object is considered!
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( isset( $policy['User_Subtree'] ) )
+                {
+                    $hasSubtreeLimitation = true;
+                    $nodePath = $contentObject->mainNode()->PathString;
+
+                    foreach ( $policy['User_Subtree'] as $path )
+                    {
+                        if ( strpos( $nodePath, $path ) !== false )
+                        {
+                            $subtreeLimitationResult = true;
+                        }
+                    }
+                    continue;
+                }
+            }
+
+            // If a subtree limitation exists and none of the path corresponds then the user have not enough rights.
+            if ( $hasSubtreeLimitation && !$subtreeLimitationResult )
+            {
+                return false;
+            }
+
+            unset( $hasSubtreeLimitation, $subtreeLimitationResult, $nodePath );
+
             $userID = $this->attribute( 'contentobject_id' );
             $classID = $contentObject->attribute( 'contentclass_id' );
             $ownerID = $contentObject->attribute( 'owner_id' );
@@ -2653,7 +2684,7 @@ WHERE user_id = '" . $userID . "' AND
     static function validatePassword( $password )
     {
         $ini = eZINI::instance();
-        $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
+        $minPasswordLength = $ini->variable( 'UserSettings', 'MinPasswordLength' );
         if ( $password !== false and
              $password !== null and
              strlen( $password ) >= (int) $minPasswordLength )

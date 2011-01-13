@@ -31,7 +31,7 @@ var sortableSubitems = function () {
 
     function initDataTable(){
         var formatName = function(cell, record, column, data) {
-            cell.innerHTML =  record.getData('class_icon') + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
+            cell.innerHTML =  '<a href="' + record.getData('url') + '" title="' + data + '">' + record.getData('class_icon') + '</a>' + '&nbsp' + '<a href="' + record.getData('url') + '" title="' + data + '">' + data + '</a>';
         }
 
         var customCheckbox = function(cell, record, column, data) {
@@ -40,7 +40,24 @@ var sortableSubitems = function () {
 
         var customMenu = function(cell, rec, column, data) {
             var createhereMenu = (confObj.classesString != '') ? -1 : "\'child-menu-create-here\'";
-            cell.innerHTML = '<a href="#" onclick="ezpopmenu_showTopLevel(event, \'SubitemsContextMenu\', \{\'%nodeID%\':' + rec.getData('node_id') + ',\'%objectID%\':' + rec.getData('contentobject_id') + ',\'%version%\':' + rec.getData('version') + ',\'%languages%\':' + confObj.languagesString + ',\'%classList%\':' + confObj.classesString + '\ }, \'' + rec.getData('name') + '\', ' + rec.getData('node_id') + ', ' + createhereMenu + '); return false;"><div class="crankfield"></div></a>';
+            var translationArray = [];
+            jQuery(rec.getData('translations')).each(function(i, e) {
+                translationArray.push( { 'locale': e,
+                                         'name': confObj.languages[e] } );
+            });
+            var a = new YAHOO.util.Element(document.createElement('a'));
+            a.on('click', function(e) {
+                ezpopmenu_showTopLevel(e, 'SubitemsContextMenu', { '%nodeID%': rec.getData('node_id'),
+                                                                   '%objectID%': rec.getData('contentobject_id'),
+                                                                   '%version%': rec.getData('version'),
+                                                                   '%languages%': translationArray,
+                                                                   '%classList%': confObj.classesString }, rec.getData('name'), rec.getData('node_id'), createhereMenu );
+            });
+            var div = new YAHOO.util.Element(document.createElement('div'));
+            div.addClass('crankfield');
+            div.appendTo(a);
+
+            a.appendTo(cell);
         }
 
         var thumbView = function(cell, record, column, data) {
@@ -54,7 +71,7 @@ var sortableSubitems = function () {
         var translationView = function(cell, record, column, data) {
             var html = '';
             jQuery(data).each(function(i, e) {
-                html += '<img src="' + confObj.flagIcons[e] + '" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                html += '<img src="' + confObj.flagIcons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
             });
             cell.innerHTML = html;
         }
@@ -63,12 +80,14 @@ var sortableSubitems = function () {
             var record = this.getRecord(), dataTable = this.getDataTable(), sortedBy = dataTable.get('sortedBy'), paginator = dataTable.get('paginator');
             
             var onSuccess = function(data) {
+                dataTable.getDataSource().flushCache();
                 if (sortedBy.key == 'priority') {
                     dataTable.onPaginatorChangeRequest(paginator.getState({'page':paginator.getCurrentPage()}));
                 }
             }
             
             jQuery.post(jQuery.ez.url + 'call/ezjscnode::updatepriority', { ContentNodeID: record.getData('parent_node_id'), 
+                                                                            ContentObjectID: record.getData('contentobject_id'),
                                                                             PriorityID: [record.getData('node_id')], 
                                                                             Priority:  [v] }, onSuccess );
             callback(true, v);
@@ -107,7 +126,9 @@ var sortableSubitems = function () {
         }
 
         var sectionParser = function(section) {
-            return section.name;
+            if ( section && section.name )
+                return section.name;
+            return '?';
         }
         
         var translationsParser = function(translations) {
@@ -115,11 +136,14 @@ var sortableSubitems = function () {
         }
 
         var creatorParser = function(creator) {
-            return creator.name;
+            if ( creator && creator.name )
+                return creator.name;
+            return '?';
         }
 
         var dataSource = new YAHOO.util.DataSource(confObj.dataSourceURL);
         dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        dataSource.maxCacheEntries = 20;    // Caches between paginations. Requires a refresh after async updates to priorities
         dataSource.responseSchema = {
             resultsList: "content.list",
             fields: [
@@ -317,9 +341,15 @@ var sortableSubitems = function () {
             $('#content-sub-items-list').find(':checkbox').attr('checked', item.value);
         }
 
+        var selectItemsBtnInvert = function( type, args, item ) {
+            var checks = $('#content-sub-items-list').find(':checkbox');
+            checks.each(function(){this.checked = !this.checked;});
+        }
+
         var selectItemsBtnActions = [
             { text: labelsObj.ACTION_BUTTONS.select_sav, id: "ezopt-menu-check", value: 1, onclick: { fn: selectItemsBtnAction } },
-            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } }
+            { text: labelsObj.ACTION_BUTTONS.select_sn, id: "ezopt-menu-uncheck", value: 0, onclick: { fn: selectItemsBtnAction } },
+            { text: labelsObj.ACTION_BUTTONS.select_inv, id: "ezopt-menu-toggle", onclick: { fn: selectItemsBtnInvert } }
         ];
 
         var selectItemsBtn = new YAHOO.widget.Button({ type: "menu",

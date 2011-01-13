@@ -88,7 +88,7 @@
 <div class="context-information">
 <p class="left modified">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
 {def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
-<p class="right translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<p class="right translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" width="18" height="12" alt="{$language_code}" style="vertical-align: middle;" /></p>
 {undef $locale}
 <div class="break"></div>
 </div>
@@ -147,7 +147,7 @@
         <option value="0"{if eq($class.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
         <option value="1"{if eq($class.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
     </select>
-    {undef}
+    {undef $sort_fields $title}
     </div>
 
     {* Object availablility. *}
@@ -338,7 +338,7 @@
 
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 jQuery(function( $ )//called on document.ready
 {

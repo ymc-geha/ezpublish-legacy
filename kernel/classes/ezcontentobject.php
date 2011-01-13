@@ -783,7 +783,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$remoteID )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             if ( $this->attribute( 'id' ) !== null )
                 $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id', true );
@@ -1465,7 +1465,7 @@ class eZContentObject extends eZPersistentObject
             "main_node_id" => 0,
             "owner_id" => $userID,
             "section_id" => $sectionID,
-            'remote_id' => md5( (string)mt_rand() . (string)time() ) );
+            'remote_id' => eZRemoteIdUtility::generate( 'object' ) );
 
         return new eZContentObject( $row );
     }
@@ -1493,9 +1493,7 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->setAttribute( 'owner_id', $userID );
 
-        // Set new unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)time() );
-        $contentObject->setAttribute( 'remote_id', $newRemoteID );
+        $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
 
         $db = eZDB::instance();
         $db->begin();
@@ -2012,11 +2010,9 @@ class eZContentObject extends eZPersistentObject
 
         if ( $contentObjectAttributeID !== false )
             $contentObjectAttributeID =(int) $contentObjectAttributeID;
-//         print( "Attributes fetch $this->ID, $version" );
 
         if ( !$language || !isset( $this->ContentObjectAttributes[$version][$language] ) )
         {
-//             print( "uncached<br>" );
             $versionText = "AND                    ezcontentobject_attribute.version = '$version'";
             if ( $language )
             {
@@ -2068,7 +2064,6 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-//             print( "Cached<br>" );
             $returnAttributeArray = $this->ContentObjectAttributes[$version][$language];
         }
 
@@ -2886,7 +2881,8 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $sortingString = '';
         $sortingInfo = array( 'attributeFromSQL' => '',
-                              'attributeWhereSQL' => '' );
+                              'attributeWhereSQL' => '',
+                              'attributeTargetSQL' => '' );
 
         $showInvisibleNodesCond = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
@@ -2984,6 +2980,7 @@ class eZContentObject extends eZPersistentObject
                         ezcontentclass.identifier as contentclass_identifier,
                         ezcontentclass.is_container as is_container,
                         ezcontentobject.* $versionNameTargets
+                        $sortingInfo[attributeTargetSQL]
                      FROM
                         ezcontentclass,
                         ezcontentobject,
@@ -5132,7 +5129,7 @@ class eZContentObject extends eZPersistentObject
 
                 case self::PACKAGE_NEW:
                 {
-                    $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
+                    $contentObject->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
                     $contentObject->store();
                     unset( $contentObject );
                     $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
@@ -5359,7 +5356,7 @@ class eZContentObject extends eZPersistentObject
         $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ) );
         if ( !$this->attribute( 'remote_id' ) )
         {
-            $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)time() );
+            $this->setAttribute( 'remote_id', eZRemoteIdUtility::generate( 'object' ) );
             $this->store();
         }
         $objectNode->setAttribute( 'remote_id', $this->attribute( 'remote_id' ) );
@@ -6107,15 +6104,11 @@ class eZContentObject extends eZPersistentObject
         $stateID = $state->attribute( 'id' );
         $contentObjectID = $this->ID;
 
-        $db = eZDB::instance();
-        $db->begin();
-
         $currentStateIDArray = $this->stateIDArray( true );
         $currentStateID = $currentStateIDArray[$groupID];
 
         if ( $currentStateID == $stateID )
         {
-            $db->rollback();
             return false;
         }
 
@@ -6123,9 +6116,7 @@ class eZContentObject extends eZPersistentObject
                 SET contentobject_state_id=$stateID
                 WHERE contentobject_state_id=$currentStateID AND
                       contentobject_id=$contentObjectID";
-        $db->query( $sql );
-
-        $db->commit();
+        eZDB::instance()->query( $sql );
 
         $this->StateIDArray[$groupID] = $stateID;
 

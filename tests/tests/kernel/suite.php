@@ -14,6 +14,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         parent::__construct();
         $this->setName( "eZ Publish Kernel Test Suite" );
 
+        $this->addTestSuite( 'eZDatatypeTestSuite' );
+
         $this->addTestSuite( 'eZContentObjectRegression' );
         $this->addTestSuite( 'eZContentObjectTest' );
         $this->addTestSuite( 'eZContentObjectTest2' );
@@ -23,10 +25,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentFunctionCollectionTest' );
         $this->addTestSuite( 'eZURLAliasMlTest' );
         $this->addTestSuite( 'eZURLAliasMlRegression' );
-        $this->addTestSuite( 'eZURLTypeRegression' );
-        $this->addTestSuite( 'eZXMLTextRegression' );
         $this->addTestSuite( 'eZApproveTypeRegression' );
-        $this->addTestSuite( 'eZMultiPriceTypeRegression' );
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
@@ -36,11 +35,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         // This test suite is commented out until it will be fixed to work on any machine
         // $this->addTestSuite( 'eZWebDAVBackendContentRegressionTest' );
 
-        $this->addTestSuite( 'eZLDAPUserTest' );
-        $this->addTestSuite( 'eZTextFileUserTest' );
-        $this->addTestSuite( 'eZUserTest' );
         $this->addTestSuite( 'eZSiteInstallerTest' );
-        $this->addTestSuite( 'eZCountryTypeTest' );
         $this->addTestSuite( 'eZProductCollectionTest' );
         $this->addTestSuite( 'eZProductCollectionItemTest' );
         $this->addTestSuite( 'eZProductCollectionItemOptionTest' );
@@ -49,7 +44,6 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZUserDiscountRuleTest' );
         $this->addTestSuite( 'eZSubtreeNotificationRuleTest' );
         $this->addTestSuite( 'eZSubtreeNotificationRuleRegression' );
-        $this->addTestSuite( 'eZImageAliasHandlerRegression' );
         $this->addTestSuite( 'eZContentLanguageRegression' );
         $this->addTestSuite( 'eZContentOperationCollectionRegression' );
         $this->addTestSuite( 'eZContentClassTest' );
@@ -57,13 +51,8 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZPackageRegression' );
         $this->addTestSuite( 'eZContentFunctionsTest' );
         $this->addTestSuite( 'eZBinaryFileTypeRegression' );
-        $this->addTestSuite( 'eZMediaTypeRegression' );
-        $this->addTestSuite( 'eZImageTypeRegression' );
-        $this->addTestSuite( 'eZXHTMLXMLOutputRegression' );
         $this->addTestSuite( 'eZContentClassRegression' );
-        $this->addTestSuite( 'eZImageFileRegression' );
         $this->addTestSuite( 'eZURLOperatorTest' );
-        $this->addTestSuite( 'eZUserTypeRegression' );
 
         $this->addTestSuite( 'ezpTopologicalSortTest' );
         $this->addTestSuite( 'eZExtensionWithOrderingTest' );

@@ -17,16 +17,6 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $this->setName( "eZContentObjectTreeNode Regression Tests" );
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
     * Test for regression #13497:
     * attribute operator throws a PHP fatal error on a node without parent in a displayable language
@@ -42,9 +32,16 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
     *    kernel/classes/ezcontentobjecttreenode.php on line 4225
     *
     * Explanation: the error actually comes from the can_remove_location attribute
-    **/
+     **/    /**
+      * Regression test for issue {@see #17632 http://issues.ez.no/17632}
+      *
+      * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
+      * URL alias in the prioritized language
+      */
     public function testIssue13497()
     {
+        $bkpLanguages = eZContentLanguage::prioritizedLanguageCodes();
+
         // Create a folder in english only
         $folder = new ezpObject( "folder", 2, 14, 1, 'eng-GB' );
         $folder->setAlwaysAvailableLanguageID( false );
@@ -64,7 +61,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
 
         // INi changes: set language to french only, untranslatedobjects disabled
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ContentObjectLocale', 'fre-FR' );
-        ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        // ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        eZContentLanguage::setPrioritizedLanguages( array( 'fre-FR' ) );
         ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'ShowUntranslatedObjects', 'disabled' );
         eZContentLanguage::expireCache();
 
@@ -74,7 +72,10 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         ezpINIHelper::restoreINISettings();
 
         // re-expire cache for further tests
+        eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
         eZContentLanguage::expireCache();
+
+        ezpINIHelper::restoreINISettings();
     }
 
     /**
@@ -135,9 +136,9 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
             $this->assertTrue( strlen( $alias ) <= 30 , "Identifier {$alias} exceeds the 30 characters limit" );
         }
     }
-    
+
     /**
-     * Regression test for issue #15561: 
+     * Regression test for issue #15561:
      * eZContentObjectTreeNode::fetch() SQL error when conditions argument is given
      */
     public function testIssue15561()
@@ -147,10 +148,10 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $object->title = __FUNCTION__;
         $object->publish();
         $nodeID = $object->attribute( 'main_node_id' );
-        
+
         $node = eZContentObjectTreeNode::fetch( $nodeID, false, true,
             array( 'contentobject_version' => 1 ) );
-        
+
         $this->assertType( 'eZContentObjectTreeNode', $node);
     }
 
@@ -163,6 +164,8 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
      */
     public function testIssue16737()
     {
+
+
         //test generated result of createSortingSQLStrings
         $sortList = array( array( 'class_name', true ) );
         $result = eZContentObjectTreeNode::createSortingSQLStrings( $sortList );
@@ -249,6 +252,49 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         $this->assertTrue( $result['has_pending_object'] );
 
         eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUserID );
+    }
+
+    /**
+     * Regression test for issue {@see #17632 http://issues.ez.no/17632}
+     *
+     * In a multi language environment, a node fetched with a language other than the prioritized one(s) will return the
+     * URL alias in the prioritized language
+     */
+    public function testIssue17632()
+    {
+        $bkpLanguages = eZContentLanguage::prioritizedLanguageCodes();
+
+        $strNameEngGB = __FUNCTION__ . " eng-GB";
+        $strNameFreFR = __FUNCTION__ . " fre-FR";
+
+        // add a secondary language
+        $locale = eZLocale::instance( 'fre-FR' );
+        $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $locale->internationalLanguageName() );
+
+        // set the prioritize language list to contain english
+        // ezpINIHelper::setINISetting( 'site.ini', 'RegionalSettings', 'SiteLanguageList', array( 'fre-FR' ) );
+        eZContentLanguage::setPrioritizedLanguages( array( 'fre-FR' ) );
+
+        // Create an object with data in fre-FR and eng-GB
+        $folder = new ezpObject( 'folder', 2, 14, 1, 'eng-GB' );
+        $folder->publish();
+
+        // Workaround as setting folder->name directly doesn't produce the expected result
+        $folder->addTranslation( 'eng-GB', array( 'name' => $strNameEngGB ) );
+        $folder->addTranslation( 'fre-FR', array( 'name' => $strNameFreFR ) );
+
+        $nodeId = $folder->main_node_id;
+
+        // fetch the node with no default parameters. Should return the french URL Alias
+        $node = eZContentObjectTreeNode::fetch( $nodeId );
+        self::assertEquals( 'testIssue17632-fre-FR' , $node->attribute( 'url_alias' ) );
+
+        // fetch the node in english. Should return the english URL Alias
+        $node = eZContentObjectTreeNode::fetch( $nodeId, 'eng-GB' );
+        self::assertEquals( 'testIssue17632-eng-GB' , $node->attribute( 'url_alias' ) );
+
+        ezpINIHelper::restoreINISettings();
+        eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }
 }
 ?>

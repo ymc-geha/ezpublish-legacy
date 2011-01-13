@@ -57,6 +57,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'table'        => array( 'initHandler' => 'initHandlerTable',
+                             'leavingHandler' => 'leavingHandlerTable',
                              'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
                              'attrNamesTemplate' => array( 'class' => 'classification',
@@ -357,7 +358,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                       'tpl_vars' => array( 'object' => $object,
                                            'link_parameters' => $linkParameters,
                                            'object_parameters' => $objectParameters ),
-                      'design_keys' => array( 'class_identifier', $object->attribute( 'class_identifier' ) ) );
+                      'design_keys' => array( 'class_identifier' => $object->attribute( 'class_identifier' ) ) );
 
         if ( $tplSuffix == '_node')
             $ret['tpl_vars']['node'] = $node;
@@ -367,6 +368,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function initHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
     {
+        // Backing up the section_level, headings' level should be restarted inside tables.
+        // @see http://issues.ez.no/11536
+        $this->SectionLevelStack[] = $parentParams['section_level'];
+        $parentParams['section_level'] = 0;
+
         // Numbers of rows and cols are lower by 1 for back-compatibility.
         $rowCount = self::childTagCount( $element ) -1;
         $lastRow = $element->lastChild;
@@ -386,6 +392,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
+    function leavingHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
+    {
+        // Restoring the section_level as it was before entering the table.
+        // @see http://issues.ez.no/11536
+        $parentParams['section_level'] = array_pop($this->SectionLevelStack);
+    }
+
     function initHandlerTr( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
@@ -403,6 +416,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $ret = array( 'tpl_vars' => array( 'row_count' => $parentParams['table_row_count'],
                                            'col_count' => $colCount ) );
+
+        // Allow overrides based on table class
+        $parent = $element->parentNode;
+        if ( $parent instanceof DOMElement && $parent->hasAttribute('class') )
+            $ret['design_keys'] = array( 'table_classification' => $parent->getAttribute('class') );
+
         return $ret;
     }
 
@@ -415,6 +434,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $ret = array( 'tpl_vars' => array( 'col_count' => &$siblingParams['table_col_count'],
                                            'row_count' => &$parentParams['table_row_count'] ) );
+
+        // Allow overrides based on table class
+        $parent = $element->parentNode->parentNode;
+        if ( $parent instanceof DOMElement && $parent->hasAttribute('class') )
+            $ret['design_keys'] = array( 'table_classification' => $parent->getAttribute('class') );
+
         return $ret;
     }
 
@@ -428,12 +453,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function renderParagraph( $element, $childrenOutput, $vars )
     {
-        // don't render if inside 'li' or inside 'td' (by option)
+        // don't render if inside 'li' or inside 'td'/'th' (by option)
         $parent = $element->parentNode;
 
 
         if ( ( $parent->nodeName == 'li' && self::childTagCount( $parent ) == 1 ) ||
-             ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells && self::childTagCount( $parent ) == 1 ) )
+             ( in_array( $parent->nodeName, array( 'td', 'th' ) ) && !$this->RenderParagraphInTableCells && self::childTagCount( $parent ) == 1 ) )
 
         {
             return $childrenOutput;
@@ -619,6 +644,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     public $LinkParameters = array();
 
     public $HeaderCount = array();
+
+    /**
+     * Stack of section levels saved when entering tables.
+     * @var array
+     */
+    protected $SectionLevelStack = array();
 
     public $RenderParagraphInTableCells = true;
 }
