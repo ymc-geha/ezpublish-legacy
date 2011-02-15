@@ -45,7 +45,7 @@ $options = $script->getOptions( "[ignore-tr-setup]",
                                 array( 'ignore-tr-setup' => 'Tells the analyzer to skip all translations regarding the setup' ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
     $script->shutdown( 1, "No translation specified" );
 
 $translationName = false;

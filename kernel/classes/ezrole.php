@@ -489,7 +489,7 @@ class eZRole extends eZPersistentObject
      **/
     static function fetchByUser( $idArray, $recursive = false )
     {
-        if ( count( $idArray ) < 1 )
+        if ( empty( $idArray ) )
         {
             return array();
         }
@@ -521,7 +521,7 @@ class eZRole extends eZPersistentObject
                 }
             }
 
-            if ( count( $userNodeIDArray ) < 1 )
+            if ( empty( $userNodeIDArray ) )
             {
                 return array();
             }

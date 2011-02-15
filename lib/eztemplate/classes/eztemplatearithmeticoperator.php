@@ -465,7 +465,7 @@ class eZTemplateArithmeticOperator
         $function = $operatorName;
         $direction = $this->DecName == $function ? -1 : 1;
 
-        if ( count( $parameters ) < 1 )
+        if ( empty( $parameters ) )
             return false;
         $newElements = array();
 
@@ -679,7 +679,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->DivName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value', $placement );
                     return;
@@ -698,7 +698,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->ModName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->warning( $operatorName, 'Missing dividend and divisor', $placement );
                     return;
@@ -717,7 +717,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->MulName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value', $placement );
                     return;
@@ -736,7 +736,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->MaxName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value', $placement );
                     return;
@@ -761,7 +761,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->MinName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->warning( $operatorName, 'Requires at least 1 parameter value', $placement );
                     return;
@@ -780,7 +780,7 @@ class eZTemplateArithmeticOperator
             case $this->FloorName:
             case $this->RoundName:
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                     $value = $operatorValue;
                 else
                     $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );

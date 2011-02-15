@@ -132,7 +132,7 @@ class eZCodeTemplate
                 // Figure out template name and parameters
                 $createText = trim( $createText );
                 $elements = explode( ',', $createText );
-                if ( count( $elements ) < 1 )
+                if ( empty( $elements ) )
                 {
                     eZDebug::writeError( "No template name found in file $filePath at offset $offset",
                                          'eZCodeTemplate::apply' );

@@ -204,7 +204,7 @@ class eZBinaryFileType extends eZDataType
                 $filePath = $orig_dir . "/" . $fileName;
                 $file = eZClusterFileHandler::instance( $filePath );
 
-                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
+                if ( $file->exists() and empty( $binaryObjectsWithSameFileName ) )
                     $file->delete();
             }
         }
@@ -227,7 +227,7 @@ class eZBinaryFileType extends eZDataType
                 $filePath = $orig_dir . "/" . $fileName;
                 $file = eZClusterFileHandler::instance( $filePath );
 
-                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
+                if ( $file->exists() and empty( $binaryObjectsWithSameFileName ) )
                     $file->delete();
             }
         }

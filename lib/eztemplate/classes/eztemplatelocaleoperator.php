@@ -380,7 +380,7 @@ class eZTemplateLocaleOperator
             }
             else
             {
-                if ( count( $operatorParameters ) < 1 )
+                if ( empty( $operatorParameters ) )
                 {
                     $tpl->missingParameter( $operatorName, 'localestring' );
                     return;

@@ -48,7 +48,7 @@ $options = $script->getOptions( "[a|all][check-only]",
                                        'check-only' => 'Will only check if the files will be changed or have errors' ) );
 $script->initialize();
 
-if ( !$options['all'] and count( $options['arguments'] ) < 1 )
+if ( !$options['all'] and empty( $options['arguments'] ) )
 {
     $cli->error( "Need at least one file" );
     $script->shutdown( 1 );
