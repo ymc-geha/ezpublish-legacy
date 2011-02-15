@@ -93,6 +93,7 @@ class eZDebug
     const HANDLE_NONE = 0;
     const HANDLE_FROM_PHP = 1;
     const HANDLE_TO_PHP = 2;
+    const HANDLE_EXCEPTION = 3;
 
     const OUTPUT_MESSAGE_SCREEN = 1;
     const OUTPUT_MESSAGE_STORE = 2;
@@ -267,7 +268,8 @@ class eZDebug
         $instance = eZDebug::instance();
 
         if ( $type != self::HANDLE_TO_PHP and
-             $type != self::HANDLE_FROM_PHP )
+             $type != self::HANDLE_FROM_PHP and
+             $type != self::HANDLE_EXCEPTION )
             $type = self::HANDLE_NONE;
         if ( extension_loaded( 'xdebug' ) and
              $type == self::HANDLE_FROM_PHP )
@@ -275,7 +277,7 @@ class eZDebug
         if ( $type == $instance->HandleType )
             return $instance->HandleType;
 
-        if ( $instance->HandleType == self::HANDLE_FROM_PHP )
+        if ( $instance->HandleType == self::HANDLE_FROM_PHP or $instance->HandleType == self::HANDLE_EXCEPTION )
             restore_error_handler();
         switch ( $type )
         {
@@ -287,6 +289,11 @@ class eZDebug
             case self::HANDLE_TO_PHP:
             {
                 restore_error_handler();
+            } break;
+
+            case self::HANDLE_EXCEPTION:
+            {
+                set_error_handler( array( $instance, 'exceptionErrorHandler' ) );
             } break;
 
             case self::HANDLE_NONE:
@@ -1411,36 +1418,9 @@ class eZDebug
             {
                 echo "<style type='text/css'>
                 <!--
-td.debugheader
-{
-    background-color : #eeeeee;
-    border-top : 1px solid #444488;
-    border-bottom : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-pre.debugtransaction
-{
-    background-color : #f8f6d8;
-}
-
-td.timingpoint1
-{
-    background-color : #ffffff;
-    border-top : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
-td.timingpoint2
-{
-    background-color : #eeeeee;
-    border-top : 1px solid #444488;
-    font-size : 65%;
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-}
-
+                ";
+                readfile( 'design/standard/stylesheets/debug.css' );
+                echo "
 -->
 </style>";
             }
@@ -1753,7 +1733,7 @@ td.timingpoint2
             echo "</table>";
         }
 
-        $this->printBottomReportsList();
+        $this->printBottomReportsList( $as_html );
 
         if ( $as_html )
         {
@@ -1803,16 +1783,26 @@ td.timingpoint2
         $debug->bottomReportsList[$reportName] = $reportContent;
     }
 
-    /*!
-     Prints all 'bottom' reports
+   /**
+    * Loop over all bottom reports and if callable call them with $as_html parameter,
+    * if not output as is (string).
+    *
+    * @param bool $as_html
     */
-    static function printBottomReportsList()
+    static function printBottomReportsList( $as_html = true )
     {
         $debug = eZDebug::instance();
         $reportNames = array_keys( $debug->bottomReportsList );
         foreach ( $reportNames as $reportName )
         {
-            echo $debug->bottomReportsList[$reportName];
+            if ( is_callable( $debug->bottomReportsList[$reportName] ) )
+            {
+                echo call_user_func_array( $debug->bottomReportsList[$reportName], array( $as_html ) );
+            }
+            else
+            {
+                echo $debug->bottomReportsList[$reportName];
+            }
         }
     }
 
@@ -1859,6 +1849,16 @@ td.timingpoint2
         {
             return eZSys::isShellExecution() && in_array( 'commandline', $allowedIpList );
         }
+    }
+
+    /**
+     * Exception based error handler, very basic
+     * @since 4.5
+     * @throws ErrorException
+     */
+    public static function exceptionErrorHandler( $errno, $errstr, $errfile, $errline )
+    {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 
     /// \privatesection

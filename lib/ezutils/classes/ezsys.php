@@ -211,7 +211,7 @@ class eZSys
      * eZSys::isPHPVersionSufficient( array( 4, 1, 0 ) );
      *
      * @deprecated Since 4.5
-     * @param $requiredVersion must be an array with version number.
+     * @param array $requiredVersion Must be an array with version number
      * @return bool
     */
     static function isPHPVersionSufficient( $requiredVersion )
@@ -685,10 +685,11 @@ class eZSys
         return $GLOBALS['eZSysServerPort'];
     }
 
-    /*!
-     Returns true if magick quotes is enabled.
-     \static
-    */
+    /**
+     * Returns true if magick quotes is enabled,
+     * but does nothing.
+     * @deprecated 4.5
+     */
     static function magickQuotes()
     {
         return null;

@@ -208,8 +208,6 @@ class eZModuleOperationInfo
                     if ( isset( $mementoOperationData['loop_run'] ) )
                         $bodyCallCount['loop_run'] = $mementoOperationData['loop_run'];
                 }
-//                 else
-//                     eZDebug::writeWarning( 'Missing main operation memento for key: ' . $this->Memento->attribute( 'memento_key' ), 'eZModuleOperationInfo::execute' );
 
                 $mementoList = null;
                 if ( $this->UseTriggers )
@@ -246,8 +244,6 @@ class eZModuleOperationInfo
                 $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
-
-//                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
 
             if ( is_array( $resultArray ) and
@@ -255,9 +251,15 @@ class eZModuleOperationInfo
                  ( $resultArray['status'] == eZModuleOperationInfo::STATUS_HALTED
                    or $resultArray['status'] == eZModuleOperationInfo::STATUS_REPEAT ) )
             {
-//                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
                 if ( $this->Memento !== null )
                 {
+                    // $bodyCallCount stores an indexed array of each operation method that was executed
+                    // it must be store in the memento on HALT/REPEAT so that the operation can be resumed
+                    // where it was stopped (same behaviour as triggers)
+                    $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
+                    $data = $this->Memento->data();
+                    $data['loop_run'] = $bodyCallCount['loop_run'];
+                    $this->Memento->setData( $data );
                     $this->Memento->store();
                 }
             }
@@ -561,7 +563,6 @@ class eZModuleOperationInfo
                             $tmpOperationParameterDefinitions = $body['parameters'];
                         if ( $executeMethod )
                         {
-                            ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
                             if ( isset( $result['status'] ) )
@@ -571,6 +572,10 @@ class eZModuleOperationInfo
                                     case eZModuleOperationInfo::STATUS_CONTINUE:
                                     default:
                                     {
+                                        // moved from outside the case:
+                                        // we don't want to count the method as executed if it doesn't return a CONTINUE status,
+                                        // or it won't be executed next run
+                                        ++$bodyCallCount['loop_run'][$bodyName];
                                         $result['status'] = eZModuleOperationInfo::STATUS_CONTINUE;
                                         $bodyReturnValue = $result;
                                     } break;
@@ -877,6 +882,11 @@ class eZModuleOperationInfo
     public $FunctionList;
     public $IsValid;
     public $UseTriggers = false;
+
+    /**
+     * @var eZOperationMemento
+     */
+    public $Memento;
 }
 
 ?>

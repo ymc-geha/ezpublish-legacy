@@ -15,6 +15,7 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->setName( "eZ Publish Kernel Test Suite" );
 
         $this->addTestSuite( 'eZDatatypeTestSuite' );
+        $this->addTestSuite( 'eZKernelContentTestSuite' );
 
         $this->addTestSuite( 'eZContentObjectRegression' );
         $this->addTestSuite( 'eZContentObjectTest' );
@@ -23,13 +24,14 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZContentObjectTreeNodeTest' );
         $this->addTestSuite( 'eZContentFunctionCollectionRegression' );
         $this->addTestSuite( 'eZContentFunctionCollectionTest' );
-        $this->addTestSuite( 'eZURLAliasMlTest' );
-        $this->addTestSuite( 'eZURLAliasMlRegression' );
+        $this->addTestSuite( 'eZURLAliasMLTest' );
+        $this->addTestSuite( 'eZURLAliasMLRegression' );
         $this->addTestSuite( 'eZApproveTypeRegression' );
         $this->addTestSuite( 'eZContentObjectStateTest' );
         $this->addTestSuite( 'eZContentObjectStateGroupTest' );
         $this->addTestSuite( 'eZWorkflowEventRegression' );
         $this->addTestSuite( 'eZURLWildcardTest' );
+        $this->addTestSuite( 'eZURLWildcardRegression' );
         $this->addTestSuite( 'eZUserAuthenticationTest' );
 
         // This test suite is commented out until it will be fixed to work on any machine

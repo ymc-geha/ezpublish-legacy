@@ -858,7 +858,7 @@ class eZContentOperationCollection
 
             $nodeIDList[] = $node->attribute( 'node_id' );
         }
-        
+
         eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
 
         if ( $mainNodeChanged )
@@ -870,11 +870,11 @@ class eZContentOperationCollection
         }
 
         // Give other search engines that the default one a chance to reindex
-        // when removing locations.        
+        // when removing locations.
         if ( !eZSearch::getEngine() instanceof eZSearchEngine )
-        {            
+        {
             eZContentOperationCollection::registerSearchObject( $objectID, $object->attribute( 'current_version' ) );
-        }        
+        }
 
         $db->commit();
 
@@ -951,7 +951,7 @@ class eZContentOperationCollection
         {
             foreach ( $objectIdList as $objectId => $object )
                 eZContentOperationCollection::registerSearchObject( $objectId, $object->attribute( 'current_version' ) );
-        }        
+        }
 
         $db->commit();
 
@@ -985,8 +985,66 @@ class eZContentOperationCollection
      */
     static public function deleteObject( $deleteIDArray, $moveToTrash = false )
     {
-       eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
-       return array( 'status' => true );
+        $ini = eZINI::instance();
+        $delayedIndexingValue = $ini->variable( 'SearchSettings', 'DelayedIndexing' );
+        if ( $delayedIndexingValue === 'enabled' || $delayedIndexingValue === 'classbased' )
+        {
+            $pendingActionsToDelete = array();
+            $classList = $ini->variable( 'SearchSettings', 'DelayedIndexingClassList' ); // Will be used below if DelayedIndexing is classbased
+            $assignedNodesByObject = array();
+            $nodesToDeleteByObject = array();
+            $aNodes = eZContentObjectTreeNode::fetch( $deleteIDArray );
+            if( !is_array( $aNodes ) )
+                $aNodes = array( $aNodes );
+
+            foreach ( $aNodes as $node )
+            {
+                $object = $node->object();
+                $objectID = $object->attribute( 'id' );
+                $assignedNodes = $object->attribute( 'assigned_nodes' );
+                // Only delete pending action if this is the last object's node that is requested for deletion
+                // But $deleteIDArray can also contain all the object's node (mainly if this method is called programmatically)
+                // So if this is not the last node, then store its id in a temp array
+                // This temp array will then be compared to the whole object's assigned nodes array
+                if ( count( $assignedNodes ) > 1 )
+                {
+                    // $assignedNodesByObject will be used as a referent to check if we want to delete all lasting nodes
+                    if ( !isset( $assignedNodesByObject[$objectID] ) )
+                    {
+                        $assignedNodesByObject[$objectID] = array();
+
+                        foreach ( $assignedNodes as $assignedNode )
+                        {
+                            $assignedNodesByObject[$objectID][] = $assignedNode->attribute( 'node_id' );
+                        }
+                    }
+
+                    // Store the node assignment we want to delete
+                    // Then compare the array to the referent node assignment array
+                    $nodesToDeleteByObject[$objectID][] = $node->attribute( 'node_id' );
+                    $diff = array_diff( $assignedNodesByObject[$objectID], $nodesToDeleteByObject[$objectID] );
+                    if ( !empty( $diff ) ) // We still have more node assignments for object, pending action is not to be deleted considering this iteration
+                    {
+                        continue;
+                    }
+                }
+
+                if ( $delayedIndexingValue !== 'classbased' ||
+                     ( is_array( $classList ) && in_array( $object->attribute( 'class_identifier' ), $classList ) ) )
+                {
+                    $pendingActionsToDelete[] = $objectID;
+                }
+            }
+
+            if ( !empty( $pendingActionsToDelete ) )
+            {
+                $filterConds = array( 'param' => array ( $pendingActionsToDelete ) );
+                eZPendingActions::removeByAction( 'index_object', $filterConds );
+            }
+        }
+
+        eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
+        return array( 'status' => true );
     }
 
     /**
@@ -1225,7 +1283,7 @@ class eZContentOperationCollection
     }
 
     /**
-     * Update a node's main assignement
+     * Update a node's main assignment
      *
      * @param int $mainAssignmentID
      * @param int $objectID
@@ -1507,12 +1565,55 @@ class eZContentOperationCollection
      */
     public static function sendToPublishingQueue( $objectId, $version )
     {
-        $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
+        $behaviour = ezpContentPublishingBehaviour::getBehaviour();
+        if ( $behaviour->disableAsynchronousPublishing )
+            $asyncEnabled = false;
+        else
+            $asyncEnabled = ( eZINI::instance( 'content.ini' )->variable( 'PublishingSettings', 'AsynchronousPublishing' ) == 'enabled' );
+
+        $accepted = true;
 
         if ( $asyncEnabled === true )
         {
+            // Filter handlers
+            $ini = eZINI::instance( 'content.ini' );
+            $filterHandlerClasses = $ini->variable( 'PublishingSettings', 'AsynchronousPublishingFilters' );
+
+            if ( count( $filterHandlerClasses ) )
+            {
+                $versionObject = eZContentObjectVersion::fetchVersion( $version, $objectId );
+                foreach( $filterHandlerClasses as $filterHandlerClass )
+                {
+                    if ( !class_exists( $filterHandlerClass ) )
+                    {
+                        eZDebug::writeError( "Unknown asynchronous publishing filter handler class '$filterHandlerClass'", __METHOD__  );
+                        continue;
+                    }
+
+                    $handler = new $filterHandlerClass( $versionObject );
+                    if ( !( $handler instanceof eZAsynchronousPublishingFilterInterface ) )
+                    {
+                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement eZAsynchronousPublishingFilterInterface", __METHOD__  );
+                        continue;
+                    }
+
+                    $accepted = $handler->accept();
+
+                    if ( !$accepted )
+                    {
+                        eZDebugSetting::writeDebug( "Object #{$objectId}/{$version} was excluded from asynchronous publishing by $filterHandlerClass", __METHOD__ );
+                        break;
+                    }
+                }
+            }
+            unset( $filterHandlerClasses, $handler );
+        }
+
+        if ( $asyncEnabled && $accepted )
+        {
             // if the object is already in the process queue, we move ahead
-            if ( ezpContentPublishingQueue::isQueued( $objectId, $version) )
+            // this test should NOT be necessary since http://issues.ez.no/17840 was fixed
+            if ( ezpContentPublishingQueue::isQueued( $objectId, $version ) )
             {
                 return array( 'status' => eZModuleOperationInfo::STATUS_CONTINUE );
             }

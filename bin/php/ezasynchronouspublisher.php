@@ -33,7 +33,26 @@ $sys = eZSys::instance();
 
 $script->initialize();
 
-$pidFile = ( isset( $options['pid-file'] ) ? $options['pid-file'] : 'var/run/asynchronous-publishing.pid' );
+if ( isset( $options['pid-file'] ) )
+{
+    $pidFile = $options['pid-file'];
+}
+else
+{
+    $siteINI = eZINI::instance( 'site.ini' );
+    $varDir = $siteINI->variable( 'FileSettings', 'VarDir' );
+    $pidFile = "$varDir/run/ezasynchronouspublisher.pid";
+}
+
+// check if run folder exists
+$pidFileDirectory = dirname( $pidFile );
+if ( !file_exists( $pidFileDirectory ) )
+{
+    if ( !mkdir( $pidFileDirectory ) )
+    {
+        $script->shutdown( 3, "Error creating PID file directory '$pidFileDirectory'" );
+    }
+}
 
 // try opening the PID file. Exclusive mode will prevent the file from being opened if it exists
 $pidFp = @fopen( $pidFile, 'x' );
@@ -125,10 +144,19 @@ else
     $cli->output( "Running in interactive mode. Hit ctrl-c to interrupt." );
 }
 
+if ( $options['daemon'] )
+{
+    $output = new ezpAsynchronousPublisherLogOutput();
+}
+else
+{
+    $output = new ezpAsynchronousPublisherCliOutput();
+}
+
 // actual daemon code
 $processor = ezpContentPublishingQueueProcessor::instance();
+$processor->setOutput( $output );
 $processor->run();
-
 
 eZScript::instance()->shutdown( 0 );
 

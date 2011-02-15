@@ -92,10 +92,6 @@ $GLOBALS['eZRedirection'] = false;
 
 error_reporting ( E_ALL | E_STRICT );
 
-$debugINI = eZINI::instance( 'debug.ini' );
-eZDebugSetting::setDebugINI( $debugINI );
-
-
 /*!
  Reads settings from site.ini and passes them to eZDebug.
 */
@@ -348,10 +344,9 @@ eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' )
 eZExtension::activateExtensions( 'access' );
 // Siteaccess extension check end
 
-// Make sure template.ini reloads its cache incase
-// siteaccess or extensions override it
-$tplINI = eZINI::instance( 'template.ini' );
-$tplINI->loadCache();
+// Now that all extensions are activated and siteaccess has been changed, reset
+// all eZINI instances as they may not take into account siteaccess specific settings.
+eZINI::resetAllInstances( false );
 
 // Initialize module loading
 $moduleRepositories = eZModule::activeModuleRepositories();
@@ -765,6 +760,12 @@ while ( $moduleRunRequired )
     }
 }
 
+
+/**
+ * Ouput an is_logged_in cookie when users are logged in for use by http cache soulutions.
+ *
+ * @deprecated As of 4.5, since 4.4 added lazy session support (init on use)
+ */
 if ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) !== 'true' )
 {
     $currentUser = eZUser::currentUser();
