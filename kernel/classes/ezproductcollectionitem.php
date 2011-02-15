@@ -219,7 +219,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $contentObject = $this->contentObject();
         $contentObjectVersion = $contentObject->attribute( 'current_version' );
         $optionsPrice = 0.0;
-        if ( count( $optionList ) > 0 )
+        if ( !empty( $optionList ) )
         {
             $db = eZDB::instance();
             $db->begin();
@@ -305,7 +305,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $db->begin();
         $inText = $db->generateSQLINStatement( $productCollectionIDList, 'productcollection_id', false, false, 'int' );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE $inText" );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $itemIDList = array();
             foreach ( $rows as $row )

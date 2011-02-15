@@ -64,7 +64,7 @@ class eZISBN10To13Converter
 
         $classAttributeList = $db->arrayQuery( $sql );
         $status = false;
-        if ( count( $classAttributeList ) > 0 )
+        if ( !empty( $classAttributeList ) )
         {
             foreach ( $classAttributeList as $classAttributeItem )
             {
@@ -107,7 +107,7 @@ class eZISBN10To13Converter
                 $classFilter = array( 'data_type_string' => 'ezisbn' );
                 $classAttributes = $class->fetchAttributes();
                 $attributeFound = false;
-                if ( count( $classAttributes ) > 0 )
+                if ( !empty( $classAttributes ) )
                 {
                     foreach ( $classAttributes as $attribute )
                     {

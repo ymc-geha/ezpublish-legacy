@@ -51,7 +51,7 @@ function sectionEditActionCheck( $module, $class, $object, $version, $contentObj
                     $db = eZDB::instance();
                     $db->begin();
                     $assignedNodes = $object->attribute( 'assigned_nodes' );
-                    if ( count( $assignedNodes ) > 0 )
+                    if ( !empty( $assignedNodes ) )
                     {
                         foreach ( $assignedNodes as $node )
                         {

@@ -521,7 +521,7 @@ class eZSimplifiedXMLEditOutput
              }
         }
 
-        if ( count( $linkIDArray ) > 0 )
+        if ( !empty( $linkIDArray ) )
         {
             $inIDSQL = implode( ', ', $linkIDArray );
             $db = eZDB::instance();

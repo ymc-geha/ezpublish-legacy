@@ -50,7 +50,7 @@ class eZClassFunctionCollection
     {
         $notIn = ( $groupFilterType == 'exclude' );
 
-        if ( is_array( $groupFilter ) && count( $groupFilter ) > 0 )
+        if ( is_array( $groupFilter ) && !empty( $groupFilter ) )
         {
             $db = eZDB::instance();
             $groupFilter = $db->generateSQLINStatement( $groupFilter, 'ccg.group_id', $notIn );
@@ -93,7 +93,7 @@ class eZClassFunctionCollection
             $classFilter = false;
         }
         if ( !is_array( $classFilter ) or
-             count( $classFilter ) > 0 )
+             !empty( $classFilter ) )
         {
             $contentClassList = eZContentClass::fetchList( 0, true, false,
                                                             $sorts, null,

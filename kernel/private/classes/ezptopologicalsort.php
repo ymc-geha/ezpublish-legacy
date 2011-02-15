@@ -57,7 +57,7 @@ class ezpTopologicalSort
         $rootNodes = $this->getRootNodes();
 
         $sorted = array();
-        while ( count( $this->nodes ) > 0 ) {
+        while ( !empty( $this->nodes ) ) {
             // check for circular reference
             if ( count( $rootNodes ) === 0 )
                 return false;

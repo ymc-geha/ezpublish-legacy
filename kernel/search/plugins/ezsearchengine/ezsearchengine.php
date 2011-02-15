@@ -208,7 +208,7 @@ class eZSearchEngine
 
                 // Update the object count of existing words by one
                 $wordIDString = implode( ',', $wordIDArray );
-                if ( count( $wordIDArray ) > 0 )
+                if ( !empty( $wordIDArray ) )
                     $db->query( "UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
                 // Insert if there is any news words
@@ -335,7 +335,7 @@ class eZSearchEngine
 
         if ( $dbName == 'mysql' )
         {
-            if ( count( $valuesStringList ) > 0 )
+            if ( !empty( $valuesStringList ) )
             {
                 $valuesString = implode( ',', $valuesStringList );
                 $db->query( "INSERT INTO
@@ -400,7 +400,7 @@ class eZSearchEngine
             $wordIDList = array();
             foreach ( $wordArray as $word )
                 $wordIDList[] = $word["word_id"];
-            if ( count( $wordIDList ) > 0 )
+            if ( !empty( $wordIDList ) )
             {
                 $wordIDString = implode( ',', $wordIDList );
                 $db->query( "UPDATE ezsearch_word SET object_count=( object_count - 1 ) WHERE id in ( $wordIDString )" );
@@ -701,7 +701,7 @@ class eZSearchEngine
                 // build fulltext search SQL part
                 $searchWordArray = $this->splitString( $fullText );
                 $fullTextSQL = "";
-                if ( count( $searchWordArray ) > 0 )
+                if ( !empty( $searchWordArray ) )
                 {
                     $i = 0;
                     // Build the word query string
@@ -731,7 +731,7 @@ class eZSearchEngine
             // Search only in specific sub trees
             $subTreeSQL = "";
             $subTreeTable = "";
-            if ( count( $subTreeArray ) > 0 )
+            if ( !empty( $subTreeArray ) )
             {
                 // Fetch path_string value to use when searching subtrees
                 $i = 0;
@@ -1138,7 +1138,7 @@ class eZSearchEngine
         $sortList = false;
         if ( isset( $sortArray ) and
              is_array( $sortArray ) and
-             count( $sortArray ) > 0 )
+             !empty( $sortArray ) )
         {
             $sortList = $sortArray;
             if ( count( $sortList ) > 1 and
@@ -1155,7 +1155,7 @@ class eZSearchEngine
             $sortingFields = '';
             foreach ( $sortList as $sortBy )
             {
-                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                if ( is_array( $sortBy ) and !empty( $sortBy ) )
                 {
                     if ( $sortCount > 0 )
                         $sortingFields .= ', ';
@@ -1937,7 +1937,7 @@ class eZSearchEngine
         $uniqueWordArray = array();
 
         $searchPart = array();
-        if ( isset( $wildIDArray ) && count( $wildIDArray ) > 0 )
+        if ( isset( $wildIDArray ) && !empty( $wildIDArray ) )
         {
             $searchPart['sql_part'] = '( ';
             $i = 0;
@@ -2166,7 +2166,7 @@ class eZSearchEngine
         $wildCardCount = 0;
         foreach ( array_keys( $wildCardWordArray ) as $key )
         {
-            if ( is_array( $wildCardWordArray[$key] ) && count( $wildCardWordArray[$key] ) > 0 )
+            if ( is_array( $wildCardWordArray[$key] ) && !empty( $wildCardWordArray[$key] ) )
             {
                 $wildCardCount++;
                 foreach ( $wildCardWordArray[$key] as $wordRes )

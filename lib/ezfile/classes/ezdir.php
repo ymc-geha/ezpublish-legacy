@@ -237,7 +237,7 @@ class eZDir
             if ( $pathElement === '.' )
                 continue;
             if ( $pathElement === '..' and
-                 count( $newPathElements ) > 0 )
+                 !empty( $newPathElements ) )
                 array_pop( $newPathElements );
             else
                 $newPathElements[] = $pathElement;
@@ -586,7 +586,7 @@ class eZDir
         }
         $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
         $totalItems = $items;
-        while ( count( $items ) > 0 )
+        while ( !empty( $items ) )
         {
             $currentItems = $items;
             $items = array();

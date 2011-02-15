@@ -466,7 +466,7 @@ class eZMatrix
     {
         $columnsToRemove = $this->getColumnsToRemove( $matrixColumnDefinition );
 
-        if ( count( $columnsToRemove ) > 0 )
+        if ( !empty( $columnsToRemove ) )
         {
             // remove begins from last column (reverse order )
             foreach ( array_reverse( $columnsToRemove ) as $column )

@@ -335,7 +335,7 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         else
         {
             $removedActionParameters = array_diff( $actionParameters, $newActionParameters );
-            if ( count( $removedActionParameters ) > 0 )
+            if ( !empty( $removedActionParameters ) )
             {
                 if ( $iniAppend->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
                 {

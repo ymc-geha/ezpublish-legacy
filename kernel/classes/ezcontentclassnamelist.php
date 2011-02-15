@@ -63,7 +63,7 @@ class eZContentClassNameList extends eZSerializedObjectNameList
             }
 
             // create new
-            if ( count( $languages ) > 0 )
+            if ( !empty( $languages ) )
             {
                 foreach ( $languages as $languageLocale => $language )
                 {

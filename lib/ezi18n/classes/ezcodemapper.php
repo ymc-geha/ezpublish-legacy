@@ -1212,7 +1212,7 @@ class eZCodeMapper
                             }
                         }
                         $toCode = $newToCodeList;
-                        if ( count( $toCode ) > 0 )
+                        if ( !empty( $toCode ) )
                         {
                             if ( count( $toCode ) == 1 )
                                 $toCode = $toCode[0];

@@ -270,7 +270,7 @@ class eZAuthorType extends eZDataType
     {
         $author = $contentObjectAttribute->content( );
         $authorList = $author->attribute( 'author_list' );
-        return count( $authorList ) > 0;
+        return !empty( $authorList );
     }
 
     /*!

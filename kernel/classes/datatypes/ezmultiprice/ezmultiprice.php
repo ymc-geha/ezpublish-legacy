@@ -523,7 +523,7 @@ class eZMultiPrice extends eZSimplePrice
 
     function storePriceList()
     {
-        if ( isset( $this->PriceList ) && count( $this->PriceList ) > 0 )
+        if ( isset( $this->PriceList ) && !empty( $this->PriceList ) )
         {
             $priceList = $this->priceList();
             foreach ( $priceList as $price )
@@ -554,7 +554,7 @@ class eZMultiPrice extends eZSimplePrice
         $baseCurrency = false;
         $customPriceList = $this->customPriceList();
         $currencies = array_keys( $customPriceList );
-        if ( count( $currencies ) > 0 )
+        if ( !empty( $currencies ) )
         {
             $baseCurrency = $currencies[0];
         }

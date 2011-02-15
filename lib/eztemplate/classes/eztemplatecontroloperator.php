@@ -247,7 +247,7 @@ class eZTemplateControlOperator
             } break;
             case $this->FirstSetName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {

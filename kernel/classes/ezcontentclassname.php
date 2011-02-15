@@ -74,7 +74,7 @@ class eZContentClassName extends eZPersistentObject
     {
         $conds = array();
 
-        if ( is_array( $languageLocaleList ) && count( $languageLocaleList ) > 0 )
+        if ( is_array( $languageLocaleList ) && !empty( $languageLocaleList ) )
             $conds[ 'language_locale'] = array( $languageLocaleList );
 
         $conds[ 'contentclass_id'] = $classID;

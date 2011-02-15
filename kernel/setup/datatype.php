@@ -202,7 +202,7 @@ function datatypeDownload( $tpl, &$persistentData, $stepData )
     $brief = '';
     $full = '';
     $lines = explode( "\n", $description );
-    if ( count( $lines ) > 0 )
+    if ( !empty( $lines ) )
     {
         $brief = $lines[0];
         $full = implode( "\n", array_slice( $lines, 1 ) );

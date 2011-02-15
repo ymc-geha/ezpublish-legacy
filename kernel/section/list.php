@@ -84,8 +84,8 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
                 }
             }
 
-            if ( count( $sections) > 0 or
-                 count( $sectionsUnallowed ) > 0 )
+            if ( !empty( $sections ) or
+                 !empty( $sectionsUnallowed ) )
             {
                 $http->setSessionVariable( 'SectionIDArray', $sectionIDs );
                 $tpl->setVariable( 'delete_result', $sections ); // deprecated, left for BC

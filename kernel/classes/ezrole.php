@@ -225,7 +225,7 @@ class eZRole extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $policy->store();
-        if ( count( $limitations ) > 0 )
+        if ( !empty( $limitations ) )
         {
             foreach ( $limitations as $limitationIdentifier => $limitationValues )
             {
@@ -375,7 +375,7 @@ class eZRole extends eZPersistentObject
     function removePolicy( $moduleName, $functionName = false )
     {
         $policyList = $this->policyList();
-        if ( is_array( $policyList ) && count( $policyList ) > 0 )
+        if ( is_array( $policyList ) && !empty( $policyList ) )
         {
             $db = eZDB::instance();
             $db->begin();
@@ -730,7 +730,7 @@ class eZRole extends eZPersistentObject
         $query = "SELECT * FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID' AND limit_identifier='$limitIdent' AND limit_value='$limitValue'";
 
         $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
             return false;
 
         $db->begin();

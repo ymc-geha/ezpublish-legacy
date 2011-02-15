@@ -333,7 +333,7 @@ class eZTemplateTypeOperator
             } break;
             case $this->IsSetName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     if ( count( $operatorParameters ) > 1 )
                     {
@@ -351,7 +351,7 @@ class eZTemplateTypeOperator
             } break;
             case $this->IsUnsetName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     if ( count( $operatorParameters ) > 1 )
                         $tpl->extraParameters( $operatorName,
@@ -365,7 +365,7 @@ class eZTemplateTypeOperator
             } break;
             case $this->GetTypeName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     if ( count( $operatorParameters ) > 1 )
                         $tpl->extraParameters( $operatorName,
@@ -390,7 +390,7 @@ class eZTemplateTypeOperator
             } break;
             case $this->GetClassName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     if ( count( $operatorParameters ) > 1 )
                         $tpl->extraParameters( $operatorName,
@@ -409,7 +409,7 @@ class eZTemplateTypeOperator
 
     function checkType( $typeFunction, $tpl, &$value, $operatorParameters, $rootNamespace, $currentNamespace, $placement )
     {
-        if ( count( $operatorParameters ) > 0 )
+        if ( !empty( $operatorParameters ) )
         {
             $value = true;
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )

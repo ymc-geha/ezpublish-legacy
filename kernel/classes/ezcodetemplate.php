@@ -208,7 +208,7 @@ class eZCodeTemplate
                             }
                             else
                             {
-                                if ( count( $currentBlocks ) > 0 )
+                                if ( !empty( $currentBlocks ) )
                                     $blocks[] = array( 'blocks' => $currentBlocks );
                                 $currentBlocks = array();
                             }
@@ -221,7 +221,7 @@ class eZCodeTemplate
                             {
                                 if ( $tag == $currentTag )
                                 {
-                                    if ( count( $currentBlocks ) > 0 )
+                                    if ( !empty( $currentBlocks ) )
                                         $blocks[] = array( 'tag' => $currentTag,
                                                            'blocks' => $currentBlocks );
                                     $currentTag = false;
@@ -250,12 +250,12 @@ class eZCodeTemplate
                 }
                 if ( $currentTag === false )
                 {
-                    if ( count( $currentBlocks ) > 0 )
+                    if ( !empty( $currentBlocks ) )
                         $blocks[] = array( 'blocks' => $currentBlocks );
                 }
                 else
                 {
-                    if ( count( $currentBlocks ) > 0 )
+                    if ( !empty( $currentBlocks ) )
                         $blocks[] = array( 'tag' => $currentTag,
                                            'blocks' => $currentBlocks );
                 }

@@ -116,7 +116,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $urlIDArray = $parser->getUrlIDArray();
 
-            if ( count( $urlIDArray ) > 0 )
+            if ( !empty( $urlIDArray ) )
             {
                 $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }

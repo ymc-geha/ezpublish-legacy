@@ -125,7 +125,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         $filter->limit = false;
         $existingElements = $filter->fetchAll();
         // TODO: add error handling when $existingElements is empty
-        if ( count( $existingElements ) > 0 )
+        if ( !empty( $existingElements ) )
         {
             $parentID = (int)$existingElements[0]->attribute( 'parent' );
             $linkID   = (int)$existingElements[0]->attribute( 'id' );

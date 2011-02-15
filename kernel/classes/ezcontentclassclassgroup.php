@@ -243,7 +243,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                      null,
                                                      null,
                                                      false );
-        return count( $rows ) > 0;
+        return !empty( $rows );
     }
 
     /// \privatesection

@@ -157,7 +157,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             $tpl->setIsTemplatesUsageStatisticsEnabled( $prevTplUsageStats );
 
-            if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
+            if ( is_array( $collectionItemIDList ) && !empty( $collectionItemIDList ) )
             {
                 $ini = eZINI::instance( 'notification.ini' );
                 $countElements = $ini->variable( 'RuleSettings', 'LimitDeleteElements' );

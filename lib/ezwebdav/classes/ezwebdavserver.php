@@ -1010,7 +1010,7 @@ class eZWebDAVServer
         $pattern = '//';
 
         $userAgentSettings = eZWebDAVServer::userAgentSettings();
-        if( count( $userAgentSettings ) > 0 )
+        if( !empty( $userAgentSettings ) )
         {
             $pattern = '/';
 

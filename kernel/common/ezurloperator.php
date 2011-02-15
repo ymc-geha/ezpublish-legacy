@@ -650,7 +650,7 @@ CODEPIECE;
             case $this->ININameHasVariable:
             case $this->ININame:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     $iniGroup = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
                     if ( count( $operatorParameters ) == 1 )
@@ -718,7 +718,7 @@ CODEPIECE;
             case $this->HTTPName:
             {
                 $http = eZHTTPTool::instance();
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                 {
                     $httpType = eZURLOperator::HTTP_OPERATOR_TYPE_POST;
                     $httpName = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );

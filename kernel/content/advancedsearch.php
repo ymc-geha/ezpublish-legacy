@@ -186,7 +186,7 @@ if ( $useSearchCode )
                                                           'SearchLimit' => $pageLimit,
                                                           'SearchOffset' => $Offset ),
                                        $searchArray );
-    if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
+    if ( strlen(trim($searchText)) == 0 && !empty( $searchArray )  )
     {
         $searchText = 'search by additional parameter';
     }

@@ -179,7 +179,7 @@ class eZPackageInstallationHandler
     function initializeStep( $package, $http, $step, &$persistentData, $tpl, $module )
     {
         $methodMap = $this->initializeStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$step['id']] ) )
             {
@@ -220,7 +220,7 @@ class eZPackageInstallationHandler
     function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$currentStepID] ) )
             {
@@ -238,7 +238,7 @@ class eZPackageInstallationHandler
     function commitStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$step['id']] ) )
             {

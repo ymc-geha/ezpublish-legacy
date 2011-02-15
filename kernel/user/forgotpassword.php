@@ -133,7 +133,7 @@ if ( $module->isCurrentAction( "Generate" ) )
                                                        null,
                                                        true );
         }
-        if ( count($users) > 0 )
+        if ( !empty( $users ) )
         {
             $user   = $users[0];
             $time   = time();

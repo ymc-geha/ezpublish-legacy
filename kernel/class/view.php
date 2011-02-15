@@ -68,7 +68,7 @@ $datatypes = eZDataType::registeredDataTypes();
 $mainGroupID = false;
 $mainGroupName = false;
 $groupList = $class->fetchGroupList();
-if ( count( $groupList ) > 0 )
+if ( !empty( $groupList ) )
 {
     $mainGroupID = $groupList[0]->attribute( 'group_id' );
     $mainGroupName = $groupList[0]->attribute( 'group_name' );

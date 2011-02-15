@@ -260,7 +260,7 @@ class eZStaticCache
         }
 
         // As long as we have urls to generate or parents to check we loop
-        while ( count( $generateList ) > 0 || count( $parentList ) > 0 )
+        while ( !empty( $generateList ) || !empty( $parentList ) )
         {
             // First generate single urls
             foreach ( $generateList as $generateURL )

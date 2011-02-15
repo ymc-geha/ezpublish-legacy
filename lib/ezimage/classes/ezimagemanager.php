@@ -662,7 +662,7 @@ class eZImageManager
             {
                 $filters[] = $this->createFilterDataFromINI( $filterRawItem );
             }
-            if ( count( $filters ) > 0 )
+            if ( !empty( $filters ) )
                 $settings['extra_filters'] = $filters;
         }
         return $settings;
@@ -1166,10 +1166,10 @@ class eZImageManager
         $result = true;
         $tempFiles = array();
         if ( $currentMimeData['name'] != $destinationMimeData['name'] or
-             count( $filters ) > 0 )
+             !empty( $filters ) )
         {
             while ( $currentMimeData['name'] != $destinationMimeData['name'] or
-                    count( $filters ) > 0 )
+                    !empty( $filters ) )
             {
                 $nextMimeData = false;
                 $nextHandler = false;
@@ -1189,7 +1189,7 @@ class eZImageManager
                     }
 
                     $outputMimeData = $handler->outputMIMEType( $this, $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
-                    if ( $outputMimeData['name'] == $destinationMimeData['name'] and count( $handlerFilters ) > 0 )
+                    if ( $outputMimeData['name'] == $destinationMimeData['name'] and !empty( $handlerFilters ) )
                     {
                         $nextMimeData = $outputMimeData;
                         $nextHandler = $handler;

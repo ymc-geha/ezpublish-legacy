@@ -102,7 +102,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
                 }
             }
 //             $addressString = '';
-//             if ( count( $validatedAddressList ) > 0 )
+//             if ( !empty( $validatedAddressList ) )
 //             {
 //                 $addressString = implode( ',', $validatedAddressList );
 //                 return $addressString;

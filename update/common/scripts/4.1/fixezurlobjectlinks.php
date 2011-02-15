@@ -242,7 +242,7 @@ class ezpUrlObjectLinkUpdate
                     }
                 }
 
-                if ( count( $urlIdArray ) > 0 )
+                if ( !empty( $urlIdArray ) )
                 {
                     if ( $this->verboseLevel > 0 )
                     {

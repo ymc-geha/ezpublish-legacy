@@ -468,7 +468,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
 
     // 1. copying and publishing source subtree
     $k = 0;
-    while ( count( $sourceNodeList ) > 0 )
+    while ( !empty( $sourceNodeList ) )
     {
         if ( $k > $countNodeList )
         {

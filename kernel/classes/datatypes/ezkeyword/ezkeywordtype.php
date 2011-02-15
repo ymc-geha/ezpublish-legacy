@@ -247,7 +247,7 @@ class eZKeywordType extends eZDataType
         $keyword->fetch( $contentObjectAttribute );
         $array = $keyword->keywordArray();
 
-        return count( $array ) > 0;
+        return !empty( $array );
     }
 
     function isIndexable()

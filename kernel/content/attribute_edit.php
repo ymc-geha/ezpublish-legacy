@@ -318,7 +318,7 @@ if ( $storingAllowed && $hasObjectInput)
         $Module->setExitStatus( eZModule::STATUS_OK );
 
     $db = eZDB::instance();
-    if ( $inputValidated and count( $attributeInputMap ) > 0 )
+    if ( $inputValidated and !empty( $attributeInputMap ) )
     {
         if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
             return;
@@ -387,7 +387,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
         }
     }
     $db->commit();
-    if ( !$mainFound and count( $assignments ) > 0 )
+    if ( !$mainFound and !empty( $assignments ) )
     {
         if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' )
         {

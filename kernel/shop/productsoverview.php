@@ -52,7 +52,7 @@ if ( $module->isCurrentAction( 'ShowProducts' ) )
 $productClassList = eZShopFunctions::productClassList();
 
 // find selected product class
-if ( count( $productClassList ) > 0 )
+if ( !empty( $productClassList ) )
 {
     if ( $productClassIdentifier )
     {

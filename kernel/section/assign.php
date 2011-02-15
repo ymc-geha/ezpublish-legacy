@@ -54,7 +54,7 @@ else
             {   // Assign section to subtree of node
 
                 $selectedNodeIDArray = eZContentBrowse::result( 'AssignSection' );
-                if ( is_array( $selectedNodeIDArray ) and count( $selectedNodeIDArray ) > 0 )
+                if ( is_array( $selectedNodeIDArray ) and !empty( $selectedNodeIDArray ) )
                 {
                     $nodeList = eZContentObjectTreeNode::fetch( $selectedNodeIDArray );
                     if ( !is_array( $nodeList ) and is_object( $nodeList ) )
@@ -78,7 +78,7 @@ else
                         }
                     }
 
-                    if ( count( $allowedNodeIDList ) > 0 )
+                    if ( !empty( $allowedNodeIDList ) )
                     {
                         $db = eZDB::instance();
                         $db->begin();
@@ -91,7 +91,7 @@ else
                         // clear content caches
                         eZContentCacheManager::clearAllContentCache();
                     }
-                    if ( count( $deniedNodeIDList ) > 0 )
+                    if ( !empty( $deniedNodeIDList ) )
                     {
                         $tpl = eZTemplate::factory();
                         $tpl->setVariable( 'section_name', $section->attribute( 'name' ) );
@@ -113,7 +113,7 @@ else
             {
                 // Redirect to content node browse
                 $classList = $currentUser->canAssignSectionToClassList( $SectionID );
-                if ( count( $classList ) > 0 )
+                if ( !empty( $classList ) )
                 {
                     if ( in_array( '*', $classList ) )
                     {

@@ -1442,7 +1442,7 @@ class eZDataType
         if ( $fileExist === true )
         {
             $dataArray = eZDbSchema::read( $dbaFilePath, true );
-            if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
+            if ( is_array( $dataArray ) and !empty( $dataArray ) )
             {
                 $db = eZDB::instance();
                 $dataArray['type'] = strtolower( $db->databaseName() );

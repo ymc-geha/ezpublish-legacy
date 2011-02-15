@@ -235,7 +235,7 @@ else
     }
 }
 
-if ( count( $differences ) > 0 )
+if ( !empty( $differences ) )
     $script->setExitCode( 1 );
 
 $script->shutdown();

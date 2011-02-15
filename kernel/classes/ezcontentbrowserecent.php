@@ -161,7 +161,7 @@ class eZContentBrowseRecent extends eZPersistentObject
                                                                    null,
                                                                    true );
         // If we already have the node in the list just return
-        if ( count( $matchingRecentList ) > 0 )
+        if ( !empty( $matchingRecentList ) )
         {
             $oldItem = $matchingRecentList[0];
             $oldItem->setAttribute( 'created', time() );
@@ -169,7 +169,7 @@ class eZContentBrowseRecent extends eZPersistentObject
             return $oldItem;
         }
         $recentCount = 0;
-        if ( isset( $recentCountList[0] ) and count( $recentCountList[0] ) > 0 )
+        if ( isset( $recentCountList[0] ) and !empty( $recentCountList[0] ) )
             $recentCount = $recentCountList[0]['count'];
         $maximumCount = eZContentBrowseRecent::maximumRecentItems( $userID );
         // Remove oldest item

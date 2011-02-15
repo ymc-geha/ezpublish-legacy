@@ -671,7 +671,7 @@ class eZTemplateNodeTool
         $node = array( eZTemplate::NODE_INTERNAL_RESOURCE_ACQUISITION,
                        $resourceName, $templateName, $fileName,
                        $method, $extraParameters, $placement );
-        if ( count( $parameters ) > 0 )
+        if ( !empty( $parameters ) )
             $node[] = $parameters;
         else
             $node[] = false;

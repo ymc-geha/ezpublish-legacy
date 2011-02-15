@@ -361,7 +361,7 @@ class eZShopFunctions
             if ( $error['code'] === eZExchangeRatesUpdateHandler::OK )
             {
                 $rateList = $handler->rateList();
-                if ( is_array( $rateList ) && count( $rateList ) > 0 )
+                if ( is_array( $rateList ) && !empty( $rateList ) )
                 {
                     $handlerBaseCurrency = $handler->baseCurrency();
                     if ( $handlerBaseCurrency )
@@ -387,7 +387,7 @@ class eZShopFunctions
                             }
 
                             $currencyList = eZCurrencyData::fetchList();
-                            if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
+                            if ( is_array( $currencyList ) && !empty( $currencyList ) )
                             {
 
 

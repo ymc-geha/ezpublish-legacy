@@ -197,7 +197,7 @@ class eZTemplateCompiledLoop
                                                                                                  array( 'match-keys' => array( 2 ),
                                                                                                         'match-with' => 'delimiter' ) ) ) ) );
             $delimiterNode = false;
-            if ( count( $delimiterNodes ) > 0 )
+            if ( !empty( $delimiterNodes ) )
                 $delimiterNode = $delimiterNodes[0];
 
             $delimiterChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $delimiterNode );

@@ -318,7 +318,7 @@ class eZTemplateSectionFunction
                                                                                                              'match-with' => array( 'section-exclude', 'section-include' ) ) ) ) ) );
 
         $delimiterNode = false;
-        if ( count( $delimiterNodes ) > 0 )
+        if ( !empty( $delimiterNodes ) )
             $delimiterNode = $delimiterNodes[0];
 
         if ( $useMain )
@@ -500,7 +500,7 @@ class eZTemplateSectionFunction
 
             $mainSpacing = 0;
             $hasFilter = false;
-            if ( count( $filterNodes ) > 0 )
+            if ( !empty( $filterNodes ) )
             {
                 $newFilterNodes = array();
                 $matchValue = true;
@@ -688,7 +688,7 @@ class eZTemplateSectionFunction
                                                                                                                'match-with' => 'section-else' ) )
                                                                                     ) ) );
             $elseNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $elseNodes, $privateData );
-            if ( count( $elseNodes ) > 0 )
+            if ( !empty( $elseNodes ) )
             {
                 if ( $useShow )
                 {
@@ -1072,7 +1072,7 @@ class eZTemplateSectionFunction
             $tpl->setVariable( "index", $index, $name );
             $tpl->setVariable( "number", $index + 1, $name );
         }
-        if ( count( $filterStructure ) > 0 )
+        if ( !empty( $filterStructure ) )
         {
             $filterCount = count( $filterStructure );
             $includeElement = true;

@@ -285,7 +285,7 @@ function fetchMaskByNodeID( $nodeID )
             WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
             AND   ezcontentobject_tree.node_id = " . (int)$nodeID;
     $rows = $db->arrayQuery( $sql );
-    if ( count( $rows ) > 0 )
+    if ( !empty( $rows ) )
     {
         return $rows[0]['language_mask'];
     }
@@ -445,7 +445,7 @@ function fetchPathIdentificationString( $nodeID )
     $sql = 'SELECT path_identification_string
             FROM ezcontentobject_tree WHERE node_id = ' . $nodeID;
     $rows = $db->arrayQuery( $sql );
-    if ( count( $rows ) > 0 )
+    if ( !empty( $rows ) )
         return $rows[0]['path_identification_string'];
     return null;
 }
@@ -456,7 +456,7 @@ function fetchPathIdentificationStringCount()
     $sql = 'SELECT count(*) AS count
             FROM ezcontentobject WHERE ezcontentobject.status = ' . eZContentObject::STATUS_PUBLISHED;
     $rows = $db->arrayQuery( $sql );
-    if ( count( $rows ) > 0 )
+    if ( !empty( $rows ) )
         return $rows[0]['count'];
     return 0;
 }
@@ -525,7 +525,7 @@ function createURLListCondition( $rows, $sqlField = 'id', $fieldKey = 'id' )
         $singleIDs[] = $last;
     }
     $cond = join( " OR ", $betweens );
-    if ( count( $singleIDs ) > 0 )
+    if ( !empty( $singleIDs ) )
     {
         if ( $cond != "" )
              $cond .= " OR ";
@@ -602,7 +602,7 @@ function verifyDataInternal( &$result, $error )
     }
 
     $tmprows = $db->arrayQuery( "SELECT a1.*, a2.link FROM ezurlalias_ml a1 LEFT JOIN ezurlalias_ml a2 ON a1.parent = a2.id WHERE a1.parent != 0 HAVING a2.link is null" );
-    if ( count( $tmprows ) > 0 )
+    if ( !empty( $tmprows ) )
     {
         $tmpParentID = $tmprows[0]['parent'];
         $tmpText = $tmprows[0]['text'];
@@ -990,7 +990,7 @@ if ( $urlCount > 0 )
                 $toPathSQL = $db->escapeString( $toPath );
                 $query = "SELECT * FROM ezurlalias WHERE source_url = '{$toPathSQL}' AND is_wildcard = 0 AND forward_to_id = 0";
                 $rowsw = $db->arrayQuery( $query );
-                if ( count( $rowsw ) > 0 )
+                if ( !empty( $rowsw ) )
                 {
                     list( $action, $alwaysAvailable ) = decodeAction( $rowsw[0]['destination_url'] );
                     list( $actionType, $actionValue ) = explode( ":", $action, 2 );

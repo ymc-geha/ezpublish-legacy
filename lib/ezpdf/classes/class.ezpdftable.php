@@ -606,7 +606,7 @@ class eZPDFTable extends Cezpdf
                     while(!$abortTable && ($newPage || $newRow)){
 
                         $resetLeftOvers = true;
-                        if ( count( $leftOvers ) > 0 )
+                        if ( !empty( $leftOvers ) )
                             $row = $leftOvers;
 
                         if ($newPage || $y<$this->ez['bottomMargin'] || (isset($options['minRowSpace']) && $y<($this->ez['bottomMargin']+$options['minRowSpace'])) ){
@@ -2344,7 +2344,7 @@ class eZPDFTable extends Cezpdf
                     $offSet += strlen( 'td' );
                     $offSet = eZPDFTable::extractParameters( $text, $offSet, $tdParams );
 
-                    if ( count( $tdParams ) > 0 )
+                    if ( !empty( $tdParams ) )
                     {
                         $cellData[$columnCount. ',' .$rowCount] = array();
                         if ( isset( $tdParams['colspan'] ) )

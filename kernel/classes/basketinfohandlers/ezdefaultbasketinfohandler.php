@@ -100,7 +100,7 @@ class eZDefaultBasketInfoHandler
             }
         }
 
-        if ( count( $additionalShippingValues['shipping_vat_list'] ) > 0 )
+        if ( !empty( $additionalShippingValues['shipping_vat_list'] ) )
         {
             $returnValue = true;
         }

@@ -123,7 +123,7 @@ class eZPublishSDK
         $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as version FROM ezsite_data WHERE name='ezpublish-version'" );
         $version = false;
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $version = $rows[0]['version'];
             if ( $withRelease )
@@ -143,7 +143,7 @@ class eZPublishSDK
         $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT value as release FROM ezsite_data WHERE name='ezpublish-release'" );
         $release = false;
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $release = $rows[0]['release'];
         }

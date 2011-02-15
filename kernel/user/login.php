@@ -87,7 +87,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
         if ( substr( $postKey, 0, 5 ) == 'Last_' )
             $lastPostVars[ substr( $postKey, 5, strlen( $postKey ) )] = $post[ $postKey ];
     }
-    if ( count( $lastPostVars ) > 0 )
+    if ( !empty( $lastPostVars ) )
     {
         $postData = $lastPostVars;
         $http->setSessionVariable( 'LastPostVars', $lastPostVars );

@@ -290,7 +290,7 @@ class eZContentStructureTreeOperator
                                                                          'NodeDepth' => $parentNode['node']['depth'],
                                                                          'FetchHidden' => $fetchHidden ),
                                                                  $parentNode['node']['node_id'] );
-            if ( $children && count( $children ) > 0 )
+            if ( $children && !empty( $children ) )
             {
                 $childrenNodes =& $contentTree['children'];
                 // fill children attributes
@@ -419,7 +419,7 @@ class eZContentStructureTreeOperator
                 $contentObject = $rootTreeNode->attribute( 'object' );
 
                 $viewNodeAllowed = true;
-                if ( is_array( $classFilter ) && count( $classFilter ) > 0 )
+                if ( is_array( $classFilter ) && !empty( $classFilter ) )
                 {
                     $contentClassIdentifier = $contentObject->attribute( 'class_identifier' );
 

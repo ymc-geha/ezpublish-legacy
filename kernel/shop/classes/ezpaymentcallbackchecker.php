@@ -64,7 +64,7 @@ class eZPaymentCallbackChecker
             $this->logger->writeTimedString( "$key = $value" );
         }
 
-        return ( count( $this->callbackData ) > 0 );
+        return ( !empty( $this->callbackData ) );
     }
 
     /*!
@@ -88,7 +88,7 @@ class eZPaymentCallbackChecker
             }
         }
 
-        return ( count( $this->callbackData ) > 0 );
+        return ( !empty( $this->callbackData ) );
     }
 
 

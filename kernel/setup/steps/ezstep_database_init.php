@@ -119,7 +119,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         {
             return true;
         }
-        else if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
+        else if ( !empty( $availDatabases ) ) // login succeded, and at least one database available
         {
             $this->PersistenceList['database_info_available'] = $availDatabases;
             return true;

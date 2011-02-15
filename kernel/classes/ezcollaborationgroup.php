@@ -210,7 +210,7 @@ class eZCollaborationGroup extends eZPersistentObject
         $sortCount = 0;
         $sortList = $parameters['sort_by'];
         if ( is_array( $sortList ) and
-             count( $sortList ) > 0 )
+             !empty( $sortList ) )
         {
             if ( count( $sortList ) > 1 and
                  !is_array( $sortList[0] ) )
@@ -223,7 +223,7 @@ class eZCollaborationGroup extends eZPersistentObject
             $sortingFields = '';
             foreach ( $sortList as $sortBy )
             {
-                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                if ( is_array( $sortBy ) and !empty( $sortBy ) )
                 {
                     if ( $sortCount > 0 )
                         $sortingFields .= ', ';
