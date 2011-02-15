@@ -462,7 +462,7 @@ class eZSearchEngine
     */
     function search( $searchText, $params = array(), $searchTypes = array() )
     {
-        if ( count( $searchTypes ) == 0 )
+        if ( empty( $searchTypes ) )
         {
             $searchTypes['general'] = array();
             $searchTypes['subtype'] = array();
@@ -2253,7 +2253,7 @@ class eZSearchEngine
 
             case 'integers':
             {
-                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                     return true;
             }
             break;
@@ -2283,7 +2283,7 @@ class eZSearchEngine
 
             case 'integersbyidentifier':
             {
-                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                     return true;
             }
             break;

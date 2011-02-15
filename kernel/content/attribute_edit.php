@@ -75,7 +75,7 @@ $attributeDataBaseName = 'ContentObjectAttribute';
 $class = eZContentClass::fetch( $classID );
 $contentObjectAttributes = $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
-     count( $contentObjectAttributes ) == 0 )
+     empty( $contentObjectAttributes ) )
 {
     $contentObjectAttributes = $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
@@ -88,7 +88,7 @@ if ( $FromLanguage !== false )
     $isTranslatingContent = true;
     $fromContentObjectAttributes = $object->contentObjectAttributes( true, false, $FromLanguage );
     if ( $fromContentObjectAttributes === null or
-         count( $fromContentObjectAttributes ) == 0 )
+         empty( $fromContentObjectAttributes ) )
     {
         unset( $fromContentObjectAttributes );
         $fromContentObjectAttributes = false;

@@ -1213,7 +1213,7 @@ class eZImageManager
 
                 $useTempImage = false;
                 if ( $nextMimeData['name'] == $destinationMimeData['name'] and
-                     count( $leftoverFilters ) == 0 )
+                     empty( $leftoverFilters ) )
                 {
                     $nextMimeData['dirpath'] = $destinationMimeData['dirpath'];
                 }
@@ -1228,7 +1228,7 @@ class eZImageManager
                      !file_exists( $nextMimeData['dirpath'] ) )
                     eZDir::mkdir( $nextMimeData['dirpath'], false, true );
                 if ( $currentMimeData['name'] == $nextMimeData['name'] and
-                     count( $handlerFilters ) == 0 )
+                     empty( $handlerFilters ) )
                 {
                     if ( $currentMimeData['url'] != $nextMimeData['url'] )
                     {

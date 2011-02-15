@@ -132,7 +132,7 @@ class eZTemplateWhileFunction
      */
     function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        if ( count( $functionParameters ) == 0 )
+        if ( empty( $functionParameters ) )
         {
             eZDebug::writeError( "Not enough arguments passed to 'while' function." );
             return;

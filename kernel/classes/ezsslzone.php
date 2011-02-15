@@ -131,7 +131,7 @@ class eZSSLZone
                 foreach ( $sslSubtrees as $uri )
                 {
                     $elements = eZURLAliasML::fetchByPath( $uri );
-                    if ( count( $elements ) == 0 )
+                    if ( empty( $elements ) )
                     {
                         eZDebug::writeError( "Cannot fetch URI '$uri'", 'eZSSLZone::getSSLZones' );
                         continue;

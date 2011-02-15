@@ -1037,7 +1037,7 @@ class eZDataType
     function isClassAttributeRemovable( $classAttribute )
     {
         $info = $this->classAttributeRemovableInformation( $classAttribute, false );
-        return ( $info === false or count( $info['list'] ) == 0 );
+        return ( $info === false or empty( $info['list'] ) );
     }
 
     /*!

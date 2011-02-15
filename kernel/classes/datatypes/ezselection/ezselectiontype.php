@@ -286,7 +286,7 @@ class eZSelectionType extends eZDataType
             }
         }
 
-        if ( count( $optionArray ) == 0 )
+        if ( empty( $optionArray ) )
         {
             $optionArray[] = array( 'id' => 0,
                                     'name' => '' );

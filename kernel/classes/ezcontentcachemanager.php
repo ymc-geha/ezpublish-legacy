@@ -673,7 +673,7 @@ class eZContentCacheManager
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
         }
 
-        if ( count( $nodeList ) == 0 )
+        if ( empty( $nodeList ) )
         {
             return false;
         }

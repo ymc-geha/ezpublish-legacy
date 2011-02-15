@@ -121,7 +121,7 @@ class eZURL extends eZPersistentObject
         $checkURLQuery = "SELECT id FROM ezurl WHERE url='" . $db->escapeString( $url ) . "'";
         $urlArray = $db->arrayQuery( $checkURLQuery );
 
-        if ( count( $urlArray ) == 0 )
+        if ( empty( $urlArray ) )
         {
             // store URL
             $url = eZURL::create( $url );
@@ -270,7 +270,7 @@ class eZURL extends eZPersistentObject
         {
             $conditions['is_valid'] = $isValid;
         }
-        if ( count( $conditions ) == 0 )
+        if ( empty( $conditions ) )
             $conditions = null;
 
         if ( $onlyPublished )  // Only fetch published urls

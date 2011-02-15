@@ -58,7 +58,7 @@ if ( $Module->isCurrentAction( 'MD5Check' ) )
             }
         }
 
-        if ( count( $checkResult ) == 0 )
+        if ( empty( $checkResult ) )
         {
             $tpl->setVariable( 'md5_result', 'ok' );
         }

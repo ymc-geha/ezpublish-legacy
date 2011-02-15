@@ -423,7 +423,7 @@ class eZPackage
                 }
             }
         }
-        if ( is_array( $allRoles ) and count( $allRoles ) == 0 )
+        if ( is_array( $allRoles ) and empty( $allRoles ) )
             return array();
         $ini = eZINI::instance( 'package.ini' );
         $roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
@@ -2299,7 +2299,7 @@ class eZPackage
             {
                 $handler->parseInstallNode( $this, $installNode, $installParameters, $isInstall );
             }
-            if ( count( $installParameters ) == 0 )
+            if ( empty( $installParameters ) )
                 $installParameters = false;
 
             $this->appendInstall( $installType, $installName, $installOS, $isInstall,

@@ -62,7 +62,7 @@ if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
     while ( true )
     {
         $aliasList = $filter->fetchAll();
-        if ( count( $aliasList ) == 0 )
+        if ( empty( $aliasList ) )
             break;
         foreach ( $aliasList as $alias )
         {

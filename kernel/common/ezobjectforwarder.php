@@ -469,7 +469,7 @@ class eZObjectForwarder
                     }
                     ++$attributeAccessCount;
                 }
-                else if ( count( $matchLookupArray ) == 0 )
+                else if ( empty( $matchLookupArray ) )
                 {
                     $newNodes[] = eZTemplateNodeTool::createErrorNode( "Failed to load template",
                                                                        $functionName,

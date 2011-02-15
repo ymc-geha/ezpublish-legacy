@@ -254,7 +254,7 @@ function copyPublishContentObject( $sourceObject,
     $newObjectID = $newObject->attribute( 'id' );
     $newObject = eZContentObject::fetch( $newObjectID );
     $newNodeList = $newObject->attribute( 'assigned_nodes' );
-    if ( count($newNodeList) == 0 )
+    if ( empty( $newNodeList ) )
     {
         $newObject->purge();
         eZDebug::writeError( "Cannot publish contentobject.",
@@ -592,7 +592,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     {
         $conditions[ 'contentobject_id' ] = $contentObjectID;
         $attributeList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(), null, $conditions );
-        if ( count( $attributeList ) == 0 )
+        if ( empty( $attributeList ) )
         {
             continue;
         }
@@ -708,7 +708,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     {
         $conditions[ 'contentobject_id' ] = $contentObjectID;
         $attributeList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(), null, $conditions );
-        if ( count( $attributeList ) == 0 )
+        if ( empty( $attributeList ) )
         {
             continue;
         }

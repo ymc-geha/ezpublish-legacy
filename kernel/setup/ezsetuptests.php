@@ -428,7 +428,7 @@ function eZSetupTestFunctionExists( $type )
     $result = true;
     if ( $requireType == 'one' )
     {
-        if ( count( $foundFunctions ) == 0 )
+        if ( empty( $foundFunctions ) )
             $result = false;
     }
     else if ( count( $foundFunctions ) < count( $functionList ) )
@@ -471,7 +471,7 @@ function eZSetupTestExtension( $type )
     $result = true;
     if ( $requireType == 'one' )
     {
-        if ( count( $foundExtensions ) == 0 )
+        if ( empty( $foundExtensions ) )
             $result = false;
     }
     else if ( count( $foundExtensions ) < count( $extensionList ) )

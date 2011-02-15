@@ -88,7 +88,7 @@ class eZAlphabetOperator
                              : array( 'default' );
 
         // If alphabet list is empty
-        if ( count( $alphabetFromArray ) == 0 )
+        if ( empty( $alphabetFromArray ) )
             return false;
 
         $alphabetRangeList = array_merge( $alphabetRangeList, array( 'default' => '97-122' ) );
@@ -112,7 +112,7 @@ class eZAlphabetOperator
             }
         }
         // Get alphabet by default (eng-GB)
-        if ( count( $alphabet ) == 0 )
+        if ( empty( $alphabet ) )
         {
             $rangeArray = explode( '-', $alphabetRangeList['default'] );
             $alphabet = range( $rangeArray[0], $rangeArray[1] );

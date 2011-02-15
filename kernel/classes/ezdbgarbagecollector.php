@@ -126,7 +126,7 @@ WHERE ezsession.session_key IS NULL";
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $productCollectionIDList = array();
@@ -240,7 +240,7 @@ WHERE ezproductcollection_used.id IS NULL";
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $idList = array();
@@ -331,7 +331,7 @@ WHERE ezproductcollection.id IS NULL";
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $idList = array();
@@ -414,7 +414,7 @@ WHERE ezproductcollection_item.id IS NULL";
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $idList = array();

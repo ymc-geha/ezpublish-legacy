@@ -366,7 +366,7 @@ class eZSimplifiedXMLEditOutput
     function outputParagraph( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
-        if ( count( $attributes ) == 0 )
+        if ( empty( $attributes ) )
         {
             $next = $element->nextSibling;
             if ( $next )

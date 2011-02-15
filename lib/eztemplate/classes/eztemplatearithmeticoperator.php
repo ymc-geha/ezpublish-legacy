@@ -248,7 +248,7 @@ class eZTemplateArithmeticOperator
             $operator = '/';
         }
 
-        if ( count( $parameters ) == 0 )
+        if ( empty( $parameters ) )
             return false;
         $newElements = array();
 
@@ -367,7 +367,7 @@ class eZTemplateArithmeticOperator
         $values = array();
         $function = $operatorName;
 
-        if ( count( $parameters ) == 0 )
+        if ( empty( $parameters ) )
             return false;
         $newElements = array();
 
@@ -616,7 +616,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->CountName:
             {
-                if ( count( $operatorParameters ) == 0 )
+                if ( empty( $operatorParameters ) )
                     $mixedValue =& $operatorValue;
                 else
                     $mixedValue = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );

@@ -76,7 +76,7 @@ class eZTextFileUser extends eZUser
             $loginArray[] = "login='$loginEscaped'";
         if ( $authenticationMatch & eZUser::AUTHENTICATE_EMAIL )
             $loginArray[] = "email='$loginEscaped'";
-        if ( count( $loginArray ) == 0 )
+        if ( empty( $loginArray ) )
             $loginArray[] = "login='$loginEscaped'";
         $loginText = implode( ' OR ', $loginArray );
 

@@ -347,7 +347,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                         {
                             $exist = true;
                             $hasLDAPNodeType = true;
-                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            if ( $IsLDAPMain and empty( $newLDAPNodeArray ) )
                             {
                                 $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 1 );
                             }
@@ -372,7 +372,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                         if ( !empty( $groupObject ) )
                         {
                             $hasLDAPNodeType = true;
-                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            if ( $IsLDAPMain and empty( $newLDAPNodeArray ) )
                             {
                                 $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 1 );
                             }
@@ -414,7 +414,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                         {
                             $exist = true;
                             $hasLDAPNodeType = true;
-                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            if ( $IsLDAPMain and empty( $newLDAPNodeArray ) )
                             {
                                 $newLDAPNodeArray[] = array( 'parent_node_name' => $existGroupName, 'parent_node_id' => $existGroupID, 'is_main' => 1 );
                             }
@@ -439,7 +439,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                         if ( !empty( $groupObject ) )
                         {
                             $hasLDAPNodeType = true;
-                            if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
+                            if ( $IsLDAPMain and empty( $newLDAPNodeArray ) )
                             {
                                 $newLDAPNodeArray[] = array( 'parent_node_name' => $groupName, 'parent_node_id' => $groupObject[0]['node_id'], 'is_main' => 1 );
                             }

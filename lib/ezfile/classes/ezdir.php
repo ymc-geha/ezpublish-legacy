@@ -119,7 +119,7 @@ class eZDir
     {
         $dir = self::cleanPath( $dir, self::SEPARATOR_UNIX );
         $dirElements = explode( '/', $dir );
-        if ( count( $dirElements ) == 0 )
+        if ( empty( $dirElements ) )
             return true;
         $currentDir = $dirElements[0];
         $result = true;

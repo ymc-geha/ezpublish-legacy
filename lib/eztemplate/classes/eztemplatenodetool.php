@@ -289,7 +289,7 @@ class eZTemplateNodeTool
                                    eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
                                    eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
         if ( count( $elements ) > 1 )
             return false;
@@ -308,7 +308,7 @@ class eZTemplateNodeTool
                                  eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
                                  eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
         if ( count( $elements ) > 1 )
             return false;
@@ -347,7 +347,7 @@ class eZTemplateNodeTool
     */
     static function isPHPVariableElement( $elements )
     {
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
         if ( count( $elements ) > 1 )
             return false;
@@ -371,7 +371,7 @@ class eZTemplateNodeTool
     {
         $constantElements = array( eZTemplate::TYPE_NUMERIC );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )
@@ -393,7 +393,7 @@ class eZTemplateNodeTool
     {
         $constantElements = array( eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )
@@ -414,7 +414,7 @@ class eZTemplateNodeTool
     {
         $constantElements = array( eZTemplate::TYPE_IDENTIFIER );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )
@@ -436,7 +436,7 @@ class eZTemplateNodeTool
     {
         $constantElements = array( eZTemplate::TYPE_BOOLEAN );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )
@@ -450,7 +450,7 @@ class eZTemplateNodeTool
     */
     static function isDynamicArrayElement( $elements )
     {
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( $elements[0][0] == eZTemplate::TYPE_DYNAMIC_ARRAY )
@@ -470,7 +470,7 @@ class eZTemplateNodeTool
     {
         $constantElements = array( eZTemplate::TYPE_ARRAY );
 
-        if ( count( $elements ) == 0 )
+        if ( empty( $elements ) )
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )

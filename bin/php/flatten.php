@@ -105,7 +105,7 @@ if ( $flattenAllItems )
 }
 else
 {
-    if ( count( $flattenItems ) == 0 )
+    if ( empty( $flattenItems ) )
     {
         help();
         exit;

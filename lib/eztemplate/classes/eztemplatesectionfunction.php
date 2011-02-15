@@ -863,7 +863,7 @@ class eZTemplateSectionFunction
         }
 
         $canShowBlock = true;
-        if( $showSet and ( ( is_array( $showItem ) and count( $showItem ) == 0 ) or
+        if( $showSet and ( ( is_array( $showItem ) and empty( $showItem ) ) or
                            ( is_numeric( $showItem ) and $showItem == 0 ) or
                            ( is_string( $showItem ) > 0 and strlen( $showItem ) == 0 ) or
                            !$showItem ) )

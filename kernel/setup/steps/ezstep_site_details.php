@@ -197,7 +197,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         $this->storeSiteType( $siteType );
 
-        return ( count( $this->Error ) == 0 );
+        return ( empty( $this->Error ) );
     }
 
     function init()

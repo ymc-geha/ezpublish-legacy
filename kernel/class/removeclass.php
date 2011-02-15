@@ -62,7 +62,7 @@ if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'Can
         // we aren't going to remove classes already processed:
         $http->setSessionVariable( 'DeleteClassIDArray', $deleteIDArray );
     }
-    if ( count( $deleteIDArray ) == 0 )
+    if ( empty( $deleteIDArray ) )
     {
         // we don't need anything to confirm:
         return $Module->redirectTo( '/class/classlist/' . $GroupID );

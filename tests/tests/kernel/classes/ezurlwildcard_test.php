@@ -317,7 +317,7 @@ class eZURLWildcardTest extends ezpDatabaseTestCase
 
         // 3. Check if all wildcards are indeed gone
         $wildcards = eZURLWildcard::fetchList();
-        $this->assertTrue( ( count( $wildcards ) == 0 ), count( $wildcards ) . " wildcards still exist in the database" );
+        $this->assertTrue( ( empty( $wildcards ) ), count( $wildcards ) . " wildcards still exist in the database" );
     }
 
     /**

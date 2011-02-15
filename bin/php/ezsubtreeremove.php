@@ -86,7 +86,7 @@ $info = eZContentObjectTreeNode::subtreeRemovalInformation( $deleteIDArrayResult
 
 $deleteResult = $info['delete_list'];
 
-if ( count( $deleteResult ) == 0 )
+if ( empty( $deleteResult ) )
 {
     $cli->output( "\nExit." );
     $script->shutdown( 1 );

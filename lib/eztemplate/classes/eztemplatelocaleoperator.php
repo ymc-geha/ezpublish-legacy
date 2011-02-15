@@ -315,7 +315,7 @@ class eZTemplateLocaleOperator
             $arguments[] = '%' . ($i + 1) . '%';
         }
 
-        $code = count( $arguments ) == 0 ? "%output% = time();\n" : "%output% = mktime( " . implode( ', ', $arguments ) . " );\n";
+        $code = empty( $arguments ) ? "%output% = time();\n" : "%output% = mktime( " . implode( ', ', $arguments ) . " );\n";
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
         return $newElements;
     }
@@ -440,7 +440,7 @@ class eZTemplateLocaleOperator
                 }
             }
 
-            $operatorValue = count( $parameters ) == 0 ? time() : call_user_func_array( 'mktime', $parameters );
+            $operatorValue = empty( $parameters ) ? time() : call_user_func_array( 'mktime', $parameters );
         }
         else if ( $operatorName == $this->MakeDateName )
         {

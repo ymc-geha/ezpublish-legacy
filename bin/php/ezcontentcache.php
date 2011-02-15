@@ -142,7 +142,7 @@ else if ( $options['clear-subtree'] )
             $params['Limit']  = $limit;
             $subtree          = $node->subTree( $params );
             $offset          += count( $subtree );
-            if ( count( $subtree ) == 0 )
+            if ( empty( $subtree ) )
             {
                 break;
             }

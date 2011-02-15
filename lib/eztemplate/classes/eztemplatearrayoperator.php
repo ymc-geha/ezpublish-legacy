@@ -450,7 +450,7 @@ class eZTemplateArrayOperator
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-                    if ( count( $values ) == 0 )
+                    if ( empty( $values ) )
                     {
                         if ( $isString )
                         {
@@ -528,7 +528,7 @@ class eZTemplateArrayOperator
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-                    if ( count( $values ) == 0 )
+                    if ( empty( $values ) )
                     {
                         if ( $isString )
                         {
@@ -590,7 +590,7 @@ class eZTemplateArrayOperator
 
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
                 {
-                    if ( count( $values ) == 0 )
+                    if ( empty( $values ) )
                     {
                         return array( eZTemplateNodeTool::createStringElement( implode( eZTemplateNodeTool::elementStaticValue( $parameters[1] ),
                                                                                         eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) ) );
@@ -653,7 +653,7 @@ class eZTemplateArrayOperator
                 if ( eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
                 {
                     $matchParam = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
-                    if ( count( $values ) == 0 )
+                    if ( empty( $values ) )
                     {
                         if ( $isString )
                         {
@@ -747,7 +747,7 @@ class eZTemplateArrayOperator
                     }
                 }
 
-                if ( count( $values ) == 0 )
+                if ( empty( $values ) )
                 {
                     if ( $isString )
                     {
@@ -861,7 +861,7 @@ class eZTemplateArrayOperator
                     }
                 }
 
-                if ( count( $values ) == 0 )
+                if ( empty( $values ) )
                 {
                     if ( $isString )
                     {
@@ -1001,7 +1001,7 @@ class eZTemplateArrayOperator
                 {
                     $count = (int)eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
-                    if ( count( $values ) == 0 )
+                    if ( empty( $values ) )
                     {
                         if ( $isString )
                         {
@@ -1092,7 +1092,7 @@ class eZTemplateArrayOperator
         {
             case $this->EndsWithName:
             {
-                if ( count( $values ) == 0 )
+                if ( empty( $values ) )
                 {
                     if ( $isString )
                     {
@@ -1169,7 +1169,7 @@ class eZTemplateArrayOperator
 
             case $this->BeginsWithName:
             {
-                if ( count( $values ) == 0 )
+                if ( empty( $values ) )
                 {
                     if ( $isString )
                     {
@@ -1306,7 +1306,7 @@ class eZTemplateArrayOperator
 
         if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
-            if ( count( $values ) == 0 )
+            if ( empty( $values ) )
             {
                 $input = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
                 if ( $operatorName == $this->ExtractRightName or !$length )

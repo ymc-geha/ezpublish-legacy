@@ -109,7 +109,7 @@ class eZTextTool
                 }
             }
             $expandItems = $leftOvers;
-            if ( count( $expandItems ) == 0 )
+            if ( empty( $expandItems ) )
             {
                 $done = true;
             }

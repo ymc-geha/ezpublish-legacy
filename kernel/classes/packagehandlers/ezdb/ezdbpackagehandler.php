@@ -177,7 +177,7 @@ class eZDBPackageHandler extends eZPackageHandler
                                      'path' => $realFilePath );
             }
         }
-        if ( count( $fileList ) == 0 )
+        if ( empty( $fileList ) )
         {
             $cli->error( "No files were added" );
             return false;

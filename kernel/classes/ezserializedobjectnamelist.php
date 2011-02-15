@@ -91,7 +91,7 @@ class eZSerializedObjectNameList
 
     function isEmpty()
     {
-        return ( count( $this->NameList ) == 0 );
+        return ( empty( $this->NameList ) );
     }
 
     function unserializeNames( $serializedNamesString )

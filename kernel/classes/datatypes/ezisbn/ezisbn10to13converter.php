@@ -252,7 +252,7 @@ class eZISBN10To13Converter
                                                                       $sortArray,
                                                                       $limitArray,
                                                                       $asObject );
-            if ( count( $contentObjectAttributeList ) == 0 )
+            if ( empty( $contentObjectAttributeList ) )
             {
                 break;
             }

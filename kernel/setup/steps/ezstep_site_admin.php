@@ -99,7 +99,7 @@ class eZStepSiteAdmin extends eZStepInstaller
             $user['password'] = '';
         $this->PersistenceList['admin'] = $user;
 
-        return ( count( $this->Error ) == 0 );
+        return ( empty( $this->Error ) );
     }
 
     function init()

@@ -236,7 +236,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
 }
 
-if ( count( $markList ) == 0 )
+if ( empty( $markList ) )
 {
     help();
     $script->shutdown( 1 );

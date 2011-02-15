@@ -53,7 +53,7 @@ class eZWorkflowFunctions
             }
         }
 
-        if ( count( $groups ) == 0 )
+        if ( empty( $groups ) )
         {
             return false;
         }
