@@ -45,3 +45,11 @@ Removed globals
 
   eZINI now uses a protected static variable to keep track of those global
   status.
+
+Deprecated
+----------
+
+- eZSession::addCallback() & eZSession::triggerCallback()
+
+  These callbacks have been deprecated in favour of new ezpEvent system.
+  New improved events for session has been added, see features/4.5/event.txt
