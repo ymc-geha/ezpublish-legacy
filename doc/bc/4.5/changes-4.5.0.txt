@@ -84,6 +84,10 @@ Removed functions
 
   searchPathArray().
 
+- Previously deprecated function from eZContentObjectVersion class:
+
+  translation().
+
 Removed globals
 ---------------
 

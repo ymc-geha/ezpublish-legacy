@@ -1047,15 +1047,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
     /*!
      \return An array with all the translations for the current version.
-     \deprecated
-    */
-    function translation( $asObject = true )
-    {
-        return false;
-    }
-
-    /*!
-     \return An array with all the translations for the current version.
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
            the calls within a db transaction; thus within db->begin and db->commit.
