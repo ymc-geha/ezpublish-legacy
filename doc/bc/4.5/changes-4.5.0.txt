@@ -107,6 +107,19 @@ Removed functions
 
   versionCount().
 
+- Previously deprecated function from eZStaticCache class:
+
+  hostName().
+
+Removed setting
+---------------
+
+- staticcache.ini.[CacheSettings].HostName
+
+  This setting has been deprecated since version 4.4
+  Hostname is read from site.ini.[SiteSettings].SiteURL per siteaccess
+  defined in staticcache.ini.[CacheSettings].CachedSiteAccesses
+
 Removed globals
 ---------------
 

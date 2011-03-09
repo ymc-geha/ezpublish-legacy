@@ -34,14 +34,6 @@ class eZStaticCache
     const USER_AGENT = 'eZ Publish static cache generator';
 
     /**
-     * The name of the host to fetch HTML data from.
-     *
-     * @deprecated deprecated since version 4.4, site.ini.[SiteSettings].SiteURL is used instead
-     * @var string
-     */
-    private $hostName;
-
-    /**
      * The base path for the directory where static files are placed.
      *
      * @var string
@@ -82,23 +74,11 @@ class eZStaticCache
     public function __construct()
     {
         $ini = eZINI::instance( 'staticcache.ini');
-        $this->hostName = $ini->variable( 'CacheSettings', 'HostName' );
         $this->staticStorageDir = $ini->variable( 'CacheSettings', 'StaticStorageDir' );
         $this->maxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
         $this->cachedURLArray = $ini->variable( 'CacheSettings', 'CachedURLArray' );
         $this->cachedSiteAccesses = $ini->variable( 'CacheSettings', 'CachedSiteAccesses' );
         $this->alwaysUpdate = $ini->variable( 'CacheSettings', 'AlwaysUpdateArray' );
-    }
-
-    /**
-     * Getter method for {@link eZStaticCache::$hostName}
-     *
-     * @deprecated deprecated since version 4.4
-     * @return string The currently configured host-name.
-     */
-    public function hostName()
-    {
-        return $this->hostName;
     }
 
     /**
@@ -388,16 +368,7 @@ class eZStaticCache
                 {
                     if ( !$skipUnlink || !file_exists( $file ) )
                     {
-                        // Deprecated since 4.4, will be removed in future version
-                        $fileName = "http://{$this->hostName}{$dir}{$url}";
-
-                        // staticcache.ini.[CacheSettings].HostName has been deprecated since version 4.4
-                        // hostname is read from site.ini.[SiteSettings].SiteURL per siteaccess
-                        // defined in staticcache.ini.[CacheSettings].CachedSiteAccesses
-                        if ( !$this->hostName )
-                        {
-                            $fileName = "http://{$siteURL}{$url}";
-                        }
+                        $fileName = "http://{$siteURL}{$url}";
 
                         if ( $delay )
                         {
