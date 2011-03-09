@@ -47,6 +47,11 @@ Removed constants
   represented the initial and default value of eZINI::setIsDebugEnabled()
   and eZINI::isDebugEnabled() methods.
 
+Removed functions
+-----------------
+
+- Previously deprecated functions: eZCacheClear*()
+
 
 Removed globals
 ---------------
