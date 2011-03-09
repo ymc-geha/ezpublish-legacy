@@ -54,6 +54,11 @@ Removed constants
   represented the initial and default value of eZINI::setIsDebugEnabled()
   and eZINI::isDebugEnabled() methods.
 
+- EZ_ERROR_KERNEL_*
+
+  Those constants were defined in kernel/error/errors.php and have been
+  deprecated in 4.0.0 in favor of eZError class constants.
+
 Removed functions
 -----------------
 
