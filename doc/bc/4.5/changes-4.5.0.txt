@@ -99,6 +99,10 @@ Removed functions
 
   createPermissionCheckingSQLString().
 
+- Previously deprecated function from eZContentLanguage class:
+
+  updateObjectNames().
+
 Removed globals
 ---------------
 
