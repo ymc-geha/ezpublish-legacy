@@ -61,6 +61,10 @@ Removed functions
 
   canMove(), removeVersions() and setDefaultLanguage().
 
+- Previously deprecated functions from eZContentObjectTreeNode class:
+
+  canMove(), createObject() and updateURLAlias().
+
 Removed globals
 ---------------
 
