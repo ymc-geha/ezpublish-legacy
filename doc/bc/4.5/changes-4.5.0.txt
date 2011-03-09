@@ -140,6 +140,9 @@ Removed functions
 
   clearViewCache().
 
+- Previously deprecated duplicate() function from eZDate, eZDateTime and
+  eZTime classes.
+
 Removed setting
 ---------------
 

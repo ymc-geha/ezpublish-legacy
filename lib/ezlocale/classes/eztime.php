@@ -47,8 +47,7 @@
   values.
 
   When creating new times you're advised to use the static create()
-  function which returns a new eZTime object. You can also create a copy
-  with the duplicate() function.
+  function which returns a new eZTime object.
 
   Time checking is done with the isGreaterThan() and isEqualTo() functions.
 
@@ -64,7 +63,7 @@ $time1 = new eZTime();
 $time2 = eZTime::create();
 $time2->setLocale( $us_locale );
 $time2->adjustTime( -8 );
-$time3 = $time1->duplicate();
+$time3 = clone $time1;
 
 print( $time1->toString() );
 print( $time2->toString( true ) );
@@ -302,16 +301,6 @@ class eZTime
                        $minute < 0 ? $cur_date[ 'minutes' ] : $minute,
                        $second < 0 ? $cur_date[ 'seconds' ] : $second );
         return $time;
-    }
-
-    /*!
-     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
-     Creates an exact copy of this object and returns it.
-    */
-    function duplicate()
-    {
-        $copy = clone $this;
-        return $copy;
     }
 
     /*!

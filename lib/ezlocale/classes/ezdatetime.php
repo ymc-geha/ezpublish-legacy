@@ -50,8 +50,7 @@
   values.
 
   When creating new datetimes you're advised to use the static create()
-  function which returns a new eZDateTime object. You can also create a copy
-  with the duplicate() function.
+  function which returns a new eZDateTime object.
 
   Time checking is done with the isGreaterThan() and isEqualTo() functions.
 
@@ -67,7 +66,7 @@ $dt1 = new eZDateTime();
 $dt2 = eZDateTime::create();
 $dt2->setLocale( $us_locale );
 $dt2->adjustDateTime( -8, 0, 0, 1, 2, 3 );
-$dt3 = $dt1->duplicate();
+$dt3 = clone $dt1;
 
 print( $dt1->toString() );
 print( $dt2->toString( true ) );
@@ -484,16 +483,6 @@ class eZDateTime
         else
             $datetime = time();
         return new eZDateTime( $datetime );
-    }
-
-    /*!
-     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
-     Creates an exact copy of this object and returns it.
-    */
-    function duplicate()
-    {
-        $copy = clone $this;
-        return $copy;
     }
 
     /*!

@@ -46,8 +46,7 @@
   for the respective values.
 
   When creating new times you're advised to use the static create()
-  function which returns a new eZDate object. You can also create a copy
-  with the duplicate() function.
+  function which returns a new eZDate object.
 
   Date checking is done with the isGreaterThan() and isEqualTo() functions.
 
@@ -63,7 +62,7 @@ $date1 = new eZDate();
 $date2 = eZDate::create();
 $date2->setLocale( $us_locale );
 $date2->adjustDate( 1, 2, 3 );
-$date3 = $date1->duplicate();
+$date3 = clone $date1;
 
 print( $date1->toString() );
 print( $date2->toString( true ) );
@@ -301,16 +300,6 @@ class eZDate
             $date = mktime( 0, 0, 0, $month );
         $newDateObject = new eZDate( $date );
         return $newDateObject;
-    }
-
-    /*!
-     \deprecated This function is deprecated in PHP5, use the PHP5 clone keyword instead
-     Creates an exact copy of this object and returns it.
-    */
-    function duplicate()
-    {
-        $copy = clone $this;
-        return $copy;
     }
 
     /*!
