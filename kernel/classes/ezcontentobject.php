@@ -4707,17 +4707,6 @@ class eZContentObject extends eZPersistentObject
      Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the object can be moved by the current user.
      \sa checkAccess().
-     \deprecated The function canMove() is preferred since its naming is clearer.
-    */
-    function canMove( )
-    {
-        return $this->canMoveFrom();
-    }
-
-    /*!
-     Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
-     \return \c true if the object can be moved by the current user.
-     \sa checkAccess().
     */
     function canMoveFrom( )
     {
@@ -4872,18 +4861,6 @@ class eZContentObject extends eZPersistentObject
         }
 
         return $GLOBALS['eZContentObjectDefaultLanguage'];
-    }
-
-    /*!
-     \static
-     Set default language. Checks if default language is valid.
-
-     \param default language.
-     \note Deprecated.
-    */
-    static function setDefaultLanguage( $lang )
-    {
-        return false;
     }
 
     /*!
@@ -5572,16 +5549,6 @@ class eZContentObject extends eZPersistentObject
         }
         return $count;
     }
-
-     /*!
-     \static
-      \deprecated This method is left here only for backward compatibility.
-                  Use eZContentObjectVersion::removeVersions() method instead.
-     */
-     static function removeVersions( $versionStatus = false )
-     {
-         eZContentObjectVersion::removeVersions( $versionStatus );
-     }
 
     /*!
      Sets the object's name to $newName: tries to find attributes that are in 'object pattern name'

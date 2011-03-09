@@ -57,6 +57,9 @@ Removed functions
   eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(),
   eZHandlePreChecks() and precheckAllowed().
 
+- Previously deprecated functions from eZContentObject class:
+
+  canMove(), removeVersions() and setDefaultLanguage().
 
 Removed globals
 ---------------
