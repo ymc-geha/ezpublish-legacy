@@ -167,6 +167,9 @@ Removed functions
 
   mimeTypeFor().
 
+- Previously deprecated callClassMethod() functions from eZModuleOperationInfo
+  and eZModuleFunctionInfo() classes.
+
 Removed setting
 ---------------
 
