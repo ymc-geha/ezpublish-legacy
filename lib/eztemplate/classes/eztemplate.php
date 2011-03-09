@@ -1523,106 +1523,30 @@ class eZTemplate
 
     /**
      * Returns true if the variable $var is set in namespace $namespace,
-     * if $attrs is supplied all attributes must exist for the function to return true.
      *
      * @param string $var
      * @param string $namespace (optional)
-     * @param array $attrs (optional) Deprecated as of 4.4.
      * @return bool
      */
-    function hasVariable( $var, $namespace = '', $attrs = null )
+    function hasVariable( $var, $namespace = '' )
     {
-        $exists = ( isset( $this->Variables[$namespace] ) &&
-                    array_key_exists( $var, $this->Variables[$namespace] ) );
-        if ( $exists && $attrs !== null && !empty( $attrs ) )
-        {
-            eZDebug::writeStrict( '$attrs parameter is deprecated as of 4.4', __METHOD__ );
-            $ptr =& $this->Variables[$namespace][$var];
-            foreach( $attrs as $attr )
-            {
-                unset( $tmp );
-                if ( is_object( $ptr ) )
-                {
-                    if ( $ptr->hasAttribute( $attr ) )
-                        $tmp = $ptr->attribute( $attr );
-                    else
-                        return false;
-                }
-                else if ( is_array( $ptr ) )
-                {
-                    if ( array_key_exists( $attr, $ptr ) )
-                        $tmp =& $ptr[$attr];
-                    else
-                        return false;
-                }
-                else
-                {
-                    return false;
-                }
-                unset( $ptr );
-                $ptr =& $tmp;
-            }
-        }
-        return $exists;
+        return isset( $this->Variables[$namespace] ) && array_key_exists( $var, $this->Variables[$namespace] );
     }
 
     /**
      * Returns the content of the variable $var using namespace $namespace,
-     * if $attrs is supplied the result of the attributes is returned.
      *
      * @param string $var
      * @param string $namespace (optional)
-     * @param array $attrs (optional) Deprecated as of 4.4
      * @return string|array
      */
-    function variable( $var, $namespace = '', $attrs = null )
+    function variable( $var, $namespace = '' )
     {
-        $val = null;
-        $exists = ( isset( $this->Variables[$namespace] ) &&
-                    array_key_exists( $var, $this->Variables[$namespace] ) );
-        if ( $exists )
+        if ( isset( $this->Variables[$namespace] ) && array_key_exists( $var, $this->Variables[$namespace] ) )
         {
-            if ( $attrs !== null && !empty( $attrs ) )
-            {
-                eZDebug::writeStrict( '$attrs parameter is deprecated as of 4.4', __METHOD__ );
-                $element = $this->Variables[$namespace][$var];
-                foreach( $attrs as $attr )
-                {
-                    if ( is_object( $element ) )
-                    {
-                        if ( $element->hasAttribute( $attr ) )
-                        {
-                            $element = $element->attribute( $attr );
-                        }
-                        else
-                        {
-                            return $val;
-                        }
-                    }
-                    else if ( is_array( $element ) )
-                    {
-                        if ( array_key_exists( $attr, $element ) )
-                        {
-                            $val = $element[$attr];
-                        }
-                        else
-                        {
-                            return $val;
-                        }
-                    }
-                    else
-                    {
-                        return $val;
-                    }
-                    $val = $element;
-                }
-            }
-            else
-            {
-                $val = $this->Variables[$namespace][$var];
-            }
+            return $this->Variables[$namespace][$var];
         }
-        return $val;
+        return null;
     }
 
     /*!

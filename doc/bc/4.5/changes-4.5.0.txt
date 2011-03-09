@@ -49,6 +49,9 @@ Removed features
 - Removed deprecated class_title, class_url and class_description attributes
   from eZRSSImport class.
 
+- Deprecated parameter $attrs (3rd) of functions hasVariable() and variable()
+  of eZTemplate class.
+
 Removed constants
 -----------------
 
