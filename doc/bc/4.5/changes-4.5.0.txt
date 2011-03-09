@@ -69,6 +69,11 @@ Removed functions
 
   initGlobalID(), setGlobalID() and globalID().
 
+- Previously deprecated functions from eZRSSExport class:
+
+  fetchRSS1_0(), fetchRSS2_0() and rssXml() + corresponding 'rss-xml'
+  attribute.
+
 Removed globals
 ---------------
 
