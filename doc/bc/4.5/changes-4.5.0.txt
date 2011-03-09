@@ -181,6 +181,11 @@ Removed functions
 - Previously deprecated functions from eZTemplateNodeTool class:
 
   createStaticElement(), elementStaticValue() and isStaticElement().
+
+- Previously deprecated function from eZTemplate class:
+
+  setVariableRef().
+
 Removed setting
 ---------------
 
