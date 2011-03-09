@@ -111,6 +111,10 @@ Removed functions
 
   hostName().
 
+- Previously deprecated functions from eZTipafriendCounter class:
+
+  clear() and increase().
+
 Removed setting
 ---------------
 
