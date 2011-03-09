@@ -178,6 +178,9 @@ Removed functions
 
   splitLines() and getContents().
 
+- Previously deprecated functions from eZTemplateNodeTool class:
+
+  createStaticElement(), elementStaticValue() and isStaticElement().
 Removed setting
 ---------------
 

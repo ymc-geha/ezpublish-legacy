@@ -97,24 +97,6 @@ class eZTemplateNodeTool
 
     /*!
      \static
-     \deprecated Use createConstantElement instead.
-    */
-    static function createStaticElement( $static, $variablePlacement = false )
-    {
-        if ( is_array( $static ) )
-            return eZTemplateNodeTool::createArrayElement( $static, $variablePlacement );
-        else if ( is_string( $static ) )
-            return eZTemplateNodeTool::createStringElement( $static, $variablePlacement );
-        else if ( is_bool( $static ) )
-            return eZTemplateNodeTool::createBooleanElement( $static, $variablePlacement );
-        else if ( is_numeric( $static ) )
-            return eZTemplateNodeTool::createNumericElement( $static, $variablePlacement );
-        else
-            return eZTemplateNodeTool::createVoidElement();
-    }
-
-    /*!
-     \static
      Creates an element which represents a string and returns it.
     */
     static function createStringElement( $string, $variablePlacement = false )
@@ -244,18 +226,6 @@ class eZTemplateNodeTool
     }
 
     /*!
-     \static
-     \deprecated Use elementConstantValue instead.
-    */
-    static function elementStaticValue( $elements )
-    {
-        if ( eZTemplateNodeTool::isConstantElement( $elements ) or
-             eZTemplateNodeTool::isPHPVariableElement( $elements ) )
-            return $elements[0][1];
-        return null;
-    }
-
-    /*!
      \return the array keys of the Dynamic array
     */
     static function elementDynamicArrayKeys( $elements )
@@ -295,25 +265,6 @@ class eZTemplateNodeTool
             return false;
 
         if ( in_array( $elements[0][0], $constantElements ) )
-            return true;
-        return false;
-    }
-
-    /*!
-     \deprecated Use isConstantElement instead.
-    */
-    static function isStaticElement( $elements )
-    {
-        $staticElements = array( eZTemplate::TYPE_VOID,
-                                 eZTemplate::TYPE_STRING, eZTemplate::TYPE_IDENTIFIER,
-                                 eZTemplate::TYPE_NUMERIC, eZTemplate::TYPE_BOOLEAN, eZTemplate::TYPE_ARRAY );
-
-        if ( count( $elements ) == 0 )
-            return false;
-        if ( count( $elements ) > 1 )
-            return false;
-
-        if ( in_array( $elements[0][0], $staticElements ) )
             return true;
         return false;
     }
