@@ -76,6 +76,11 @@ Removed functions
   eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(),
   eZHandlePreChecks() and precheckAllowed().
 
+- Previously deprecated functions from access.php:
+
+  accessType(), changeAccess(), accessMatchRegexp(), accessMatchText(),
+  accessDebugEnabled(), accessExtraDebugEnabled(), accessAllowed().
+
 - Previously deprecated functions from kernel/common/ezincludefunctions.php:
 
   kernel_include(), kernel_common(), datatype_class(), extension_path(),
