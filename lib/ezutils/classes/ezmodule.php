@@ -810,32 +810,6 @@ class eZModule
     }
 
     /**
-     * Returns the redirection HTTP status (!)
-     *
-     * @return something (probably)
-     *
-     * @deprecated 4.3 Not used ANYWHERE in the kernel
-     */
-    function redirectStatus()
-    {
-        return $this->RedirectStatus;
-    }
-
-    /**
-     * Sets the HTTP status which will be set when redirecting
-     *
-     * @param string $status HTTP status
-     *
-     * @note The status must be a valid HTTP status with number and text.
-     *
-     * @deprecated 4.3 not used anywyere
-     */
-    function setRedirectStatus( $status )
-    {
-        $this->RedirectStatus = $status;
-    }
-
-    /**
      * Returns the defined object attributes (as in persistent objects)
      *
      * @return array the persistent object attributes
@@ -1975,13 +1949,6 @@ class eZModule
      * @var string
      */
     public $RedirectURI;
-
-    /**
-     * The redirection HTTP status
-     * @see setRedirectStatus(), redirectStatus(), STATUS_REDIRECT
-     * @var string
-     */
-    public $RedirectStatus;
 
     /**
      * The last execution's result title

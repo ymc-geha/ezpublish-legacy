@@ -155,6 +155,10 @@ Removed functions
 
   translationCode().
 
+- Previously deprecated functions from eZModule class:
+
+  redirectStatus() and setRedirectStatus().
+
 Removed setting
 ---------------
 
