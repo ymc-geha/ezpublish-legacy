@@ -350,16 +350,6 @@ class eZTime
         return $str;
     }
 
-    /*!
-     \static
-     \deprecated Use eZTime::SECONDS_A_DAY instead
-     Get number of seconds per day
-    */
-    static function secondsPerDay()
-    {
-        return self::SECONDS_A_DAY;
-    }
-
     /// Locale object, is just a reference to minimize memory usage.
     public $Locale;
     /// The current time as a clamped timestamp

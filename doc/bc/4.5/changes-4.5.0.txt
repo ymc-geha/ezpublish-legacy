@@ -143,6 +143,10 @@ Removed functions
 - Previously deprecated duplicate() function from eZDate, eZDateTime and
   eZTime classes.
 
+- Previously deprecated function from eZTime class:
+
+  secondsPerDay().
+
 Removed setting
 ---------------
 
