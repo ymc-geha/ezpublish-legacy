@@ -147,6 +147,10 @@ Removed functions
 
   secondsPerDay().
 
+- Previously deprecated function from eZLocale class:
+
+  translationCode().
+
 Removed setting
 ---------------
 
