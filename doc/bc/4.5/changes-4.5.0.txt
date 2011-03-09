@@ -163,6 +163,10 @@ Removed functions
 
   isModified().
 
+- Previously deprecated function from eZMimeType class:
+
+  mimeTypeFor().
+
 Removed setting
 ---------------
 
