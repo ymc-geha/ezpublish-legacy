@@ -78,6 +78,10 @@ Removed functions
 
   storedFilename(), downloadType() and downloadURL().
 
+- Previously deprecated function from eZClusterFileHandler class:
+
+  searchPathArray().
+
 Removed globals
 ---------------
 
