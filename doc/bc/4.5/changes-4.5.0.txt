@@ -66,6 +66,12 @@ Removed functions
   eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(),
   eZHandlePreChecks() and precheckAllowed().
 
+- Previously deprecated functions from kernel/common/ezincludefunctions.php:
+
+  kernel_include(), kernel_common(), datatype_class(), extension_path(),
+  nameFromPath(), isExtension(), ext_include(), ext_activate(), ext_class(),
+  lib_include(), lib_class(), kernel_class().
+
 - Previously deprecated functions from eZContentObject class:
 
   canMove(), removeVersions() and setDefaultLanguage().
