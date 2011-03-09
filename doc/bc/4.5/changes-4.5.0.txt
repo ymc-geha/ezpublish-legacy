@@ -42,6 +42,8 @@ Removed features
 
   They have been deprecated in 3.9 in favor of the combined view "history".
 
+- Removed deprecated class_title, class_url and class_description attributes
+  from eZRSSImport class.
 
 Removed constants
 -----------------

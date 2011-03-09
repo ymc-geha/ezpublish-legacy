@@ -1316,10 +1316,7 @@ CREATE TABLE ezrss_export_item (
 
 CREATE TABLE ezrss_import (
   active int(11) default NULL,
-  class_description varchar(255) default NULL,
   class_id int(11) default NULL,
-  class_title varchar(255) default NULL,
-  class_url varchar(255) default NULL,
   created int(11) default NULL,
   creator_id int(11) default NULL,
   destination_node_id int(11) default NULL,

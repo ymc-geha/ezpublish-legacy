@@ -5954,28 +5954,10 @@ $schema = array (
         'type' => 'int',
         'default' => NULL,
       ),
-      'class_description' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
-      ),
       'class_id' => 
       array (
         'length' => 11,
         'type' => 'int',
-        'default' => NULL,
-      ),
-      'class_title' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
-      ),
-      'class_url' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
         'default' => NULL,
       ),
       'created' => 

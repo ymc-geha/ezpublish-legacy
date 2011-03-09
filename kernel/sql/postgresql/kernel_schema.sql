@@ -2440,10 +2440,7 @@ CREATE TABLE ezrss_export_item (
 
 CREATE TABLE ezrss_import (
     active integer,
-    class_description character varying(255),
     class_id integer,
-    class_title character varying(255),
-    class_url character varying(255),
     created integer,
     creator_id integer,
     destination_node_id integer,

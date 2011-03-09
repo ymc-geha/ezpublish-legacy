@@ -112,18 +112,6 @@ class eZRSSImport extends eZPersistentObject
                                                               'foreign_class' => 'eZContentClass',
                                                               'foreign_attribute' => 'id',
                                                               'multiplicity' => '1..*' ),
-                                         'class_title' => array( 'name' => 'ClassTitle', // deprecated
-                                                                 'datatype' => 'string',
-                                                                 'default' => '',
-                                                                 'required' => false ),
-                                         'class_url' => array( 'name' => 'ClassURL', // deprecated
-                                                               'datatype' => 'string',
-                                                               'default' => '',
-                                                               'required' => false ),
-                                         'class_description' => array( 'name' => 'ClassDescription', // deprecated
-                                                                       'datatype' => 'string',
-                                                                       'default' => '',
-                                                                       'required' => false ),
                                          'active' => array( 'name' => 'Active',
                                                             'datatype' => 'integer',
                                                             'default' => 1,
@@ -172,9 +160,6 @@ class eZRSSImport extends eZPersistentObject
                       'status' => self::STATUS_DRAFT,
                       'destination_node_id' => 0,
                       'class_id' => 0,
-                      'class_title' => '',
-                      'class_url' => '',
-                      'class_description' => '',
                       'active' => 1 );
 
         return new eZRSSImport( $row );
