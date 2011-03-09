@@ -115,6 +115,10 @@ Removed functions
 
   clear() and increase().
 
+- Previously deprecated function from eZContentCacheManager class:
+
+  clearViewCache().
+
 Removed setting
 ---------------
 
