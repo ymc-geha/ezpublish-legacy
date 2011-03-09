@@ -103,6 +103,10 @@ Removed functions
 
   updateObjectNames().
 
+- Previously deprecated function from eZContentClass class:
+
+  versionCount().
+
 Removed globals
 ---------------
 

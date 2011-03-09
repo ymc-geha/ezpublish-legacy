@@ -1360,15 +1360,6 @@ You will need to change the class of the node by using the swap functionality.' 
     }
 
     /*!
-     \deprecated
-     \return The version count for the class if has been determined.
-    */
-    function versionCount()
-    {
-        return $this->VersionCount;
-    }
-
-    /*!
      Will generate a name for the content object based on the class
      settings for content object.
     */
