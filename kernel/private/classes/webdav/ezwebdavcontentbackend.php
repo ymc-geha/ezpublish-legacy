@@ -687,8 +687,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
      * clients. The encoding is from the ini setting Charset in
      * [CharacterSettings] in i18n.ini.
      *
-     * The code for coding is taken from eZWebDAVServer::outputCollectionContent().
-     *
      * @param ezcWebdavPropFindRequest $request
      * @return ezcWebdavResponse
      */
@@ -2789,7 +2787,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
         {
             // We have reached the end of the path for source or destination
             // We do not allow 'move' operations for the virtual folder (from or to)
-            return eZWebDAVServer::FAILED_FORBIDDEN;
+            return false; // @as self::FAILED_FORBIDDEN
         }
 
         if ( ( $sourceVFolder === self::virtualContentFolderName() or
@@ -2803,7 +2801,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
                                        $fullSource, $fullDestination );
         }
 
-        return eZWebDAVServer::FAILED_FORBIDDEN;
+        return false; // @as self::FAILED_FORBIDDEN
     }
 
     /**
@@ -3133,8 +3131,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     /**
      * Recodes $string from charset $fromCharset to charset $toCharset.
      *
-     * Method from eZWebDAVServer.
-     *
      * @param string $string
      * @param string $fromCharset
      * @param string $toCharset
@@ -3155,8 +3151,6 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
     /**
      * Encodes the path stored in $response in order to be displayed properly
      * in WebDAV clients.
-     *
-     * Code from eZWebDAVServer::outputCollectionContent.
      *
      * @param ezcWebdavResponse $response
      * @return ezcWebdavResponse

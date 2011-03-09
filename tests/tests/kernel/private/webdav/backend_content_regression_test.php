@@ -253,11 +253,6 @@ class eZWebDAVBackendContentRegressionTest extends ezpDatabaseRegressionTest
      */
     public function testRunRegression( $file )
     {
-        // 'ezc' = use eZWebDAVContentBackend (new eZ Publish WebDAV based on ezcWebdav)
-        // 'ezp' = use eZWebDAVContentServer  (old eZ Publish WebDAV)
-        // Only 'ezc' is supported for now
-        $system = 'ezc';
-
         // uncomment the tests that you want to skip in the skip() function
         $this->skip( $file );
 
@@ -302,34 +297,28 @@ class eZWebDAVBackendContentRegressionTest extends ezpDatabaseRegressionTest
         $_SERVER['HTTP_AUTHORIZATION'] = 'Basic ' . base64_encode( "{$username}:{$password}" );
         // var_dump( 'Default REQUEST_URI: ' . $_SERVER['REQUEST_URI'] );
 
-        if ( $system === 'ezc' )
+        // Use eZ Components
+        // clean the REQUEST_URI and HTTP_DESTINATION
+        $_SERVER['REQUEST_URI'] = urldecode( $_SERVER['REQUEST_URI'] );
+        if ( isset( $_SERVER['HTTP_DESTINATION'] ) )
         {
-            // Use eZ Components
-            // clean the REQUEST_URI and HTTP_DESTINATION
-            $_SERVER['REQUEST_URI'] = urldecode( $_SERVER['REQUEST_URI'] );
-            if ( isset( $_SERVER['HTTP_DESTINATION'] ) )
-            {
-                $_SERVER['HTTP_DESTINATION'] = urldecode( $_SERVER['HTTP_DESTINATION'] );
-            }
-
-            $server = ezcWebdavServer::getInstance();
-
-            $backend = new eZWebDAVContentBackend();
-            $server->configurations = new ezcWebdavServerConfigurationManagerWrapper();
-
-            $server->init( new ezcWebdavBasicPathFactory( $GLOBALS['ezc_webdav_url'] ),
-                           new ezcWebdavXmlTool(),
-                           new ezcWebdavPropertyHandler(),
-                           new ezcWebdavHeaderHandler(),
-                           new ezcWebdavTransportWrapper() );
-
-            $server->auth = new eZWebDAVContentBackendAuth();
+            $_SERVER['HTTP_DESTINATION'] = urldecode( $_SERVER['HTTP_DESTINATION'] );
         }
-        else
-        {
-            // Use the previous WebDAV system in eZ Publish
-            $backend = new eZWebDAVContentServerWrapper();
-        }
+
+        $server = ezcWebdavServer::getInstance();
+
+        $backend = new eZWebDAVContentBackend();
+        $server->configurations = new ezcWebdavServerConfigurationManagerWrapper();
+
+        $server->init(
+            new ezcWebdavBasicPathFactory( $GLOBALS['ezc_webdav_url'] ),
+            new ezcWebdavXmlTool(),
+            new ezcWebdavPropertyHandler(),
+            new ezcWebdavHeaderHandler(),
+            new ezcWebdavTransportWrapper()
+        );
+
+        $server->auth = new eZWebDAVContentBackendAuth();
 
         $currentSite = $backend->currentSiteFromPath( $_SERVER['REQUEST_URI'] );
         if ( $currentSite )
@@ -337,14 +326,7 @@ class eZWebDAVBackendContentRegressionTest extends ezpDatabaseRegressionTest
             $backend->setCurrentSite( $currentSite );
         }
 
-        if ( $system === 'ezc' )
-        {
-            $server->handle( $backend );
-        }
-        else
-        {
-            $backend->processClientRequest();
-        }
+        $server->handle( $backend );
 
         // This value comes from the included $file which contains the WebDAV request
         $response = trim( $GLOBALS['ezc_response_body'] );

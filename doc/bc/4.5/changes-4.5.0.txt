@@ -35,6 +35,10 @@ Removed classes
 
 - Removed deprecated eZContentClassAttributeNameList class.
 
+- Removed old and unused eZWebDAVServer, eZWebDAVFileServer and
+  eZWebDAVContentServer classes which were used before using Webdav's
+  eZ Components.
+
 Removed features
 ----------------
 
