@@ -189,6 +189,11 @@ Removed functions
 
   setVariableRef().
 
+- Previously deprecated functions from eZTemplateCacheFunction class:
+
+  subtreeCacheBaseSubDir(), expiryTemplateBlockCacheDir(),
+  templateBlockCacheDir(), subtreeCacheSubDir(), subtreeCacheSubDirForNode()
+
 Removed setting
 ---------------
 

@@ -82,7 +82,7 @@ class eZSubtreeCache
         if ( !is_array( $nodeList ) )
             return;
 
-        $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
+        $cacheDir = eZTemplateCacheBlock::templateBlockCacheDir();
 
         foreach ( $nodeList as $node )
         {
@@ -92,7 +92,7 @@ class eZSubtreeCache
 
             foreach( $nodeListID as $nodeID )
             {
-                $cachePath = $cacheDir . eZTemplateCacheFunction::subtreeCacheSubDirForNode( $nodeID );
+                $cachePath = $cacheDir . eZTemplateCacheBlock::templateBlockCacheDir( $nodeID );
                 eZSubtreeCache::cleanupCacheDir( $cachePath );
             }
         }
@@ -104,7 +104,7 @@ class eZSubtreeCache
     */
     static function cleanupAll()
     {
-        $subtreeCacheDir = eZTemplateCacheFunction::templateBlockCacheDir() . eZTemplateCacheFunction::subtreeCacheBaseSubDir();
+        $subtreeCacheDir = eZTemplateCacheBlock::templateBlockCacheDir() . eZTemplateCacheBlock::subtreeCacheBaseSubDir();
         eZSubtreeCache::cleanupCacheDir( $subtreeCacheDir );
     }
 
@@ -142,7 +142,7 @@ class eZSubtreeCache
         {
             if ( is_dir( $dir ) )
             {
-                $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
+                $expiryCacheDir = eZSys::cacheDirectory() . '/template-block-expiry';
 
                 $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
                 $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
@@ -165,8 +165,7 @@ class eZSubtreeCache
     */
     static function removeAllExpiryCacheFromDisk()
     {
-        $expiryCachePath = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
-        eZSubtreeCache::removeExpiryCacheFromDisk( $expiryCachePath );
+        eZSubtreeCache::removeExpiryCacheFromDisk( eZSys::cacheDirectory() . '/template-block-expiry' );
     }
 
     /*!
