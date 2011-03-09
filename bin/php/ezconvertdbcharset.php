@@ -543,7 +543,7 @@ function unserializeContentClassAttributeNames()
 {
     $db = eZDB::instance();
 
-    $attributeName = new eZContentClassAttributeNameList();
+    $attributeName = new eZSerializedObjectNameList();
 
     $limit = 100;
     $offset = 0;

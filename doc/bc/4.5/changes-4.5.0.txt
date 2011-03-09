@@ -30,6 +30,11 @@ Change of behavior
 
   These two methods will throw an eZDBNoConnectionException if connecting to the database server fails.
 
+Removed classes
+---------------
+
+- Removed deprecated eZContentClassAttributeNameList class.
+
 Removed features
 ----------------
 
