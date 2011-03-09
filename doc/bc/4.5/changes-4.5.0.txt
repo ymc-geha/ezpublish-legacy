@@ -74,6 +74,10 @@ Removed functions
   fetchRSS1_0(), fetchRSS2_0() and rssXml() + corresponding 'rss-xml'
   attribute.
 
+- Previously deprecated functions from eZBinaryFileHandler class:
+
+  storedFilename(), downloadType() and downloadURL().
+
 Removed globals
 ---------------
 
