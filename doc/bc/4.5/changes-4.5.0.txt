@@ -52,6 +52,11 @@ Removed functions
 
 - Previously deprecated functions: eZCacheClear*()
 
+- Previously deprecated functions from pre_check.php:
+
+  eZCheckValidity(), eZCheckList(), eZCheckUser(), eZCheckOrder(),
+  eZHandlePreChecks() and precheckAllowed().
+
 
 Removed globals
 ---------------
