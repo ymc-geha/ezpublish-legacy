@@ -170,6 +170,10 @@ Removed functions
 - Previously deprecated callClassMethod() functions from eZModuleOperationInfo
   and eZModuleFunctionInfo() classes.
 
+- Previously deprecated function from eZRandomTranslator class:
+
+  makeSeed().
+
 Removed setting
 ---------------
 
