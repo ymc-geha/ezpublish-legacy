@@ -93,6 +93,10 @@ Removed functions
 
   translation().
 
+- Previously deprecated function from eZContentObjectTreeNode class:
+
+  createPermissionCheckingSQLString().
+
 Removed globals
 ---------------
 
