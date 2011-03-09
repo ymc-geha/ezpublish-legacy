@@ -159,6 +159,10 @@ Removed functions
 
   redirectStatus() and setRedirectStatus().
 
+- Previously deprecated function from eZExpiryHandler class:
+
+  isModified().
+
 Removed setting
 ---------------
 
