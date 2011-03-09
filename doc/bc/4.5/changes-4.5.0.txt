@@ -65,6 +65,10 @@ Removed functions
 
   canMove(), createObject() and updateURLAlias().
 
+- Previously deprecated functions from eZSection class:
+
+  initGlobalID(), setGlobalID() and globalID().
+
 Removed globals
 ---------------
 
