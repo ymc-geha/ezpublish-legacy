@@ -198,6 +198,9 @@ Removed functions
 
   validateISBN13Checksum().
 
+- Previously deprecated functions from eZContentOperationCollection class:
+
+  beginPublish(), endPublish() and removeAssignment().
 Removed setting
 ---------------
 
