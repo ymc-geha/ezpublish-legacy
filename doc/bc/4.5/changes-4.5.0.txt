@@ -194,6 +194,10 @@ Removed functions
   subtreeCacheBaseSubDir(), expiryTemplateBlockCacheDir(),
   templateBlockCacheDir(), subtreeCacheSubDir(), subtreeCacheSubDirForNode()
 
+- Previously deprecated function from eZISBNType class:
+
+  validateISBN13Checksum().
+
 Removed setting
 ---------------
 

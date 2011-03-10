@@ -186,21 +186,6 @@ class eZISBNType extends eZDataType
     }
 
     /*!
-     \private
-     \deprecated, should use the class eZISBN13 instead.
-     Validates the ISBN-13 number \a $isbnNr.
-     \param $isbnNr A string containing the number without any dashes.
-     \return \c true if it is valid.
-    */
-    function validateISBN13Checksum ( $isbnNr, &$error )
-    {
-        $isbn13 = new eZISBN13();
-        $status = $isbn13->validateISBN13Checksum( $isbnNr, $error );
-
-        return $status;
-    }
-
-    /*!
       Calculate the ISBN-13 checkdigit and return a valid ISBN-13 number
       based on an ISBN-10 number as input.
       \return a valid ISBN-13 number.
