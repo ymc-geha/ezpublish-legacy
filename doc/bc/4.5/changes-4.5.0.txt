@@ -201,6 +201,11 @@ Removed functions
 - Previously deprecated functions from eZContentOperationCollection class:
 
   beginPublish(), endPublish() and removeAssignment().
+
+- Sluggish and unused fileDeleteByRegex() functions from eZDBFileHandler,
+  eZFSFileHandler and eZDFSFileHandler classes as well as from their
+  eZClusterFileHandlerInterface interface.
+
 Removed setting
 ---------------
 
