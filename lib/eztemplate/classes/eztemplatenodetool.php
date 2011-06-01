@@ -317,7 +317,6 @@ class eZTemplateNodeTool
     */
     static function isNumericElement( $elements )
     {
-
         return isset( $elements[0][0] ) && $elements[0][0] == eZTemplate::TYPE_NUMERIC;
     }
 

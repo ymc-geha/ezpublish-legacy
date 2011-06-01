@@ -297,7 +297,6 @@ if ( $cronPart !== false )
     $scriptGroup = "CronjobPart-$cronPart";
 $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
-
 if ( !is_array( $scripts ) or empty( $scripts ) )
 {
     $cli->notice( 'Notice: No scripts found for execution.' );

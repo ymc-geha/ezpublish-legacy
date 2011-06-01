@@ -1599,7 +1599,7 @@ class eZDebug
         $groupList = array();
         foreach ( $groups as $groupKey => $keyList )
         {
-            if ( !isset( $timeList[$groupKey] ) && count( $keyList ) == 0 )
+            if ( !isset( $timeList[$groupKey] ) && empty( $keyList ) )
                 continue;
             $groupList[$groupKey] = array( 'name' => $groupKey );
             if ( isset( $timeList[$groupKey] ) )
@@ -1632,7 +1632,7 @@ class eZDebug
             {
                 $groupName = $group['name'];
                 $groupChildren = $group['children'];
-                if ( !isset( $group['time_data'] ) && count( $groupChildren ) == 0 )
+                if ( !isset( $group['time_data'] ) && empty( $groupChildren ) )
                     continue;
                 if ( $as_html )
                     echo "<tr class='group'><td><b>$groupName</b></td>";
