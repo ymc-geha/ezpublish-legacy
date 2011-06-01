@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZScript class
-//
-// Created on: <06-Aug-2003 11:06:35 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZScript class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZScript ezscript.php
@@ -82,7 +59,7 @@ class eZScript
                                         'debug-accumulator' => false,
                                         'debug-timing' => false,
                                         'use-session' => false,
-                                        'use-extensions' => false,
+                                        'use-extensions' => true,
                                         'use-modules' => false,
                                         'user' => false,
                                         'description' => 'eZ Publish script',
@@ -231,12 +208,15 @@ class eZScript
         if ( $this->UseExtensions )
         {
             // Check for extension
-            require_once( 'kernel/common/ezincludefunctions.php' );
             eZExtension::activateExtensions( 'default' );
             // Extension check end
         }
+        else if ( !$this->isQuiet() )
+        {
+            $cli = eZCLI::instance();
+            $cli->output( "Notice: This script uses 'use-extensions' => false, meaning extension settings are not loaded!" );
+        }
 
-        require_once( "access.php" );
         $siteaccess = $this->SiteAccess;
         if ( $siteaccess )
         {
@@ -1029,6 +1009,10 @@ class eZScript
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }
+
+            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
+                $this->setUseSiteAccess( $options['siteaccess'] );
+
             if ( $options['help'] )
             {
                 if ( !$this->IsInitialized )
@@ -1036,8 +1020,6 @@ class eZScript
                 $this->showHelp();
                 $this->shutdown( 0 );
             }
-            if ( isset( $options['siteaccess'] ) and $options['siteaccess'] )
-                $this->setUseSiteAccess( $options['siteaccess'] );
 
             if ( isset( $options['login'] ) and $options['login'] )
                 $this->setUser( $options['login'], isset( $options['password'] ) ? $options['password'] : false );

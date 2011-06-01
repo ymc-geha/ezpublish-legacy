@@ -2,8 +2,8 @@
 /**
  * File containing DB session handler
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
  */
@@ -134,6 +134,8 @@ class ezpSessionHandlerDB extends ezpSessionHandler
      */
     public function destroy( $sessionId )
     {
+        ezpEvent::getInstance()->notify( 'session/destroy', array( $sessionId ) );
+
         $db = eZDB::instance();
         $escKey = $db->escapeString( $sessionId );
 
@@ -154,6 +156,9 @@ class ezpSessionHandlerDB extends ezpSessionHandler
     {
         $oldSessionId = session_id();
         session_regenerate_id();
+        $newSessionId = session_id();
+
+        ezpEvent::getInstance()->notify( 'session/regenerate', array( $oldSessionId, $newSessionId ) );
 
         if ( $updateBackendData )
         {
@@ -164,7 +169,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
             }
 
             $escOldKey = $db->escapeString( $oldSessionId );
-            $escNewKey = $db->escapeString( session_id() );
+            $escNewKey = $db->escapeString( $newSessionId );
             $escUserID = $db->escapeString( eZSession::userID() );
             eZSession::triggerCallback( 'regenerate_pre', array( $db, $escNewKey, $escOldKey, $escUserID ) );
 
@@ -184,6 +189,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
      */
     public function gc( $maxLifeTime )
     {
+        ezpEvent::getInstance()->notify( 'session/gc', array( $maxLifeTime ) );
         $db = eZDB::instance();
         $gcCompleted = true;
         eZSession::triggerCallback( 'gc_pre', array( $db, $maxLifeTime ) );
@@ -236,6 +242,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
      */
     public function cleanup()
     {
+        ezpEvent::getInstance()->notify( 'session/cleanup', array() );
         $db = eZDB::instance();
 
         eZSession::triggerCallback( 'cleanup_pre', array( $db ) );

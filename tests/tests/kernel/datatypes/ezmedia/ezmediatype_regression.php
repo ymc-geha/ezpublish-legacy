@@ -2,8 +2,9 @@
 /**
  * File containing the eZMediaTypeRegression class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -21,7 +22,7 @@ class eZMediaTypeRegression extends ezpDatabaseTestCase
      * Regression test for issue #14983
      *
      * @link http://issues.ez.no/14983
-     **/
+     */
     public function testIssue14983()
     {
         $className = 'eZMediaType test class';

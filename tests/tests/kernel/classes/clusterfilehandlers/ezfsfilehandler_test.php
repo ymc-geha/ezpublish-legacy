@@ -2,8 +2,9 @@
 /**
  * File containing the eZFSFileHandlerTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -11,7 +12,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
 {
     /**
      * @var eZINI
-     **/
+     */
     protected $fileINI;
 
     protected $backupGlobals = false;
@@ -24,16 +25,15 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
      * Test setup
      *
      * Load an instance of file.ini
-     **/
+     */
     public function setUp()
     {
         parent::setUp();
 
         // We need to clear the existing handler if it was loaded before the INI
         // settings changes
-        if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) and
-            !$GLOBALS['eZClusterFileHandler_chosen_handler'] instanceof eZFSFileHandler )
-            unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+        if ( !eZClusterFileHandler::$globalHandler instanceof eZFSFileHandler )
+            eZClusterFileHandler::$globalHandler = null;
 
         // Load database parameters for cluster
         // The same DSN than the relational database is used
@@ -50,8 +50,7 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
             $fileINI = eZINI::instance( 'file.ini' );
             $fileINI->setVariable( 'ClusteringSettings', 'FileHandler', $this->previousFileHandler );
             $this->previousFileHandler = null;
-            if ( isset( $GLOBALS['eZClusterFileHandler_chosen_handler'] ) )
-                unset( $GLOBALS['eZClusterFileHandler_chosen_handler'] );
+            eZClusterFileHandler::$globalHandler = null;
         }
 
         parent::tearDown();
@@ -94,6 +93,11 @@ class eZFSFileHandlerTest extends eZClusterFileHandlerAbstractTest
     public function testCheckCacheGenerationTimeout()
     {
         self::assertTrue( eZClusterFileHandler::instance()->abortCacheGeneration() );
+    }
+
+    public function testPrefork()
+    {
+        self::markTestSkipped( "preFork does nothing on non DB based handlers" );
     }
 }
 ?>

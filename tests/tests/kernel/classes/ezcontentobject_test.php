@@ -2,8 +2,9 @@
 /**
  * File containing the eZContentObjectTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 class eZContentObjectTest extends ezpDatabaseTestCase
@@ -34,7 +35,7 @@ class eZContentObjectTest extends ezpDatabaseTestCase
      * 1) Create more than 1000 objects
      * 2) Call fetchIDArray() on these object's ids
      * 3) Check that they were all returned
-     **/
+     */
     public function testFetchIDArray()
     {
         $contentObjectIDArray = array();
@@ -79,7 +80,7 @@ class eZContentObjectTest extends ezpDatabaseTestCase
      * 2) Create objects and relate them to each of these attributes and to the
      *    object itself (common)
      * 3) Check that attribute count is correct on each attribute and globally
-     **/
+     */
     public function testRelatedObjectCount()
     {
         // Create a test content class

@@ -2,8 +2,9 @@
 /**
  * File containing the eZCountryTypeTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -16,8 +17,8 @@ class eZCountryTypeTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Test for the sort feature of country list
-    **/
+     * Test for the sort feature of country list
+     */
     public function testFetchTranslatedNamesSort()
     {
         $translatedCountriesList = array(

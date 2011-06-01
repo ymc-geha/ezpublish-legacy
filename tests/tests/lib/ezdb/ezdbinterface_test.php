@@ -1,4 +1,12 @@
 <?php
+/**
+ * File containing the eZDBInterfaceTest class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package tests
+ */
 
 class eZDBInterfaceTest extends ezpDatabaseTestCase
 {
@@ -51,7 +59,7 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
 
     /**
      * @dataProvider providerForTestImplodeWithTypeCast
-     **/
+     */
     public function testImplodeWithTypeCast( $array, $glue, $type, $expected )
     {
         $db = eZDB::instance();
@@ -61,7 +69,7 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
 
     /**
      * @dataProvider providerForTestGenerateSQLINStatement
-     **/
+     */
     public function testGenerateSQLINStatement( $elements, $columnName, $not, $unique, $type, $expected )
     {
         $db = eZDB::instance();
@@ -72,7 +80,7 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
 
     /**
      * @dataProvider providerForTestGenerateSQLINStatement2
-     **/
+     */
     public function testGenerateSQLINStatementOracle( $elements, $columnName, $not, $unique, $type, $expected )
     {
         $db = eZDB::instance();
@@ -86,8 +94,8 @@ class eZDBInterfaceTest extends ezpDatabaseTestCase
     }
 
     /**
-    * @var eZDBInterface
-    **/
+     * @var eZDBInterface
+     */
 }
 
 ?>

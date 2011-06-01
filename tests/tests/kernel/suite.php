@@ -2,8 +2,9 @@
 /**
  * File containing the eZKernelTestSuite class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -60,8 +61,10 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZExtensionWithOrderingTest' );
         $this->addTestSuite( 'eZExtensionWithoutOrderingTest' );
         $this->addTestSuite( 'ezpExtensionTest' );
+        $this->addTestSuite( 'ezpAutoloadGeneratorTest' );
 
         $this->addTestSuite( 'eZRSSExportTest' );
+        $this->addTestSuite( 'ezpEventTest' );
 
         $this->addTestSuite( 'eZSiteAccess_Test' );
         $this->addTestSuite( 'eZSiteDataTest' );
@@ -70,6 +73,13 @@ class eZKernelTestSuite extends ezpDatabaseTestSuite
         $this->addTestSuite( 'eZNodeAssignmentTest' );
 
         $this->addTestSuite( 'eZClusterTestSuite' );
+
+        $this->addTestSuite( 'ezpApiTestSuite' );
+        $this->addTestSuite( 'ezpRestTestSuite' );
+
+        $this->addTestSuite( 'eZURLTest' );
+
+        $this->addTestSuite( 'eZOrderRegression' );
     }
 
     public static function suite()

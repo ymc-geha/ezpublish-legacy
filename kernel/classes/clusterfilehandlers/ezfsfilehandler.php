@@ -1,42 +1,19 @@
 <?php
-//
-// Definition of eZFSFileHandler class
-//
-// Created on: <09-Mar-2006 16:40:46 vs>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZFSFileHandler class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 class eZFSFileHandler
 {
     /**
-    * This should be defined in eZFS2FileHandler, but due to static members
-    * limitations in PHP < 5.3, it is declared here
-    **/
+     * This should be defined in eZFS2FileHandler, but due to static members
+     * limitations in PHP < 5.3, it is declared here
+     */
     const EXPIRY_TIMESTAMP = 233366400;
 
     /**
@@ -144,7 +121,7 @@ class eZFSFileHandler
                 eZDebugSetting::writeDebug( 'kernel-clustering', ' clearstatcache called on ' . $this->filePath, __METHOD__ );
             }
 
-            $this->metaData = @stat( $this->filePath );
+            $this->metaData = file_exists( $this->filePath ) ? stat( $this->filePath ) : false;
             eZDebug::accumulatorStop( 'dbfile' );
         }
     }
@@ -341,7 +318,7 @@ class eZFSFileHandler
         {
             $forceGeneration = false;
             $storeCache      = true;
-            $mtime = @filemtime( $fname );
+            $mtime = file_exists( $fname ) ? filemtime( $fname ) : false;
             if ( $retrieveCallback !== null && !$this->isExpired( $expiry, $curtime, $ttl ) )
             {
                 $args = array( $fname, $mtime );
@@ -404,11 +381,9 @@ class eZFSFileHandler
                 // This is where we perform a two-phase commit. If any other
                 // process or machine has generated the file data and it is valid
                 // we will retry the retrieval part and not do the generation.
-                @clearstatcache();
+                clearstatcache();
                 eZDebugSetting::writeDebug( 'kernel-clustering', "clearstatcache called on $fname", __METHOD__ );
-                $mtime = @filemtime( $fname );
-//                $expiry = max( $curtime, $expiry );
-                if ( $mtime > 0 && !$this->isExpired( $expiry, $curtime, $ttl ) )
+                if ( file_exists( $fname ) && !$this->isExpired( $expiry, $curtime, $ttl ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-clustering', "File was generated while we were locked, use that instead", __METHOD__ );
                     $this->metaData = false;
@@ -475,10 +450,15 @@ class eZFSFileHandler
      * @param int    $curtime The current time to check against.
      * @param int    $ttl Number of seconds the data can live, set to null to disable TTL.
      * @return bool
-     **/
+     */
     public function isExpired( $expiry, $curtime, $ttl )
     {
-        return self::isFileExpired( $this->filePath, @filemtime( $this->filePath ), $expiry, $curtime, $ttl );
+        if ( !file_exists( $this->filePath ) )
+        {
+            return true;
+        }
+
+        return self::isFileExpired( $this->filePath, filemtime( $this->filePath ), $expiry, $curtime, $ttl );
     }
 
     /*!
@@ -744,7 +724,7 @@ class eZFSFileHandler
                 $handler = eZFileHandler::instance( false );
                 $handler->unlink( $path );
                 if ( file_exists( $path ) )
-                    eZDebug::writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+                    eZDebug::writeError( "File still exists after removal: '$path'", __METHOD__ );
             }
             else
             {
@@ -796,7 +776,7 @@ class eZFSFileHandler
      * @see fetchUnique
      *
      * In case of fetching from filesystem does nothing.
-     **/
+     */
     function fileDeleteLocal( $path )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )", __METHOD__ );
@@ -1004,7 +984,7 @@ class eZFSFileHandler
      *
      * @return mixed true if generation lock was granted, an integer matching the
      *               time before the current generation times out
-     **/
+     */
     public function startCacheGeneration()
     {
         return true;
@@ -1012,7 +992,7 @@ class eZFSFileHandler
 
     /**
      * Ends the cache generation started by startCacheGeneration().
-     **/
+     */
     public function endCacheGeneration()
     {
         return true;
@@ -1023,7 +1003,7 @@ class eZFSFileHandler
      *
      * Does so by rolling back the current transaction, which should be the
      * .generating file lock
-     **/
+     */
     public function abortCacheGeneration()
     {
         return true;
@@ -1033,7 +1013,7 @@ class eZFSFileHandler
      * Checks if the .generating file was changed, which would mean that generation
      * timed out. If not timed out, refreshes the timestamp so that storage won't
      * be stolen
-     **/
+     */
     public function checkCacheGenerationTimeout()
     {
         return true;
@@ -1043,7 +1023,7 @@ class eZFSFileHandler
      * eZFS only stores data to FS and doesn't require/support clusterizing
      *
      * @return bool false
-     **/
+     */
     public function requiresClusterizing()
     {
         return false;
@@ -1068,7 +1048,7 @@ class eZFSFileHandler
      *
      * @since 4.5.0
      * @return bool
-     **/
+     */
     public function requiresPurge()
     {
         return false;

@@ -2,9 +2,10 @@
 /**
  * File containing the ezpRestPrefixFilterInterface interface
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 abstract class ezpRestPrefixFilterInterface
@@ -121,18 +122,29 @@ abstract class ezpRestPrefixFilterInterface
      * Filters the URI property of the given ezcMvcRequest object, removing
      * any version token from it.
      *
-     * @abstract
      * @return void
      */
     public function filterRequestUri()
     {
         if ( !empty( $this->versionToken ) )
         {
-            $this->request->uri = str_replace( '/' . $this->versionToken, '', $this->request->uri );
+            // Remove the first occurrence of version token
+            $versionSearch = '/' . $this->versionToken;
+            $versionPos = strpos( $this->request->uri, $versionSearch );
+            if ( $versionPos !== false )
+            {
+                $this->request->uri = substr_replace( $this->request->uri, '', $versionPos, strlen( $versionSearch ) );
+            }
         }
         if ( !empty( $this->apiProviderToken ) )
         {
-            $this->request->uri = str_replace( '/' . $this->apiProviderToken, '', $this->request->uri );
+            // Remove the first occurrence of API provider token
+            $providerSearch = '/' . $this->apiProviderToken;
+            $providerPos = strpos( $this->request->uri, $providerSearch );
+            if ( $providerPos !== false )
+            {
+                $this->request->uri = substr_replace( $this->request->uri, '', $providerPos, strlen( $providerSearch ) );
+            }
         }
     }
 }

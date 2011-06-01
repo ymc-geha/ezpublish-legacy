@@ -964,6 +964,15 @@ CREATE TABLE ezorder (
 
 
 
+CREATE TABLE ezorder_nr_incr (
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB;
+
+
+
+
+
 CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,
@@ -1130,7 +1139,7 @@ CREATE TABLE ezprest_authcode (
   expirytime bigint(20) NOT NULL default '0',
   id varchar(200) NOT NULL default '',
   scope varchar(200) default NULL,
-  user_id varchar(200) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY authcode_client_id (client_id)
 ) ENGINE=InnoDB;
@@ -1156,7 +1165,7 @@ CREATE TABLE ezprest_clients (
   client_id varchar(200) default NULL,
   client_secret varchar(200) default NULL,
   created int(11) NOT NULL default '0',
-  description text,
+  description longtext,
   endpoint_uri varchar(200) default NULL,
   id int(11) NOT NULL auto_increment,
   name varchar(100) default NULL,
@@ -1165,7 +1174,7 @@ CREATE TABLE ezprest_clients (
   version int(1) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY client_id (client_id),
-  UNIQUE KEY client_id_UNIQUE (client_id,version)
+  UNIQUE KEY client_id_unique (client_id,version)
 ) ENGINE=InnoDB;
 
 
@@ -1178,7 +1187,7 @@ CREATE TABLE ezprest_token (
   id varchar(200) NOT NULL default '',
   refresh_token varchar(200) NOT NULL default '',
   scope varchar(200) default NULL,
-  user_id varchar(200) NOT NULL default '',
+  user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY token_client_id (client_id)
 ) ENGINE=InnoDB;
@@ -1422,7 +1431,7 @@ CREATE TABLE ezsearch_word (
 
 CREATE TABLE ezsection (
   id int(11) NOT NULL auto_increment,
-  identifier varchar(255) default '',
+  identifier varchar(255) default NULL,
   locale varchar(255) default NULL,
   name varchar(255) default NULL,
   navigation_part_identifier varchar(100) default 'ezcontentnavigationpart',

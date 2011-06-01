@@ -2,8 +2,9 @@
 /**
  * File containing the eZProductCollectionTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -12,15 +13,15 @@ class eZProductCollectionTest extends ezpDatabaseTestCase
     protected $backupGlobals = false;
 
     /**
-    * Unit test for eZProductCollection::cleanupList()
-    *
-    * Outline:
-    * 1) Create 10 eZProductCollection objects
-    * 2) Pick 5 random ID of created items
-    * 3) Call cleanupList() on these 5 items
-    * 4) Check that the 5 items have been removed
-    * 5) Check that the 5 other items haven't been removed
-    **/
+     * Unit test for eZProductCollection::cleanupList()
+     *
+     * Outline:
+     * 1) Create 10 eZProductCollection objects
+     * 2) Pick 5 random ID of created items
+     * 3) Call cleanupList() on these 5 items
+     * 4) Check that the 5 items have been removed
+     * 5) Check that the 5 other items haven't been removed
+     */
     public function testCleanupList()
     {
         // Create a few collections

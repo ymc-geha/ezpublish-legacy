@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZRole class
-//
-// Created on: <14-Aug-2002 14:08:46 sp>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZRole class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*! \defgroup eZRole Role based permission system */
 
@@ -486,7 +463,7 @@ class eZRole extends eZPersistentObject
      *        If true, roles will be looked up for all nodes of the id's and it's parents
      *
      * @return array(eZRole)
-     **/
+     */
     static function fetchByUser( $idArray, $recursive = false )
     {
         if ( empty( $idArray ) )
@@ -663,7 +640,7 @@ class eZRole extends eZPersistentObject
      * @param array(eZContentObjectID) $idArray
      *
      * @return array(eZRoleID)
-     **/
+     */
     static function fetchIDListByUser( $idArray )
     {
         $db = eZDB::instance();

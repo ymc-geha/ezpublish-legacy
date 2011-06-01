@@ -2,8 +2,9 @@
 /**
  * File containing the eZImageAliasHandlerRegression class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -21,7 +22,7 @@ class eZImageAliasHandlerRegression extends ezpDatabaseTestCase
      * Regression test for issue #15155
      *
      * @link http://issues.ez.no/15155
-     **/
+     */
     public function testIssue15155()
     {
         // figure out the max versions for images

@@ -2,8 +2,9 @@
 /**
  * File containing the eZDatatypeTest class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -60,10 +61,10 @@ abstract class eZDatatypeAbstractTest extends ezpDatabaseTestCase
     }
 
     /**
-    * Setup:
-    * - creates a new content class with the tested datatype
-    * - instanciates a content object of that class with the default dataset
-    */
+     * Setup:
+     * - creates a new content class with the tested datatype
+     * - instanciates a content object of that class with the default dataset
+     */
     public function setUp()
     {
         // create a content class with this datatype

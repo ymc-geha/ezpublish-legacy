@@ -2,8 +2,10 @@
 /**
  * File containing ezpRestResult class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -12,7 +14,7 @@
 class ezpRestMvcResult extends ezcMvcResult implements ezcBaseExportable
 {
     public $responseGroups;
-    
+
     /**
      * Returns a new instance of this class with the data specified by $array.
      *
@@ -31,7 +33,7 @@ class ezpRestMvcResult extends ezcMvcResult implements ezcBaseExportable
         $obj = new self( $array['status'], $array['date'],
                          $array['generator'], $array['cache'], $array['cookies'],
                          $array['content'], $array['variables'] );
-        
+
         $obj->responseGroups = $array['responseGroups'];
         return $obj;
     }

@@ -2,8 +2,8 @@
 /**
  * File containing session interface
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package lib
  */
@@ -534,6 +534,7 @@ class eZSession
      * Use: eZSession::addCallback('gc_pre', myCustomGarabageFunction );
      *
      * @since 4.1
+     * @deprecated since 4.5, use {@link ezpEvent::getInstance()->attach()} with new events
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param handler $callback a function to call.
      */
@@ -551,6 +552,7 @@ class eZSession
      * Use: eZSession::triggerCallback('gc_pre', array( $db, $time ) );
      *
      * @since 4.1
+     * @deprecated since 4.5, use {@link ezpEvent::getInstance()->notify()} with new events
      * @param string $type cleanup, gc, destroy, insert and update, pre and post types.
      * @param array $params list of parameters to pass to the callback function.
      * @return bool

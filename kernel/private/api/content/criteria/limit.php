@@ -2,8 +2,10 @@
 /**
  * File containing ezpContentLimitCriteria class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -17,18 +19,18 @@ class ezpContentLimitCriteria implements ezpContentCriteriaInterface
      * @var int
      */
     private $offset;
-    
+
     /**
      * Current limit
      * @var int
      */
     private $limit;
-    
+
     public function __construct()
     {
         $this->offset = 0;
     }
-    
+
     /**
      * Sets the offset criteria
      * @param $offset
@@ -39,10 +41,10 @@ class ezpContentLimitCriteria implements ezpContentCriteriaInterface
         $offset = (int)$offset;
         if( $offset >= 0 )
             $this->offset = $offset;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the limit criteria
      * @param $limit
@@ -53,10 +55,10 @@ class ezpContentLimitCriteria implements ezpContentCriteriaInterface
         $limit = (int)$limit;
         if( $limit > 0 )
             $this->limit = $limit;
-        
+
         return $this;
     }
-    
+
     public function translate()
     {
         $aTranslation = array(
@@ -64,10 +66,10 @@ class ezpContentLimitCriteria implements ezpContentCriteriaInterface
             'name'      => array( 'Offset', 'Limit' ),
             'value'     => array( $this->offset, $this->limit )
         );
-        
+
         return $aTranslation;
     }
-    
+
     public function __toString()
     {
         return 'With offset : '.$this->offset.' / limit : '.$this->limit;

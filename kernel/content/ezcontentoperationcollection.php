@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZContentOperationCollection class
-//
-// Created on: <01-Nov-2002 13:51:17 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZContentOperationCollection class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZContentOperationCollection ezcontentoperationcollection.php
@@ -583,7 +560,10 @@ class eZContentOperationCollection
         }
 
         eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
-        eZSearch::addObject( $object, $needCommit );
+        if ( !eZSearch::addObject( $object, $needCommit ) )
+        {
+            eZDebug::writeError( "Failed adding object ID {$object->attribute( 'id' )} in the search engine", __METHOD__ );
+        }
         eZDebug::accumulatorStop( 'add_object' );
     }
 
@@ -817,7 +797,7 @@ class eZContentOperationCollection
     /**
      * Removes a nodeAssignment or a list of nodeAssigments
      *
-     * @deprecated
+     * @deprecated since 4.3
      *
      * @param int $nodeID
      * @param int $objectID
@@ -1420,26 +1400,26 @@ class eZContentOperationCollection
     }
 
     /**
-    * Executes the pre-publish trigger for this object, and handles
-    * specific return statuses from the workflow
-    *
-    * @param int $objectID Object ID
-    * @param int $version Version number
-    *
-    * @since 4.2
-    **/
+     * Executes the pre-publish trigger for this object, and handles
+     * specific return statuses from the workflow
+     *
+     * @param int $objectID Object ID
+     * @param int $version Version number
+     *
+     * @since 4.2
+     */
     static public function executePrePublishTrigger( $objectID, $version )
     {
 
     }
 
     /**
-    * Creates a RSS/ATOM Feed export for a node
-    *
-    * @param int $nodeID Node ID
-    *
-    * @since 4.3
-    **/
+     * Creates a RSS/ATOM Feed export for a node
+     *
+     * @param int $nodeID Node ID
+     *
+     * @since 4.3
+     */
     static public function createFeedForNode( $nodeID )
     {
         $hasExport = eZRSSFunctionCollection::hasExportByNode( $nodeID );
@@ -1520,12 +1500,12 @@ class eZContentOperationCollection
     }
 
     /**
-    * Removes a RSS/ATOM Feed export for a node
-    *
-    * @param int $nodeID Node ID
-    *
-    * @since 4.3
-    **/
+     * Removes a RSS/ATOM Feed export for a node
+     *
+     * @param int $nodeID Node ID
+     *
+     * @since 4.3
+     */
     static public function removeFeedForNode( $nodeID )
     {
         $rssExport = eZPersistentObject::fetchObject( eZRSSExport::definition(),
@@ -1591,9 +1571,9 @@ class eZContentOperationCollection
                     }
 
                     $handler = new $filterHandlerClass( $versionObject );
-                    if ( !( $handler instanceof eZAsynchronousPublishingFilterInterface ) )
+                    if ( !( $handler instanceof ezpAsynchronousPublishingFilterInterface ) )
                     {
-                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement eZAsynchronousPublishingFilterInterface", __METHOD__  );
+                        eZDebug::writeError( "Asynchronous publishing filter handler class '$filterHandlerClass' does not implement ezpAsynchronousPublishingFilterInterface", __METHOD__  );
                         continue;
                     }
 

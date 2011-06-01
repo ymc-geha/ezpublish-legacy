@@ -2,24 +2,19 @@
 /**
  * File containing the basic auth style
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
-class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
+class ezpRestBasicAuthStyle extends ezpRestAuthenticationStyle implements ezpRestAuthenticationStyleInterface
 {
-    protected $prefix;
-
-    public function __construct()
-    {
-        $this->prefix = eZINI::instance( 'rest.ini' )->variable( 'System', 'ApiPrefix' );
-    }
     public function setup( ezcMvcRequest $request )
     {
         if ( $request->authentication === null )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
 
@@ -36,12 +31,13 @@ class ezpRestBasicAuthStyle implements ezpRestAuthenticationStyle
     {
         if ( !$auth->run() )
         {
-            $request->uri = "{$this->prefix}/http-basic-auth";
+            $request->uri = "{$this->prefix}/auth/http-basic-auth";
             return new ezcMvcInternalRedirect( $request );
         }
         else
         {
-            // We're in
+            // We're in. Get the ezp user and return it
+            return eZUser::fetchByName( $auth->credentials->id );
         }
     }
 }

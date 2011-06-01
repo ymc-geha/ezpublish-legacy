@@ -2,9 +2,10 @@
 /**
  * File containing the ezpRestProvider class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 class ezpRestProvider
@@ -13,7 +14,9 @@ class ezpRestProvider
      * @var ezpRestProviderInterface The REST provider object container
      */
     protected static $provider = null;
-    
+
+    protected static $providerName = null;
+
     const DEFAULT_PROVIDER = 'ezp';
 
     /**
@@ -49,9 +52,12 @@ class ezpRestProvider
             $provider = self::DEFAULT_PROVIDER;
         }
 
-        if ( !( self::$provider instanceof ezpRestProviderInterface ) )
+        // Check if we already have a provider object for this provider
+        // As there can be internal redirects, we also check if the provider name is the same
+        if ( !( self::$provider instanceof ezpRestProviderInterface ) || $provider != self::$providerName )
         {
             self::$provider = self::createProvider( $provider );
+            self::$providerName = $provider;
         }
 
         return self::$provider;

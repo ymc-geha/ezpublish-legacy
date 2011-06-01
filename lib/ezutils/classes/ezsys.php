@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZSys class
-//
-// Created on: <01-Mar-2002 13:48:53 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZSys class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 // Portions are modifications on patches by Andreas B�ckler and Francis Nart
 //
 
@@ -615,11 +595,23 @@ class eZSys
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( self::serverPort() == $sslPort );
 
-        //Check if this request might be driven through a ssl proxy
-        if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
+        if ( !$nowSSL )
         {
-            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
-            $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            // Check if this request might be driven through a ssl proxy
+            if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) )
+            {
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_PORT'] ) )
+            {
+                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+                $nowSSL = ( $_SERVER['HTTP_X_FORWARDED_PORT'] == $sslPort );
+            }
+            else if ( isset( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) )
+            {
+                $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
+                $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+            }
         }
         return $nowSSL;
     }
@@ -688,7 +680,7 @@ class eZSys
     /**
      * Returns true if magick quotes is enabled,
      * but does nothing.
-     * @deprecated 4.5
+     * @deprecated since 4.5
      */
     static function magickQuotes()
     {
@@ -705,7 +697,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+                eZDebug::writeError( "Server variable '$variableName' does not exist", __METHOD__ );
             }
             $retVal = null;
             return $retVal;
@@ -733,15 +725,15 @@ class eZSys
 
     /**
      * Return the variable named \a $variableName in the global \c ENV variable.
-             If the variable is not present an error is shown and \c null is returned.
-    */
+     * If the variable is not present an error is shown and \c null is returned.
+     */
     static function environmentVariable( $variableName, $quiet = false )
     {
         if ( getenv($variableName) === false )
         {
             if ( !$quiet )
             {
-                eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+                eZDebug::writeError( "Environment variable '$variableName' does not exist", __METHOD__ );
             }
             return null;
         }
@@ -811,7 +803,7 @@ class eZSys
             return $this->indexDir();
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
         return null;
     }
 
@@ -1210,10 +1202,10 @@ class eZSys
      */
     public $LineSeparator;
 
-   /**
-    * The directory separator used for files, '/' or '\'
-    * @var string
-    */
+    /**
+     * The directory separator used for files, '/' or '\'
+     * @var string
+     */
     public $FileSeparator;
 
     /**

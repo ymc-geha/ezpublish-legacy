@@ -2,8 +2,8 @@
 /**
  * File containing the ezpContent class.
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package API
  */
@@ -69,9 +69,13 @@ class ezpContent
      * @param eZContentObjectTreeNode $node
      * @return ezpContent
      */
-    public static function fromNode( eZContentObjectTreeNode $node )
+    public static function fromNode( eZContentObjectTreeNode $node, $checkAccess = true )
     {
         $object = $node->object();
+        if ( $checkAccess && !$object->attribute( 'can_read' ) )
+        {
+            throw new ezpContentAccessDeniedException( $object->attribute( 'id' ) );
+        }
 
         $content = new ezpContent();
         $content->fields = ezpContentFieldSet::fromContentObject( $object );
@@ -86,11 +90,11 @@ class ezpContent
      * @param int $nodeId
      * @return ezpContent
      */
-    public static function fromNodeId( $nodeId )
+    public static function fromNodeId( $nodeId, $checkAccess = true )
     {
         $node = eZContentObjectTreeNode::fetch( $nodeId );
         if ( $node instanceof eZContentObjectTreeNode )
-            return self::fromNode( $node );
+            return self::fromNode( $node, $checkAccess );
         else
             throw new ezpContentNotFoundException( "Unable to find node with ID $nodeId" );
     }
@@ -100,11 +104,11 @@ class ezpContent
      * @param int $objectId
      * @return ezpContent
      */
-    public static function fromObjectId( $objectId )
+    public static function fromObjectId( $objectId, $checkAccess = true )
     {
         $object = eZContentObject::fetch( $objectId );
         if ( $object instanceof eZContentObject )
-            return self::fromObject( $object );
+            return self::fromObject( $object, $checkAccess );
         else
             throw new ezpContentNotFoundException( "Unable to find an eZContentObject with ID $objectId" );
     }
@@ -114,8 +118,13 @@ class ezpContent
      * @param eZContentObject $objectId
      * @return ezpContent
      */
-    public static function fromObject( eZContentObject $object )
+    public static function fromObject( eZContentObject $object, $checkAccess = true )
     {
+        if ( $checkAccess && !$object->attribute( 'can_read' ) )
+        {
+            throw new ezpContentAccessDeniedException( $object->attribute( 'id' ) );
+        }
+
         $content = new ezpContent();
         $content->fields = ezpContentFieldSet::fromContentObject( $object );
 

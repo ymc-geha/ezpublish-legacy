@@ -1,34 +1,12 @@
 <?php
-//
-// $Id$
-//
-// Definition of eZMySQLiDB class
-//
-// Created on: <12-Feb-2002 15:54:17 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZMySQLiDB class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZMySQLiDB eZMySQLiDB.php
@@ -86,7 +64,7 @@ class eZMySQLiDB extends eZDBInterface
                 $connection = $this->DBWriteConnection;
             }
 
-            if ( $connection and $this->DBWriteConnection )
+            if ( $connection && $this->DBWriteConnection )
             {
                 $this->DBConnection = $connection;
                 $this->IsConnected = true;
@@ -118,7 +96,7 @@ class eZMySQLiDB extends eZDBInterface
             if ( version_compare( PHP_VERSION, '5.3' ) > 0 )
                 $this->Server = 'p:' . $this->Server;
             else
-                eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', 'eZMySQLiDB::connect' );
+                eZDebug::writeWarning( 'mysqli only supports persistent connections when using php 5.3 and higher', __METHOD__ );
         }
 
         $oldHandling = eZDebug::setHandleType( eZDebug::HANDLE_EXCEPTION );
@@ -161,7 +139,6 @@ class eZMySQLiDB extends eZDBInterface
                 $this->setError( $connection );
                 eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
                 $this->IsConnected = false;
-                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
             }
         }
 
@@ -829,7 +806,7 @@ class eZMySQLiDB extends eZDBInterface
     */
     function rollbackQuery()
     {
-        return $this->query( "ROLLBACK" );
+        return mysqli_query( $this->DBWriteConnection, "ROLLBACK" );
     }
 
     function lastSerialID( $table = false, $column = false )
@@ -886,7 +863,7 @@ class eZMySQLiDB extends eZDBInterface
 
     /**
      * Sets the internal error messages & number
-     * @param int $connection database connection handle, overrides the current one if given
+     * @param MySQLi $connection database connection handle, overrides the current one if given
      */
     function setError( $connection = false )
     {
@@ -894,8 +871,12 @@ class eZMySQLiDB extends eZDBInterface
         {
             if ( $connection === false )
                 $connection = $this->DBConnection;
-            $this->ErrorMessage = mysqli_error( $connection );
-            $this->ErrorNumber = mysqli_errno( $connection );
+
+            if ( $connection instanceof MySQLi )
+            {
+                $this->ErrorMessage = mysqli_error( $connection );
+                $this->ErrorNumber = mysqli_errno( $connection );
+            }
         }
         else
         {

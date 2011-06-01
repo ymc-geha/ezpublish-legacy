@@ -2,14 +2,15 @@
 /**
  * File containing the ezpRestErrorController class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
-* This controller deals with error situations arising in the REST layer.
-*/
+ * This controller deals with error situations arising in the REST layer.
+ */
 class ezpRestErrorController extends ezcMvcController
 {
     /**
@@ -38,6 +39,13 @@ class ezpRestErrorController extends ezcMvcController
             $result = new ezcMvcResult;
             $result->status = new ezpOauthRequired( "eZ Publish REST", $this->exception->errorType, $this->exception->getMessage() );
             $result->variables['message'] = $this->exception->getMessage();
+            return $result;
+        }
+        else if ( $this->exception instanceof ezpContentAccessDeniedException )
+        {
+            $result = new ezcMvcResult;
+            $result->variables['message'] = $this->exception->getMessage();
+            $result->status = new ezpRestHttpResponse( ezpHttpResponseCodes::FORBIDDEN, $this->exception->getMessage() );
             return $result;
         }
 

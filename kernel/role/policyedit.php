@@ -1,37 +1,10 @@
 <?php
-//
-// Definition of Policyedit class
-//
-// Created on: <25-Apr-2003 11:31:32 wy>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
-
-
+/**
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 $Module = $Params['Module'];
 $policyID = $Params['PolicyID'];
@@ -68,14 +41,8 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
 {
     foreach ( $functions[$currentFunction] as $key => $limitation )
     {
-        if ( isset( $limitation['class'] ) && count( $limitation['values'] ) == 0 )
+        if ( isset( $limitation['class'] ) && empty( $limitation['values'] ) )
         {
-            $basePath = 'kernel/'; //set default basepath for limitationValueClasses
-            if( isset( $limitation['extension'] ) && $limitation['extension'] )
-            {
-                $basePath = 'extension/' . $limitation['extension'] . '/';
-            }
-            include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array( array( $obj, $limitation['function'] ), $limitation['parameter'] );
             $limitationValueArray = array();

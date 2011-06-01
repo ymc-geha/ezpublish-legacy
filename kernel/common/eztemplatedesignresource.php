@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZTemplatedesignresource class
-//
-// Created on: <14-Sep-2002 15:37:17 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZTemplateDesignResource class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZTemplatedesignresource eztemplatedesignresource.php
@@ -198,7 +175,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $type != 'standard' and
              $type != 'site' )
         {
-            eZDebug::writeWarning( "Cannot retrieve designsetting for type '$type'", 'eZTemplateDesignResource::designSetting' );
+            eZDebug::writeWarning( "Cannot retrieve designsetting for type '$type'", __METHOD__ );
             return null;
         }
         if ( $type == 'site' )
@@ -233,7 +210,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $type != 'standard' and
              $type != 'site' )
         {
-            eZDebug::writeWarning( "Cannot set designsetting '$designSetting' for type '$type'", 'eZTemplateDesignResource::setDesignSetting' );
+            eZDebug::writeWarning( "Cannot set designsetting '$designSetting' for type '$type'", __METHOD__ );
             return;
         }
         if ( !isset( $GLOBALS['eZTemplateDesignSetting'] ) )
@@ -568,7 +545,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 if ( $useOverrideCache )
                 {
-                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ Publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ Publish without this cache will have a performance impact.", __METHOD__ );
                 }
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;
@@ -937,10 +914,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
             if ( ! $overrideMatchFilePath )
             {
-                eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check the template settings in settings/override.ini",
-                                     "eZTemplateDesignResource::overrideArray" );
-                eZDebug::writeError( implode( ', ', $triedFiles ),
-                                     "eZTemplateDesignResource::overrideArray, tried files" );
+                eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check the template settings in settings/override.ini", __METHOD__ );
+                eZDebug::writeError( implode( ', ', $triedFiles ), __METHOD__ . ' tried files' );
             }
 
         }

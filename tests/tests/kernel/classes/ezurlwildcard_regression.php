@@ -2,8 +2,9 @@
 /**
  * File containing the eZURLWildcardRegression class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
  * @package tests
  */
 
@@ -25,10 +26,11 @@ class eZURLWildcardRegression extends ezpDatabaseTestCase
 
         $this->wildcard = new eZURLWildcard( array(
             'source_url' => 'MyRootURL',
-            'destination_url' => 'content/view/full/2',
-            'type' => $type = eZURLWildcard::TYPE_DIRECT
+            'destination_url' => '/',
+            'type' => eZURLWildcard::TYPE_DIRECT
             ) );
         $this->wildcard->store();
+        eZURLWildcard::expireCache();
     }
 
     /**
@@ -37,6 +39,10 @@ class eZURLWildcardRegression extends ezpDatabaseTestCase
     public function tearDown()
     {
         eZURLWildcard::removeByIDs( array( $this->wildcard->attribute( 'id' ) ) );
+        eZURLWildcard::expireCache();
+        clearstatcache();
+        sleep( 1 );
+
         parent::tearDown();
     }
 
@@ -48,8 +54,7 @@ class eZURLWildcardRegression extends ezpDatabaseTestCase
     public function testCaseInsensitiveMatch()
     {
         $uri = 'myROOTurl';
-        eZURLWildcard::translate( $uri );
-
+        $this->assertTrue( eZURLWildcard::translate( $uri ) );
         $this->assertEquals( 'content/view/full/2', $uri );
     }
 }

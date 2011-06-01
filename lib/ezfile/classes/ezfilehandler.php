@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZFileHandler class
-//
-// Created on: <13-Aug-2003 16:20:19 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file
-*/
+/**
+ * File containing the eZFileHandler class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZFileHandler ezfilehandler.php
@@ -194,8 +171,7 @@ class eZFileHandler
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
         {
-            eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename, it does not exist",
-                                 'eZFileHandler::symlink' );
+            eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename, it does not exist", __METHOD__ );
             return false;
         }
         $isDir = false;
@@ -237,8 +213,7 @@ class eZFileHandler
         {
             if ( !@unlink( $destinationFilename ) )
             {
-                eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed",
-                                     'eZFileHandler::symlink' );
+                eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed", __METHOD__ );
                 return false;
             }
         }
@@ -250,8 +225,7 @@ class eZFileHandler
         {
             return true;
         }
-        eZDebug::writeError( "Failed to symbolicly link to $sourceFilename on destination $destinationFilename",
-                             'eZFileHandler::symlink' );
+        eZDebug::writeError( "Failed to symbolicly link to $sourceFilename on destination $destinationFilename", __METHOD__ );
         return false;
     }
 
@@ -267,8 +241,7 @@ class eZFileHandler
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
         {
-            eZDebug::writeError( "Cannot link to file $sourceFilename, it does not exist",
-                                 'eZFileHandler::link' );
+            eZDebug::writeError( "Cannot link to file $sourceFilename, it does not exist", __METHOD__ );
             return false;
         }
         $isDir = false;
@@ -291,8 +264,7 @@ class eZFileHandler
         {
             if ( !@unlink( $destinationFilename ) )
             {
-                eZDebug::writeError( "Cannot link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed",
-                                     'eZFileHandler::link' );
+                eZDebug::writeError( "Cannot link to file $sourceFilename on destination $destinationFilename, destination file cannot be removed", __METHOD__ );
                 return false;
             }
         }
@@ -300,8 +272,7 @@ class eZFileHandler
         {
             return true;
         }
-        eZDebug::writeError( "Failed to link to $sourceFilename on destination $destinationFilename",
-                             'eZFileHandler::link' );
+        eZDebug::writeError( "Failed to link to $sourceFilename on destination $destinationFilename", __METHOD__ );
         return false;
     }
 
@@ -316,8 +287,7 @@ class eZFileHandler
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
         {
-            eZDebug::writeError( "Cannot rename file $sourceFilename, it does not exist",
-                                 'eZFileHandler::move' );
+            eZDebug::writeError( "Cannot rename file $sourceFilename, it does not exist", __METHOD__ );
             return false;
         }
         $isDir = false;
@@ -347,8 +317,7 @@ class eZFileHandler
         {
             if ( !@unlink( $destinationFilename ) )
             {
-                eZDebug::writeError( "Cannot move file $sourceFilename to destination $destinationFilename, destination file cannot be removed",
-                                     'eZFileHandler::move' );
+                eZDebug::writeError( "Cannot move file $sourceFilename to destination $destinationFilename, destination file cannot be removed", __METHOD__ );
                 return false;
             }
         }
@@ -366,15 +335,13 @@ class eZFileHandler
         {
             if ( !@unlink( $sourceFilename ) )
             {
-                eZDebug::writeError( "Cannot remove source file $sourceFilename, file was not succesfully moved",
-                                     'eZFileHandler::move' );
+                eZDebug::writeError( "Cannot remove source file $sourceFilename, file was not succesfully moved", __METHOD__ );
                 @unlink( $destinationFilename );
                 return false;
             }
             return true;
         }
-                eZDebug::writeError( "Failed to copy $sourceFilename to $destinationFilename, file was not succesfully moved",
-                                     'eZFileHandler::move' );
+                eZDebug::writeError( "Failed to copy $sourceFilename to $destinationFilename, file was not succesfully moved", __METHOD__ );
         return false;
     }
 
@@ -386,15 +353,13 @@ class eZFileHandler
     {
         if ( is_dir( $sourceFilename ) )
         {
-            eZDebug::writeError( "Unable to copy directory $sourceFilename, use eZDir::copy instead",
-                                 'eZFileHandler::copy' );
+            eZDebug::writeError( "Unable to copy directory $sourceFilename, use eZDir::copy instead", __METHOD__ );
             return false;
         }
         $sourceFD = @fopen( $sourceFilename, 'rb' );
         if ( !$sourceFD )
         {
-            eZDebug::writeError( "Unable to open source file $sourceFilename in read mode",
-                                 'eZFileHandler::copy' );
+            eZDebug::writeError( "Unable to open source file $sourceFilename in read mode", __METHOD__ );
             return false;
         }
         if ( is_dir( $destinationFilename ) )
@@ -422,8 +387,7 @@ class eZFileHandler
         if ( !$destinationFD )
         {
             @fclose( $sourceFD );
-            eZDebug::writeError( "Unable to open destination file $destinationFilename in write mode",
-                                 'eZFileHandler::copy' );
+            eZDebug::writeError( "Unable to open destination file $destinationFilename in write mode", __METHOD__ );
             return false;
         }
         $bytesCopied = 0;
@@ -542,8 +506,7 @@ class eZFileHandler
         if ( !$filename and
              !$this->FileName )
         {
-            eZDebug::writeError( "The supplied filename is empty and no filename set for object, cannot open any file",
-                                 'eZFileHandler::open' );
+            eZDebug::writeError( "The supplied filename is empty and no filename set for object, cannot open any file", __METHOD__ );
             return false;
         }
         if ( !$filename )
@@ -567,8 +530,7 @@ class eZFileHandler
             $this->IsOpen = true;
         }
         else
-            eZDebug::writeError( "Failed opening file $filename with mode $mode",
-                                 'eZFileHandler::open' );
+            eZDebug::writeError( "Failed opening file $filename with mode $mode", __METHOD__ );
         return $result;
     }
 
@@ -579,8 +541,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot close.",
-                                 'eZFileHandler::close' );
+            eZDebug::writeError( "A file is not currently opened, cannot close.", __METHOD__ );
             return false;
         }
 //         eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
@@ -588,8 +549,7 @@ class eZFileHandler
 //                                      'eZFileHandler::close' );
         $result = $this->doClose();
         if ( !$result )
-            eZDebug::writeError( "Failed closing file " . $this->FileName . " opened with mode " . $this->Mode,
-                                 'eZFileHandler::close' );
+            eZDebug::writeError( "Failed closing file " . $this->FileName . " opened with mode " . $this->Mode, __METHOD__ );
         else
             $this->IsOpen = false;
         return $result;
@@ -608,8 +568,7 @@ class eZFileHandler
         }
         $result = eZFileHandler::doUnlink( $filename );
         if ( !$result )
-            eZDebug::writeError( "Failed unlinking file " . $filename,
-                                 'eZFileHandler::unlink' );
+            eZDebug::writeError( "Failed unlinking file " . $filename, __METHOD__ );
         return $result;
     }
 
@@ -647,14 +606,12 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot read.",
-                                 'eZFileHandler::read' );
+            eZDebug::writeError( "A file is not currently opened, cannot read.", __METHOD__ );
             return false;
         }
         if ( $length < 0 )
         {
-            eZDebug::writeError( "length cannot be negative ($length)",
-                                 'eZFileHandler::read' );
+            eZDebug::writeError( "length cannot be negative ($length)", __METHOD__ );
             return false;
         }
         if ( $length )
@@ -685,14 +642,12 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot write.",
-                                 'eZFileHandler::write' );
+            eZDebug::writeError( "A file is not currently opened, cannot write.", __METHOD__ );
             return false;
         }
         if ( $length < 0 )
         {
-            eZDebug::writeError( "length cannot be negative ($length)",
-                                 'eZFileHandler::write' );
+            eZDebug::writeError( "length cannot be negative ($length)", __METHOD__ );
             return false;
         }
         return $this->doWrite( $data, $length );
@@ -706,8 +661,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot flush.",
-                                 'eZFileHandler::flush' );
+            eZDebug::writeError( "A file is not currently opened, cannot flush.", __METHOD__ );
             return false;
         }
         return $this->doFlush();
@@ -726,8 +680,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot seek.",
-                                 'eZFileHandler::seek' );
+            eZDebug::writeError( "A file is not currently opened, cannot seek.", __METHOD__ );
             return false;
         }
         return $this->doSeek( $offset, $whence );
@@ -741,8 +694,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot rewind.",
-                                 'eZFileHandler::rewind' );
+            eZDebug::writeError( "A file is not currently opened, cannot rewind.", __METHOD__ );
             return false;
         }
         return $this->doRewind();
@@ -756,8 +708,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot tell position.",
-                                 'eZFileHandler::tell' );
+            eZDebug::writeError( "A file is not currently opened, cannot tell position.", __METHOD__ );
             return false;
         }
         return $this->doTell();
@@ -770,8 +721,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot report EOF status.",
-                                 'eZFileHandler::eof' );
+            eZDebug::writeError( "A file is not currently opened, cannot report EOF status.", __METHOD__ );
             return false;
         }
         return $this->doEOF();
@@ -786,8 +736,7 @@ class eZFileHandler
     {
         if ( !$this->isOpen() )
         {
-            eZDebug::writeError( "A file is not currently opened, cannot do a data passtrough.",
-                                 'eZFileHandler::passtrough' );
+            eZDebug::writeError( "A file is not currently opened, cannot do a data passtrough.", __METHOD__ );
             return false;
         }
         return $this->doPasstrough( $closeFile );

@@ -2,18 +2,19 @@
 /**
  * File containing ezpRestAuthConfiguration
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
-* Class controlling authentication inside REST layer.
-* 
-* This class sets up the defaults for which routes require auth and which
-* can be omitted. This class acts as a compatibility bridge between the REST-
-* layer and the traditional eZ Publish permission configuration.
-*/
+ * Class controlling authentication inside REST layer.
+ *
+ * This class sets up the defaults for which routes require auth and which
+ * can be omitted. This class acts as a compatibility bridge between the REST-
+ * layer and the traditional eZ Publish permission configuration.
+ */
 class ezpRestAuthConfiguration
 {
     protected $info = null;
@@ -34,9 +35,6 @@ class ezpRestAuthConfiguration
 
     public function filter()
     {
-        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
-            return;
-
         if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireHTTPS') === 'enabled' &&
              $this->req->isEncrypted === false )
         {
@@ -49,9 +47,10 @@ class ezpRestAuthConfiguration
 
         // 0. Check if the given route needs authentication.
         if ( !$this->shallAuthenticate() )
-            return;
-
-        if ( $this->filter === null )
+        {
+            $this->filter = new ezpRestNoAuthStyle();
+        }
+        else if ( $this->filter === null )
         {
             $opt = new ezpExtensionOptions();
             $opt->iniFile = 'rest.ini';
@@ -72,14 +71,37 @@ class ezpRestAuthConfiguration
             return $auth;
 
         // 2.Perform the authentication
-        return $this->filter->authenticate( $auth, $this->req );
-
+        // Result of authentication filter can be a valid ezp user (auth succeeded) or an internal redirect (ezcMvcInternalRedirect)
+        $user = $this->filter->authenticate( $auth, $this->req );
+        if ( $user instanceof eZUser )
+        {
+            eZUser::setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
+            $this->filter->setUser( $user );
+        }
+        else if ( $user instanceof ezcMvcInternalRedirect )
+        {
+            return $user;
+        }
     }
 
-    public function shallAuthenticate()
+    /**
+     * Checks if authentication should be requested or not
+     * @return bool
+     */
+    private function shallAuthenticate()
     {
-        $routeFilter = ezpRestRouteFilterInterface::getRouteFilter();
-        return $routeFilter->shallDoActionWithRoute( $this->info );
+        $shallAuthenticate = true;
+        if ( eZINI::instance( 'rest.ini' )->variable( 'Authentication', 'RequireAuthentication' ) !== 'enabled' )
+        {
+            $shallAuthenticate = false;
+        }
+        else
+        {
+            $routeFilter = ezpRestRouteFilterInterface::getRouteFilter();
+            $shallAuthenticate = $routeFilter->shallDoActionWithRoute( $this->info );
+        }
+
+        return $shallAuthenticate;
     }
 }
 

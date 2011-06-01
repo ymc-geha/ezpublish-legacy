@@ -71,7 +71,13 @@ var sortableSubitems = function () {
         var translationView = function(cell, record, column, data) {
             var html = '';
             jQuery(data).each(function(i, e) {
+                if (record.getData('can_edit') === true) {
+                    html += '<a href="' + confObj.editPrefixURL + '/' + record.getData('contentobject_id') + '/f/' + e + '">';
+                }
                 html += '<img src="' + confObj.flagIcons[e] + '" width="18" height="12" style="margin-right: 4px;" alt="' + e + '" title="' + e + '"/>';
+                if (record.getData('can_edit') === true) {
+                    html += '</a>'
+                }
             });
             cell.innerHTML = html;
         }
@@ -109,6 +115,7 @@ var sortableSubitems = function () {
             {key:"node_remote_id", label:labelsObj.DATA_TABLE_COLS.noderemoteid, sortable:false, resizeable:true},
             {key:"contentobject_id", label:labelsObj.DATA_TABLE_COLS.objectid, sortable:true, resizeable:true},
             {key:"contentobject_remote_id", label:labelsObj.DATA_TABLE_COLS.objectremoteid, sortable:false, resizeable:true},
+            {key:"contentobject_state", label:labelsObj.DATA_TABLE_COLS.objectstate, sortable:false, resizeable:true},
             {key:"priority", label: labelsObj.DATA_TABLE_COLS.priority, sortable:true, resizeable:true, 
                 editor: new YAHOO.widget.TextboxCellEditor({asyncSubmitter: updatePriority, disableBtns:true, validator:YAHOO.widget.DataTable.validateNumber}) }
         ];
@@ -160,6 +167,7 @@ var sortableSubitems = function () {
                 {key:"node_remote_id"},
                 {key:"contentobject_id"},
                 {key:"contentobject_remote_id"},
+                {key:"contentobject_state"},
                 {key:"priority"},
                 {key:"class_icon"},
                 {key:"thumbnail_url"},
@@ -205,16 +213,17 @@ var sortableSubitems = function () {
             return "::" + state.pagination.rowsPerPage +
                    "::" + state.pagination.recordOffset +
                    "::" + state.sortedBy.key +
-                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "0" : "1") +
+                   "::" + ((state.sortedBy.dir === YAHOO.widget.DataTable.CLASS_ASC) ? "1" : "0") +
+                   "::" + confObj.nameFilter +
                    "?ContentType=json";
         }
 
         var tableConfig = {
-            initialRequest: "::" + confObj.rowsPrPage + "::0" + "::" + confObj.sortKey + "::" + confObj.sortOrder + "?ContentType=json",   // Initial request for first page of data
+            initialRequest: "::" + confObj.rowsPrPage + "::0" + "::" + confObj.sortKey + "::" + confObj.sortOrder + "::" + confObj.nameFilter + "?ContentType=json",   // Initial request for first page of data
             dynamicData: true,                                                                                                             // Enables dynamic server-driven data
             generateRequest: buildQueryString,
             sortedBy : {key:confObj.sortKey, 
-                        dir:((confObj.sortOrder === "1") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },        // Sets UI initial sort arrow
+                        dir:((confObj.sortOrder === 1) ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC) },          // Sets UI initial sort arrow
             paginator: paginator,                                                                                                          // Enables pagination
             MSG_LOADING: labelsObj.DATA_TABLE.msg_loading
         };
@@ -322,7 +331,7 @@ var sortableSubitems = function () {
                                                                                    modal: true,
                                                                                    buttons: [ { text: "Close", 
                                                                                                 handler: hideTblOptsDialog } ],
-                                                                                   fixedcenter: true,
+                                                                                   fixedcenter: "contained",
                                                                                    constrainToViewport: true });
 
         var escKeyListener = new YAHOO.util.KeyListener(document, { keys:27 },
@@ -383,6 +392,7 @@ var sortableSubitems = function () {
             var groupName = createGroups[i];
             createNewBtnMenu.setItemGroupTitle(groupName, i);
         }
+
 
         var moreActBtnAction = function( type, args, item ) {
             if ($('form[name=children] input[name=DeleteIDArray[]]:checked').length == 0)

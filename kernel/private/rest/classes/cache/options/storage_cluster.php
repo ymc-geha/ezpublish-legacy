@@ -2,8 +2,10 @@
 /**
  * File containing ezpCacheStorageClusterOptions
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -16,14 +18,14 @@ class ezpCacheStorageClusterOptions extends ezcBaseOptions
      * @var ezcCacheStorageOptions
      */
     protected $storageOptions;
-    
+
     /**
      * Constructs a new options class.
      *
      * It also sets the default values of the format property
      *
      * @param array(string=>mixed) $options The initial options to set.
-     
+
      * @throws ezcBasePropertyNotFoundException
      *         If trying to assign a property which does not exist
      * @throws ezcBaseValueException
@@ -35,7 +37,7 @@ class ezpCacheStorageClusterOptions extends ezcBaseOptions
         $this->storageOptions = new ezcCacheStorageOptions();
         parent::__construct( $options );
     }
-    
+
     /**
      * Sets an option.
      * This method is called when an option is set.
@@ -52,10 +54,10 @@ class ezpCacheStorageClusterOptions extends ezcBaseOptions
                 $this->storageOptions->$key = $value;
                 return;
         }
-        
+
         $this->properties[$key] = $value;
     }
-    
+
     /**
      * Property get access.
      * Simply returns a given option.
@@ -73,7 +75,7 @@ class ezpCacheStorageClusterOptions extends ezcBaseOptions
         // Delegate
         return $this->storageOptions->$key;
     }
-    
+
     /**
      * Returns if a option exists.
      *

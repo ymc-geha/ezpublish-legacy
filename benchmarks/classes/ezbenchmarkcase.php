@@ -1,35 +1,12 @@
 <?php
-//
-// Definition of eZBenchmarkCase class
-//
-// Created on: <18-Feb-2004 11:55:40 >
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
-
-/*! \file ezbenchmarkcase.php
-*/
+/**
+ * File containing the eZBenchmarkCase class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /*!
   \class eZBenchmarkCase ezbenchmarkcase.php
@@ -56,7 +33,6 @@
   For running the marks you must pass the case to an eZBenchmarkRunner instance.
 
   \code
-//include_once( 'benchmarks/classes/ezbenchmarkcase.php' );
 class MyTest extends eZBenchmarkCase
 {
     function MyTest()
@@ -85,7 +61,6 @@ $runner->run( $case );
 */
 
 require_once( 'lib/ezutils/classes/ezdebug.php' );
-//include_once( 'benchmarks/classes/ezbenchmarkunit.php' );
 
 class eZBenchmarkCase extends eZBenchmarkUnit
 {
@@ -101,8 +76,7 @@ class eZBenchmarkCase extends eZBenchmarkUnit
     {
         if ( !method_exists( $this, $method ) )
         {
-            eZDebug::writeWarning( "Mark method $method in mark " . $this->Name . " does not exist, cannot add",
-                                   'eZBenchmarkCase::addMark' );
+            eZDebug::writeWarning( "Mark method $method in mark " . $this->Name . " does not exist, cannot add", __METHOD__ );
         }
         if ( !$name )
             $name = $method;
@@ -116,8 +90,7 @@ class eZBenchmarkCase extends eZBenchmarkUnit
     {
         if ( !function_exists( $function ) )
         {
-            eZDebug::writeWarning( "Mark function $method does not exist, cannot add to mark " . $this->Name,
-                                   'eZBenchmarkCase::addFunctionMark' );
+            eZDebug::writeWarning( "Mark function $method does not exist, cannot add to mark " . $this->Name, __METHOD__ );
         }
         if ( !$name )
             $name = $function;

@@ -1,34 +1,12 @@
 <?php
-//
-// $Id$
-//
-// Definition of eZDBInterface class
-//
-// Created on: <12-Feb-2002 15:54:17 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZDBInterface class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /*!
   \class eZDBInterface ezdbinterface.php
@@ -220,7 +198,7 @@ class eZDBInterface
         }
         else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", __METHOD__ );
             return null;
         }
     }
@@ -730,7 +708,7 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZDBInterface::commit' );
+                eZDebug::writeError( 'No transaction in progress, cannot commit', __METHOD__ );
                 return false;
             }
 
@@ -810,7 +788,7 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
+                eZDebug::writeError( 'No transaction in progress, cannot rollback', __METHOD__ );
                 return false;
             }
             // Reset the transaction counter
@@ -1154,7 +1132,7 @@ class eZDBInterface
      * @param $type The type to cast to.
      * @return string
      * @example implodeWithTypeCast( ',', $myArray, 'int' )
-     **/
+     */
     function implodeWithTypeCast( $glue, &$pieces, $type )
     {
         $str = '';
@@ -1343,7 +1321,7 @@ class eZDBInterface
      *
      * @return string A string with the correct IN statement like for example
      *         "columnName IN ( element1, element2 )"
-     **/
+     */
     function generateSQLINStatement( $elements, $columnName = '', $not = false, $unique = true, $type = false )
     {
         $result    = '';
@@ -1434,7 +1412,7 @@ class eZDBInterface
     /// If true then the database connection should be persistent
     public $UsePersistentConnection = false;
     /// Contains true if slave servers are enabled
-    public $UserSlaveServer;
+    public $UseSlaveServer;
     /// The slave database name
     public $SlaveDB;
     /// The slave server name

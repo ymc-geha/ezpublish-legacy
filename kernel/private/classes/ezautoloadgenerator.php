@@ -2,8 +2,8 @@
 /**
  * File containing the eZAutoloadGenerator class.
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  */
@@ -744,8 +744,8 @@ class eZAutoloadGenerator
 /**
  * Autoloader definition for eZ Publish $description files.
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package kernel
  *
@@ -1153,5 +1153,52 @@ END;
     {
         $this->output = $outputObject;
     }
+
+    /**
+     * Create phpunit configuration file adding whitelist from kernel autoload file
+     *
+     * It writes file phpunit.xml in ./tests directory
+     *
+     * @return DOMDocument;
+     */
+    public function buildPHPUnitConfigurationFile()
+    {
+        
+          if ( $this->mask == self::MODE_KERNEL )
+          {
+              $this->log('Creating phpunit configuration file.');
+
+              $autoloadArray = @include 'autoload/ezp_kernel.php';
+
+              $baseDir = getcwd();
+              
+              $dom = new DOMDocument( '1.0', 'utf-8' );
+              $dom->formatOutput = true;
+
+              $root = $dom->createElement( 'phpunit' );
+              $filter = $dom->createElement( 'filter' );
+              $blacklist = $dom->createElement( 'blacklist' );
+              $whitelist = $dom->createElement( 'whitelist' );
+              $directory = $dom->createElement('directory', $baseDir . DIRECTORY_SEPARATOR . 'tests');
+
+              foreach ( $autoloadArray as $class => $filename )
+              {
+                  $file = $dom->createElement( 'file', $baseDir . DIRECTORY_SEPARATOR . $filename );
+                  $whitelist->appendChild($file);
+              }
+
+              $blacklist->appendChild($directory);
+              $filter->appendChild($blacklist);
+              $filter->appendChild($whitelist);
+              $root->appendChild($filter);
+              $dom->appendChild($root);
+
+              file_put_contents($baseDir . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'phpunit.xml', $dom->saveXML());
+
+              return $dom;
+          }
+
+     }
+      
 }
 ?>

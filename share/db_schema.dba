@@ -4458,6 +4458,29 @@ $schema = array (
       ),
     ),
   ),
+  'ezorder_nr_incr'=>
+  array (
+   'name' => 'ezorder_nr_incr',
+   'fields' =>
+    array (
+      'id'=>
+      array (
+         'type' => 'auto_increment',
+         'default' => false,
+      ),
+    ),
+   'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
   'ezorder_item' => 
   array (
     'name' => 'ezorder_item',
@@ -5164,10 +5187,10 @@ $schema = array (
       ),
       'user_id' => 
       array (
-        'length' => 200,
-        'type' => 'varchar',
+        'length' => 11,
+        'type' => 'int',
         'not_null' => '1',
-        'default' => '',
+        'default' => 0,
       ),
     ),
     'indexes' => 
@@ -5266,7 +5289,7 @@ $schema = array (
       ),
       'description' => 
       array (
-        'type' => 'text',
+        'type' => 'longtext',
         'default' => false,
       ),
       'endpoint_uri' => 
@@ -5326,7 +5349,7 @@ $schema = array (
           0 => 'client_id',
         ),
       ),
-      'client_id_UNIQUE' => 
+      'client_id_unique' => 
       array (
         'type' => 'unique',
         'fields' => 
@@ -5378,10 +5401,10 @@ $schema = array (
       ),
       'user_id' => 
       array (
-        'length' => 200,
-        'type' => 'varchar',
+        'length' => 11,
+        'type' => 'int',
         'not_null' => '1',
-        'default' => '',
+        'default' => 0,
       ),
     ),
     'indexes' => 
@@ -6451,7 +6474,7 @@ $schema = array (
       array (
         'length' => 255,
         'type' => 'varchar',
-        'default' => '',
+        'default' => NULL,
       ),
       'locale' => 
       array (

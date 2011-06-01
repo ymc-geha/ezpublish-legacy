@@ -2,8 +2,8 @@
 /**
  * Content list criteria mechanism.
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPL v2
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
  * @version //autogentag//
  * @package API
  */
@@ -59,7 +59,7 @@ class ezpContentCriteria
     {
         return new ezpContentClassCriteria();
     }
-    
+
     /**
      * Creates a limit criteria
      * @return ezpContentLimitCriteria
@@ -68,7 +68,7 @@ class ezpContentCriteria
     {
         return new ezpContentLimitCriteria();
     }
-    
+
     /**
      * Creates a sorting criteria
      * @param string $sortKey The sort key. Only non-attribute keys are supported (see {@link http://goo.gl/xvJMM})
@@ -78,7 +78,7 @@ class ezpContentCriteria
     {
         return new ezpContentSortingCriteria( $sortKey, $sortOrder );
     }
-    
+
     /**
      * Creates a depth criteria
      * @param int $depth The maximum level of depth that should be explored (1 by default)

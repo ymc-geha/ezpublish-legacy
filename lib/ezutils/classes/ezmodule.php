@@ -1,32 +1,12 @@
 <?php
-//
-// Definition of eZModule class
-//
-// Created on: <17-Apr-2002 11:11:39 amos>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZModule class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
 /**
  * The eZModule class is used to instanciate and use modules & views.
@@ -289,7 +269,7 @@ class eZModule
      * @return void
      *
      * @see currentView()
-    */
+     */
     function setCurrentView( $name )
     {
         $GLOBALS['eZModuleCurrentView'] = $name;
@@ -450,8 +430,7 @@ class eZModule
     {
         if ( !$errorType )
         {
-            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.",
-                                   'eZModule::handleError' );
+            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.", __METHOD__ );
             $errorType = 'kernel';
         }
         $errorModule = $this->errorModule();
@@ -503,7 +482,7 @@ class eZModule
         }
         else
         {
-            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirect' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, __METHOD__ );
         }
         return false;
     }
@@ -582,7 +561,7 @@ class eZModule
                                                    $unorderedParameters, $userParameters, $anchor );
         }
         else
-            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirectionURI' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, __METHOD__ );
         return false;
     }
 
@@ -710,7 +689,7 @@ class eZModule
      *
      * @return array The parameters definition
      * @see unorderedParameters(), viewData(), currentView(), currentModule()
-    */
+     */
     function parameters( $viewName = '' )
     {
         if ( $viewName == '' )
@@ -804,7 +783,7 @@ class eZModule
      * @param string $uri The redirection URI
      *
      * @return void
-     **/
+     */
     function setRedirectURI( $uri )
     {
         $this->RedirectURI = $uri;
@@ -813,9 +792,9 @@ class eZModule
     /**
      * Returns the redirection HTTP status (!)
      *
-     * @return something (probably)
+     * @see setRedirectStatus();
      *
-     * @deprecated 4.3 Not used ANYWHERE in the kernel
+     * @return the HTTP Status header
      */
     function redirectStatus()
     {
@@ -828,8 +807,6 @@ class eZModule
      * @param string $status HTTP status
      *
      * @note The status must be a valid HTTP status with number and text.
-     *
-     * @deprecated 4.3 not used anywyere
      */
     function setRedirectStatus( $status )
     {
@@ -859,7 +836,7 @@ class eZModule
      * @param string $attr Attribute name
      *
      * @return bool True if the attribute exists, false otherwise
-    */
+     */
     function hasAttribute( $attr )
     {
         return in_array( $attr, $this->attributes() );
@@ -895,7 +872,7 @@ class eZModule
                 return $this->FunctionList;
             default:
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", __METHOD__ );
                 return null;
             }
             break;
@@ -912,7 +889,7 @@ class eZModule
      * @return void
      *
      * @see currentAction(), isCurrentAction()
-    */
+     */
     function setCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -982,7 +959,7 @@ class eZModule
                 }
                 else
                 {
-                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, 'eZModule::currentAction' );
+                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, __METHOD__ );
                 }
             }
         }
@@ -1059,7 +1036,7 @@ class eZModule
             {
                 return $http->postVariable( $postParameters[$parameterName] );
             }
-            eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+            eZDebug::writeError( "No such action parameter: $parameterName", __METHOD__ );
         }
         if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
         {
@@ -1078,7 +1055,7 @@ class eZModule
                         return $parameterValue;
                     }
                 }
-                eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+                eZDebug::writeError( "No such action parameter: $parameterName", __METHOD__ );
             }
         }
         return null;
@@ -1143,7 +1120,7 @@ class eZModule
      * @return bool
      *
      * @see currentAction(), setCurrentAction()
-    */
+     */
     function isCurrentAction( $actionName, $view = '' )
     {
         if ( $view == '' )
@@ -1248,7 +1225,7 @@ class eZModule
                     }
                     else
                     {
-                        eZDebug::writeError( "Unknown hook function '$functionName' in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Unknown hook function '$functionName' in hook: $hookName", __METHOD__ );
                     }
                 }
                 else if ( is_array( $function ) )
@@ -1275,17 +1252,17 @@ class eZModule
                         }
                         else
                         {
-                            eZDebug::writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", 'eZModule::runHooks' );
+                            eZDebug::writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", __METHOD__ );
                         }
                     }
                     else
                     {
-                        eZDebug::writeError( "Missing data for method handling in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Missing data for method handling in hook: $hookName", __METHOD__ );
                     }
                 }
                 else
                 {
-                    eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
+                    eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, __METHOD__ );
                 }
 
                 switch( $retVal )
@@ -1296,7 +1273,7 @@ class eZModule
 
                     case eZModule::HOOK_STATUS_FAILED:
                     {
-                        eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
+                        eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, __METHOD__ );
                     } break;
 
                     case eZModule::HOOK_STATUS_CANCEL_RUN:
@@ -1621,7 +1598,7 @@ class eZModule
      * @note This is a system-wide value
      *
      * @see currentModule(), setCurrentView()
-    */
+     */
     function currentView()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1636,7 +1613,7 @@ class eZModule
      * @return string the current module name, or false if not set
      *
      * @note This is a system-wide value
-    */
+     */
     function currentModule()
     {
         $currentView = $GLOBALS['eZModuleCurrentView'];
@@ -1651,7 +1628,7 @@ class eZModule
      * @return array
      *
      * @see setGlobalPathList(), addGlobalPathList()
-    */
+     */
     static function globalPathList()
     {
         if ( !isset( $GLOBALS['eZModuleGlobalPathList'] ) )
@@ -2072,11 +2049,11 @@ class eZModule
     public $UIComponent;
 
     /**
-    * Controls at which level UI component matching is done:
-    * either 'module' which uses module name or 'view' which uses view name
-    * @var string
-    * @private
-    */
+     * Controls at which level UI component matching is done:
+     * either 'module' which uses module name or 'view' which uses view name
+     * @var string
+     * @private
+     */
     public $UIComponentMatch;
 }
 

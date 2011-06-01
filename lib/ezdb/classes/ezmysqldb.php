@@ -1,42 +1,19 @@
 <?php
-//
-// $Id$
-//
-// Definition of eZMySQLDB class
-//
-// Created on: <12-Feb-2002 15:54:17 bf>
-//
-// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-// SOFTWARE NAME: eZ Publish
-// SOFTWARE RELEASE: 4.1.x
-// COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
-// SOFTWARE LICENSE: GNU General Public License v2.0
-// NOTICE: >
-//   This program is free software; you can redistribute it and/or
-//   modify it under the terms of version 2.0  of the GNU General
-//   Public License as published by the Free Software Foundation.
-//
-//   This program is distributed in the hope that it will be useful,
-//   but WITHOUT ANY WARRANTY; without even the implied warranty of
-//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//   GNU General Public License for more details.
-//
-//   You should have received a copy of version 2.0 of the GNU General
-//   Public License along with this program; if not, write to the Free
-//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//   MA 02110-1301, USA.
-//
-//
-// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
-//
+/**
+ * File containing the eZMySQLDB class.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package lib
+ */
 
-/*!
-  \class eZMySQLDB ezmysqldb.php
-  \ingroup eZDB
-  \brief The eZMySQLDB class provides MySQL implementation of the database interface.
-
-  eZMySQLDB is the MySQL implementation of eZDB.
-  \sa eZDB
+/**
+ * The eZMySQLDB class provides MySQL implementation of the database interface.
+ *
+ * eZMySQLDB is the MySQL implementation of eZDB.
+ * @see eZDB
+ * @deprecated Since 4.5 in favour of {@link eZMySQLiDB}
 */
 class eZMySQLDB extends eZDBInterface
 {
@@ -170,7 +147,6 @@ class eZMySQLDB extends eZDBInterface
                 $this->setError( $connection );
                 eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
                 $this->IsConnected = false;
-                throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
             }
         }
 
@@ -845,7 +821,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function rollbackQuery()
     {
-        return $this->query( "ROLLBACK" );
+        return mysql_query( "ROLLBACK", $this->DBWriteConnection );
     }
 
     function lastSerialID( $table = false, $column = false )
@@ -907,11 +883,14 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->IsConnected )
         {
-            if ( $connection === false ) {
+            if ( $connection === false )
                 $connection = $this->DBConnection;
+
+            if ( is_resource( $connection ) )
+            {
+                $this->ErrorMessage = mysql_error( $connection );
+                $this->ErrorNumber = mysql_errno( $connection );
             }
-            $this->ErrorMessage = mysql_error( $connection );
-            $this->ErrorNumber = mysql_errno( $connection );
         }
         else
         {

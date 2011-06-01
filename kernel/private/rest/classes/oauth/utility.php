@@ -2,9 +2,10 @@
 /**
  * File containing the ezpOuathUtility class
  *
- * @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/gnu_gpl GNU GPLv2
- *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
  */
 
 /**
@@ -12,7 +13,7 @@
  *
  * @package rest
  */
-class ezpOauthUtility
+class ezpOauthUtility extends ezpRestModel
 {
     const AUTH_HEADER_NAME     = 'Authorization';
     const AUTH_CGI_HEADER_NAME = 'HTTP_AUTHORIZATION';
@@ -42,22 +43,30 @@ class ezpOauthUtility
         //    when available, automatically.
 
         $token = null;
+        $checkStack = array( 'header', 'get', 'post' );
 
-        $token = self::getTokenFromAuthorizationHeader();
-        if ( $token !== null )
+        foreach ( $checkStack as $step )
         {
-            return $token;
+            switch ( $step )
+            {
+                case 'header':
+                    $token = self::getTokenFromAuthorizationHeader();
+                break;
+
+                case 'get':
+                    $token = self::getTokenFromQueryComponent( $request );
+                break;
+
+                case 'post':
+                    $token = self::getTokenFromHttpBody( $request );
+                break;
+            }
+
+            if ( isset( $token ) ) // Go out of the loop if we find the token during the iteration
+            {
+                break;
+            }
         }
-
-        // 2
-        $token = self::getTokenFromQueryComponent( $request );
-        if ( $token !== null )
-            return $token;
-
-        // 3
-        $token = self::getTokenFromHttpBody();
-        if ( $token !== null )
-            return $token;
 
         return $token;
     }
@@ -65,14 +74,14 @@ class ezpOauthUtility
 
     /**
      * Extracts the OAuth token from the HTTP header, Authorization.
-     * 
+     *
      * The token is transmitted via the OAuth Authentication scheme ref.
      * Section 5.1.1.
-     * 
+     *
      * PHP does not expose the Authorization header unless it uses the 'Basic'
      * or 'Digest' schemes, and it is therefore extracted from the raw Apache
      * headers.
-     * 
+     *
      * On systems running CGI or Fast-CGI PHP makes this header available via
      * the <var>HTTP_AUTHORIZATION</var> header.
      * @link http://php.net/manual/en/features.http-auth.php
@@ -81,20 +90,32 @@ class ezpOauthUtility
      */
     protected static function getTokenFromAuthorizationHeader()
     {
-        // @TODO We cannot throw exceptions here, until all alternatives are checked.
-        $apacheHeaders = apache_request_headers();
-        if ( !isset( $apacheHeaders[self::AUTH_HEADER_NAME] ) )
-            throw new ezpOauthNoAuthInfoException( "No Authorization header found" );
+        $token = null;
+        $authHeader = null;
+        if ( function_exists( 'apache_request_headers' ) )
+        {
+            $apacheHeaders = apache_request_headers();
+            if ( isset( $apacheHeaders[self::AUTH_HEADER_NAME] ) )
+                $authHeader = $apacheHeaders[self::AUTH_HEADER_NAME];
+        }
+        else
+        {
+            if ( isset( $_SERVER[self::AUTH_CGI_HEADER_NAME] ) )
+                $authHeader = $_SERVER[self::AUTH_CGI_HEADER_NAME];
+        }
 
-        $tokenPattern = "/^(?P<authscheme>OAuth)\s(?P<token>[a-zA-Z0-9]+)$/";
-        $match = preg_match( $tokenPattern, $apacheHeaders[self::AUTH_HEADER_NAME], $m );
-        if ( !$match )
-            throw new ezpOauthInvalidRequestException( "Token not found in Authorization header" );
+        if ( isset( $authHeader ) )
+        {
+            $tokenPattern = "/^(?P<authscheme>OAuth)\s(?P<token>[a-zA-Z0-9]+)$/";
+            $match = preg_match( $tokenPattern, $authHeader, $m );
+            if ( $match > 0 )
+            {
+                $token = $m['token'];
+            }
+        }
 
-        if ( $m['authscheme'] !== 'OAuth' )
-            throw new ezpOauthNoAuthInfoException( "OAuth authentication scheme not found" );
 
-        return $m['token'];
+        return $token;
     }
 
     /**
@@ -106,13 +127,16 @@ class ezpOauthUtility
      * @param ezcMvcRequest $request
      * @return string The access token string
      */
-    protected function getTokenFromQueryComponent( ezpRestRequest $request )
+    protected static function getTokenFromQueryComponent( ezpRestRequest $request )
     {
-        if( !isset($request->get['oauth_token']) )
+        $token = null;
+        if( isset( $request->get['oauth_token'] ) )
         {
-            throw new ezpOauthInvalidRequestException( "OAuth token not found in query component." );
+            //throw new ezpOauthInvalidRequestException( "OAuth token not found in query component." );
+            $token = $request->get['oauth_token'];
         }
-        return $request->get['oauth_token'];
+
+        return $token;
     }
 
     /**
@@ -122,13 +146,148 @@ class ezpOauthUtility
      * @param ezpRestRequest $request
      * @return string The access token string
      */
-    protected function getTokenFromHttpBody( ezpRestRequest $request )
+    protected static function getTokenFromHttpBody( ezpRestRequest $request )
     {
-        if ( !isset( $request->post['oauth_token'] ) )
+        $token = null;
+        if ( isset( $request->post['oauth_token'] ) )
         {
-            throw new ezpOauthInvalidRequestException( "OAuth token not found in HTTP body." );
+            $token = $request->post['oauth_token'];
         }
-        return $request->post['oauth_token'];
+
+        return $token;
+    }
+
+    /**
+     * Handles a refresh_token request.
+     * Returns the new token object as ezpRestToken
+     * @param string $clientId Client identifier
+     * @param string $clientSecret Client secret key
+     * @param string $refreshToken Refresh token
+     * @return ezpRestToken
+     * @throws ezpOauthInvalidRequestException
+     */
+    public static function doRefreshToken( $clientId, $clientSecret, $refreshToken )
+    {
+        $client = ezpRestClient::fetchByClientId( $clientId );
+        $tokenTTL = (int)eZINI::instance( 'rest.ini' )->variable( 'OAuthSettings', 'TokenTTL' );
+
+        if (! ( $client instanceof ezpRestClient ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->validateSecret( $clientSecret ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        $session = ezcPersistentSessionInstance::get();
+
+        $q = $session->createFindQuery( 'ezpRestToken' );
+        $q->where( $q->expr->eq( 'refresh_token', $q->bindValue( $refreshToken ) ) );
+        $refreshInfo = $session->find( $q, 'ezpRestToken' );
+
+        if ( empty( $refreshInfo) )
+        {
+            throw new ezpOauthInvalidRequestException( "Specified refresh-token does not exist." );
+        }
+
+        $refreshInfo = array_shift( $refreshInfo );
+
+        // Validate client is still authorized, then validate code is not expired
+        $authorized = ezpRestAuthorizedClient::fetchForClientUser( $client, eZUser::fetch( $refreshInfo->user_id ) );
+
+        if ( !($authorized instanceof ezpRestAuthorizedClient ) )
+        {
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+        }
+
+
+        // Ideally there should be a separate expiry for refresh tokens here, for now allow.
+        $newToken = new ezpRestToken();
+        $newToken->id = ezpRestToken::generateToken( '' );
+        $newToken->refresh_token = ezpRestToken::generateToken( '' );
+        $newToken->client_id = $clientId;
+        $newToken->user_id = $refreshInfo->user_id;
+        $newToken->expirytime = time() + $tokenTTL;
+
+        $session->save( $newToken );
+        $session->delete( $refreshInfo );
+
+        return $newToken;
+    }
+
+    /**
+     * Generates a new token against an authorization_code
+     * Auth code is checked against clientId, clientSecret and redirectUri as registered for client in admin
+     * Auth code is for one-use only and will be removed once the access token generated
+     * @param string $clientId Client identifier
+     * @param string $clientSecret Client secret key
+     * @param string $authCode Authorization code provided by the client
+     * @param string $redirectUri Redirect URI. Must be the same as registered in admin
+     * @return ezpRestToken
+     * @throws ezpOauthInvalidRequestException
+     * @throws ezpOauthInvalidTokenException
+     * @throws ezpOauthExpiredTokenException
+     */
+    public static function doRefreshTokenWithAuthorizationCode( $clientId, $clientSecret, $authCode, $redirectUri )
+    {
+        $client = ezpRestClient::fetchByClientId( $clientId );
+        $tokenTTL = (int)eZINI::instance( 'rest.ini' )->variable( 'OAuthSettings', 'TokenTTL' );
+
+        if (! ( $client instanceof ezpRestClient ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->validateSecret( $clientSecret ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+
+        if ( !$client->isEndPointValid( $redirectUri ) )
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_REQUEST );
+
+        $session = ezcPersistentSessionInstance::get();
+
+        $q = $session->createFindQuery( 'ezpRestAuthcode' );
+        $q->where( $q->expr->eq( 'id', $q->bindValue( $authCode ) ) );
+        $codeInfo = $session->find( $q, 'ezpRestAuthcode' );
+
+        if ( empty( $codeInfo ) )
+        {
+            throw new ezpOauthInvalidTokenException( "Specified authorization code does not exist." );
+        }
+        $codeInfo = array_shift( $codeInfo );
+
+        // Validate client is still authorized, then validate code is not expired
+        $authorized = ezpRestAuthorizedClient::fetchForClientUser( $client, eZUser::fetch( $codeInfo->user_id ) );
+
+        if ( !($authorized instanceof ezpRestAuthorizedClient ) )
+        {
+            throw new ezpOauthInvalidRequestException( ezpOauthTokenEndpointErrorType::INVALID_CLIENT );
+        }
+
+        // Check expiry of authorization_code
+        if ( $codeInfo->expirytime != 0 )
+        {
+            if ( $codeInfo->expirytime < time() )
+            {
+                $d = date( "c", $codeInfo->expirytime );
+                throw new ezpOauthExpiredTokenException( "Authorization code expired on {$d}" );
+            }
+        }
+
+        // code ok, create access and refresh tokens
+        $accessToken = ezpRestToken::generateToken( '' );
+        $refreshToken = ezpRestToken::generateToken( '' );
+
+        $token = new ezpRestToken();
+        $token->id = $accessToken;
+        $token->refresh_token = $refreshToken;
+        $token->client_id = $clientId;
+        $token->user_id = $codeInfo->user_id;
+        $token->expirytime = time() + $tokenTTL;
+
+        $session = ezcPersistentSessionInstance::get();
+        $session->save( $token );
+
+        // After an auth code is used, we'll remove it so it is not abused
+        $session->delete( $codeInfo );
+
+        return $token;
     }
 }
 ?>

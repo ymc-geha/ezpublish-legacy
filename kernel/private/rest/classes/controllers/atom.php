@@ -1,11 +1,12 @@
 <?php
 /**
-*  File containing the atom controller.
-*
-* @copyright Copyright (C) 1999-2010 eZ Systems AS. All rights reserved.
-* @license http://ez.no/licenses/gnu_gpl GNU GPLv2
-*
-*/
+ *  File containing the atom controller.
+ *
+ * @copyright Copyright (C) 1999-2011 eZ Systems AS. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+ * @version //autogentag//
+ * @package kernel
+ */
 
 /**
  * Controller class for producing atom feeds of content structure.
@@ -14,7 +15,7 @@
  * will be basic collections, and more specialiced actions to retrieve delta
  * of new content based on updates since last-modified-date and/or feed entry
  * IDs.
- **/
+ */
 class ezpRestAtomController extends ezcMvcController
 {
     public function doCollection()
