@@ -2021,7 +2021,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function subTreeMultiPaths( $nodesParams, $listParams = NULL )
     {
-        if( !is_array( $nodesParams ) || !count( $nodesParams ) )
+        if( !is_array( $nodesParams ) || empty( $nodesParams ) )
         {
             eZDebug::writeWarning( __METHOD__.': Nodes parameter must be an array with at least one key.' );
             return null;

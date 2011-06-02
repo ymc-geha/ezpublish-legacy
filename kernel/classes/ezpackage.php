@@ -2931,7 +2931,7 @@ class eZPackage
         $db = eZDB::instance();
         $result = $db->arrayQuery( "SELECT count(*) AS count FROM ezpackage WHERE name='$name' AND version='$version'" );
 
-        if ( !count( $result ) )
+        if ( empty( $result ) )
             return false;
         $installed = $result[0]['count'] == '0' ? false : true;
         $this->isInstalled = $installed;

@@ -89,7 +89,7 @@ class eZContentCacheManager
         {
             $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
 
-            if ( !count( $relTypes ) )
+            if ( empty( $relTypes ) )
                 return;
 
             $relatedObjects = array();

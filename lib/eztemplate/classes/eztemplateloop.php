@@ -74,7 +74,7 @@ class eZTemplateLoop
     {
         $params =& $this->FunctionParameters;
 
-        if ( !isset( $params['sequence_array'] ) || !count( $params['sequence_array'] ) )
+        if ( !isset( $params['sequence_array'] ) || empty( $params['sequence_array'] ) )
             return true;
 
         $this->parseParamVarName( 'sequence_var', $seqVarName );
@@ -267,7 +267,7 @@ class eZTemplateLoop
         $dst = null;
 
         if ( !isset( $this->FunctionParameters[$paramName] ) ||
-             !count( $this->FunctionParameters[$paramName] ) )
+             empty( $this->FunctionParameters[$paramName] ) )
             return false;
 
         list( $varNsName, $varNsType, $varName ) = $this->FunctionParameters[$paramName][0][1];
@@ -295,7 +295,7 @@ class eZTemplateLoop
     {
         $dst = null;
 
-        if ( !isset( $this->FunctionParameters[$paramName] ) || !count( $this->FunctionParameters[$paramName] ) )
+        if ( !isset( $this->FunctionParameters[$paramName] ) || empty( $this->FunctionParameters[$paramName] ) )
             return false;
 
         // get parameter value
@@ -325,7 +325,7 @@ class eZTemplateLoop
     {
         $dst = null;
 
-        if ( !isset( $this->FunctionParameters[$paramName] ) || !count( $this->FunctionParameters[$paramName] ) )
+        if ( !isset( $this->FunctionParameters[$paramName] ) || empty( $this->FunctionParameters[$paramName] ) )
             return false;
 
         $dst = $this->Tpl->elementValue( $this->FunctionParameters[$paramName], $this->RootNamespace,

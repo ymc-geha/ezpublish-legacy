@@ -2132,7 +2132,7 @@ class eZContentObject extends eZPersistentObject
         {
             $addingIDList = array( ( int ) $addingIDList );
         }
-        elseif ( !count( $addingIDList ) )
+        elseif ( empty( $addingIDList ) )
         {
             return;
         }

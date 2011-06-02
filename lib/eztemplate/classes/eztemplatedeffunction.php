@@ -128,7 +128,7 @@ class eZTemplateDefFunction
     {
         $undef = ( $functionName == eZTemplateDefFunction::UNDEF_FUNCTION_NAME ) ? true : false;
 
-        if ( $undef && !count( $functionParameters ) ) // if {undef} called w/o arguments
+        if ( $undef && empty( $functionParameters ) ) // if {undef} called w/o arguments
         {
             // destroy all variables defined in the current template using {def}
             $tpl->unsetLocalVariables();

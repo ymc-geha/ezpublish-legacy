@@ -1702,7 +1702,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 $conflictVersions[] = $version;
             }
         }
-        if ( !count( $conflictVersions ) )
+        if ( empty( $conflictVersions ) )
         {
             return false;
         }

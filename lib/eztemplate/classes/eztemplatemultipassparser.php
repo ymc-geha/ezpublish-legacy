@@ -1138,7 +1138,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                     $relatedTemplateName, $startLine, $startColumn, $rootNamespace )
     {
         $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-        if ( !count( $cond ) )
+        if ( empty( $cond ) )
         {
             $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
                                           $funcName, 'Not enough arguments' );
@@ -1155,7 +1155,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                  $relatedTemplateName, $startLine, $startColumn, $rootNamespace )
     {
         $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-        if ( !count( $cond ) )
+        if ( empty( $cond ) )
         {
             $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
                                           'while', 'Not enough arguments' );
