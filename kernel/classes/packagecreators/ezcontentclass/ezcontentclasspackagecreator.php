@@ -83,7 +83,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         $persistentData['classlist'] = $classList;
 
         $result = true;
-        if ( count( $classList ) == 0 )
+        if ( empty( $classList ) )
         {
             $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Class list' ),
                                   'description' => ezpI18n::tr( 'kernel/package', 'You must select at least one class for inclusion' ) );

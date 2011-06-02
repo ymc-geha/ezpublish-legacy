@@ -174,7 +174,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                           array( 'version' => 'asc' ), null,
                                                           true );
         if ( $versions === null or
-             count( $versions ) == 0 )
+             empty( $versions ) )
             return null;
         return $versions[0];
     }
@@ -1255,7 +1255,7 @@ class eZContentObjectVersion extends eZPersistentObject
             }
 
             $attributeArray = $contentObjectVersion->contentObjectAttributes( $language );
-            if ( count( $attributeArray ) == 0)
+            if ( empty( $attributeArray ) )
             {
                 $hasTranslation = eZContentLanguage::fetchByLocale( $language );
 
@@ -1527,7 +1527,7 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $parentNodeIDList[] = $parentNode->attribute( 'parent_node' );
             }
-            if ( count( $parentNodeIDList ) == 0 )
+            if ( empty( $parentNodeIDList ) )
             {
                 eZDebug::writeWarning( $this, "unable to get parent nodes for version" );
                 return;

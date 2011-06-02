@@ -159,7 +159,7 @@ class eZPathElement extends eZPersistentObject
         {
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
             $rows = $db->arrayQuery( $query );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 break;
             }
@@ -188,7 +188,7 @@ class eZPathElement extends eZPersistentObject
         {
             $query = "SELECT * FROM ezurlalias_ml WHERE id={$id}";
             $rows = $db->arrayQuery( $query );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 break;
             }

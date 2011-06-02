@@ -114,7 +114,7 @@ else
         {
             $discountRuleSelectedClasses[] = $value['value'];
         }
-        if ( count( $discountRuleSelectedClasses ) == 0 )
+        if ( empty( $discountRuleSelectedClasses ) )
         {
             $discountRuleSelectedClasses[] = -1;
         }
@@ -125,7 +125,7 @@ else
         {
             $discountRuleSelectedSections[] = $value['value'];
         }
-        if ( count( $discountRuleSelectedSections ) == 0 )
+        if ( empty( $discountRuleSelectedSections ) )
         {
             $discountRuleSelectedSections[] = -1;
         }

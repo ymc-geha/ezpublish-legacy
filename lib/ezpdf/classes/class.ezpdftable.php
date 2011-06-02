@@ -1379,7 +1379,7 @@ class eZPDFTable extends Cezpdf
         $fontSize = $this->fontSize();
         Cezpdf::ezText( ezpI18n::tr( 'lib/ezpdf/classes', 'Index', 'Keyword index name' ) . '<C:callInsertTOC:Index,1>'."\n", 26, array('justification'=>'centre'));
 
-        if ( count( $this->KeywordArray ) == 0 )
+        if ( empty( $this->KeywordArray ) )
             return;
 
         ksort( $this->KeywordArray );

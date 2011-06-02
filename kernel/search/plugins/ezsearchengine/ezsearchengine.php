@@ -452,7 +452,7 @@ class eZSearchEngine implements ezpSearchEngine
     */
     public function search( $searchText, $params = array(), $searchTypes = array() )
     {
-        if ( count( $searchTypes ) == 0 )
+        if ( empty( $searchTypes ) )
         {
             $searchTypes['general'] = array();
             $searchTypes['subtype'] = array();
@@ -931,7 +931,7 @@ class eZSearchEngine implements ezpSearchEngine
                 }
             }
 
-            if ( count( $searchPartsArray ) === 0 && $this->TempTablesCount == 0 )
+            if ( empty( $searchPartsArray ) && $this->TempTablesCount == 0 )
             {
                  $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
                  $this->saveCreatedTempTableName( 0, $table );
@@ -2243,7 +2243,7 @@ class eZSearchEngine implements ezpSearchEngine
 
             case 'integers':
             {
-                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                     return true;
             }
             break;
@@ -2273,7 +2273,7 @@ class eZSearchEngine implements ezpSearchEngine
 
             case 'integersbyidentifier':
             {
-                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                     return true;
             }
             break;

@@ -77,7 +77,7 @@ class eZTreeMenuOperator
         {
             $classFilter = array();
         }
-        else if ( count( $classFilter ) == 0 )
+        else if ( empty( $classFilter ) )
         {
             $classFilter = array( 1 );
         }

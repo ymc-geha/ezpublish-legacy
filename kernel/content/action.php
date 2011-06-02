@@ -113,7 +113,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
         {
             $selectedNodeIDArray = eZContentBrowse::result( 'NewObjectAddNodeAssignment' );
-            if ( count( $selectedNodeIDArray ) == 0 )
+            if ( empty( $selectedNodeIDArray ) )
                 return $module->redirectToView( 'view', array( 'full', 2 ) );
             $node = eZContentObjectTreeNode::fetch( $selectedNodeIDArray[0] );
         }
@@ -1428,7 +1428,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
             $params['Limit'] = $limit;
             $subtree = $node->subTree( $params );
             $offset += count( $subtree );
-            if ( count( $subtree ) == 0 )
+            if ( empty( $subtree ) )
             {
                 break;
             }

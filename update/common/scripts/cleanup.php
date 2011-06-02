@@ -93,7 +93,7 @@ if ( $cleanAllItems )
 }
 else
 {
-    if ( count( $cleanItems ) == 0 )
+    if ( empty( $cleanItems ) )
     {
         help();
         $script->shutdown( 0 );

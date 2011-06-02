@@ -96,7 +96,7 @@ class eZClusterFileHandler
      */
     static function cleanupGeneratingFiles()
     {
-        if ( count( self::$generatingFiles ) === 0 )
+        if ( empty( self::$generatingFiles ) )
         {
             return false;
         }

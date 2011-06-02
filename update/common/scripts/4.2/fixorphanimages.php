@@ -74,7 +74,7 @@ try
             $dirpath = dirname( $filePath );
             $contentObjectAttributeID = $image->attribute( 'contentobject_attribute_id' );
             $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filePath, $contentObjectAttributeID );
-            if( count( $dbResult ) == 0 )
+            if( empty( $dbResult ) )
             {
                 $file = eZClusterFileHandler::instance( $filePath );
                 if ( $file->exists() ) // Delete the file physically

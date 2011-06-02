@@ -145,7 +145,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     */
     function validateObjectList( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
-        if ( count( $persistentData['node_list'] ) == 0 )
+        if ( empty( $persistentData['node_list'] ) )
         {
             $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Selected nodes' ),
                                   'description' => ezpI18n::tr( 'kernel/package', 'You must select one or more node(s)/subtree(s) for export.' ) );
@@ -211,7 +211,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $options['minimal_template_set'] = $http->hasPostVariable( 'MinimalTemplateSet' ) ? $http->postVariable( 'MinimalTemplateSet' ) : false;
 
         $result = true;
-        if ( count( $persistentData['object_options']['language_array'] ) == 0 )
+        if ( empty( $persistentData['object_options']['language_array'] ) )
         {
             $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Selected nodes' ),
                                   'description' => ezpI18n::tr( 'kernel/package', 'You must choose one or more languages.' ) );
@@ -219,7 +219,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         }
 
         if ( $persistentData['object_options']['include_templates'] &&
-             count( $persistentData['object_options']['site_access_array'] ) == 0 )
+             empty( $persistentData['object_options']['site_access_array'] ) )
         {
             $errorList[] = array( 'field' => ezpI18n::tr( 'kernel/package', 'Selected nodes' ),
                                   'description' => ezpI18n::tr( 'kernel/package', 'You must choose one or more site access.' ) );

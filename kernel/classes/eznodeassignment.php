@@ -277,7 +277,7 @@ class eZNodeAssignment extends eZPersistentObject
         $db = eZDB::instance();
         if ( is_array( $assignmentID ) )
         {
-            if ( count( $assignmentID ) == 0 )
+            if ( empty( $assignmentID ) )
             {
                 return false;
             }
@@ -342,7 +342,7 @@ class eZNodeAssignment extends eZPersistentObject
         $db = eZDB::instance();
         if ( is_array( $assignmentID ) )
         {
-            if ( count( $assignmentID ) == 0 )
+            if ( empty( $assignmentID ) )
             {
                 return false;
             }
@@ -525,7 +525,7 @@ class eZNodeAssignment extends eZPersistentObject
     {
         $assignments = eZNodeAssignment::fetchForObject( $objectID, $version );
 
-        if ( count( $assignments ) == 0 )
+        if ( empty( $assignments ) )
             return true;
 
         // check: if there is already main assignment for the object then we should do nothing

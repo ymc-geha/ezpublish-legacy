@@ -38,7 +38,7 @@ class ezpContentClassCriteria implements ezpContentCriteriaInterface
 
     public function __toString()
     {
-        if ( count( $this->classes ) == 0 )
+        if ( empty( $this->classes ) )
             return 'N/A';
         elseif ( count( $this->classes ) == 1 )
             return "Content class is {$this->classes[0]}";

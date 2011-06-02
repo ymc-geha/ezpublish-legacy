@@ -893,7 +893,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     {
                         $assignedNodeIDArray[] = $node->attribute( 'node_id' );
                     }
-                    if ( count( $assignedNodeIDArray ) == 0 )
+                    if ( empty( $assignedNodeIDArray ) )
                         continue;
                     $info = eZContentObjectTreeNode::subtreeRemovalInformation( $assignedNodeIDArray );
                     $childrenCount = $info['total_child_count'];
@@ -1612,17 +1612,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             $nodeList[] = $nodeItem;
         }
-        if ( count( $nodeList ) == 0 )
+        if ( empty( $nodeList ) )
         {
             $cli->error( "No objects chosen" );
             return false;
         }
-        if ( count( $languageList ) == 0 )
+        if ( empty( $languageList ) )
         {
             // The default is to fetch all languages
             $languageList = eZContentLanguage::fetchLocaleList();
         }
-        if ( count( $siteAccessList ) == 0 )
+        if ( empty( $siteAccessList ) )
         {
             $ini = eZINI::instance();
             $siteAccessList[] = $ini->variable( 'SiteSettings', 'DefaultAccess' );

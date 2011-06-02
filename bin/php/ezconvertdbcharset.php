@@ -1611,7 +1611,7 @@ $xmlAttributesOption .= ', ezobjectrelationlist.ezcontentclass_attribute.data_te
 
 
 $xmlAttributesInfo = parseXMLAttributesOption( $xmlAttributesOption );
-if ( $xmlAttributesInfo && count( $xmlAttributesInfo ) == 0 )
+if ( $xmlAttributesInfo && empty( $xmlAttributesInfo ) )
 {
     showWarning( "no xml attributes specified" );
 }

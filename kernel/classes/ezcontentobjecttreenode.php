@@ -764,7 +764,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                if ( count( $classIDArray ) == 0 and !empty( $classFilterArray ) and $classFilterType == 'include' )
+                if ( empty( $classIDArray ) and !empty( $classFilterArray ) and $classFilterType == 'include' )
                 {
                     $classCondition = false;
                 }
@@ -2730,7 +2730,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                   $pathString
                                                   ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                                                   ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
-        if ( count( $objectIDArray ) == 0 )
+        if ( empty( $objectIDArray ) )
             return;
 
         // Who assigns which section at which node should be logged.
@@ -3319,7 +3319,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 // Get rid of current node, path element for this will be calculated
                 array_pop( $pathArray );
             }
-            if ( count( $pathArray ) == 0 )
+            if ( empty( $pathArray ) )
             {
                 $path = '';
             }
@@ -3502,7 +3502,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $parentNodeID != 1 and $updateParent )
         {
             $parents = eZURLAliasML::fetchByAction( "eznode", $parentNodeID );
-            if ( count( $parents ) == 0 )
+            if ( empty( $parents ) )
             {
                 $parentNode = $this->fetchParent();
 
@@ -3517,7 +3517,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     return false;
                 }
                 $parents = eZURLAliasML::fetchByAction( $parentActionName, $parentActionValue );
-                if ( count( $parents ) == 0 )
+                if ( empty( $parents ) )
                 {
                     return false;
                 }
@@ -3861,7 +3861,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $idList[] = $child['node_id'];
                         }
 
-                        if( count( $idList ) === 0 )
+                        if( empty( $idList ) )
                         {
                             break;
                         }
@@ -5023,7 +5023,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Create extra SQL statements for the class group filters.
         if ( is_array( $groupList ) )
         {
-            if ( count( $groupList ) == 0 )
+            if ( empty( $groupList ) )
             {
                 return $classList;
             }
@@ -5050,7 +5050,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             // If the constrained class list is empty we are not allowed to create any class
-            if ( count( $classIDArray ) == 0 )
+            if ( empty( $classIDArray ) )
             {
                 return $classList;
             }

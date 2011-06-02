@@ -71,7 +71,7 @@ class eZTemplateImageOperator
             if ( !function_exists( $function ) )
                 $this->MissingGDFunctions[] = $function;
         }
-        $this->ImageGDSupported = count( $this->MissingGDFunctions ) == 0;
+        $this->ImageGDSupported = empty( $this->MissingGDFunctions );
     }
 
     function operatorTemplateHints()

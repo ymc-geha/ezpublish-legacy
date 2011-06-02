@@ -367,7 +367,7 @@ class eZPostgreSQLDB extends eZDBInterface
                     $relationKinds[] = $relationKind;
             }
         }
-        if ( count( $relationKinds ) == 0 )
+        if ( empty( $relationKinds ) )
             return 0;
         $count = false;
         $relkindText = '';

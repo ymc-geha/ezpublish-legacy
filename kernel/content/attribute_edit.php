@@ -54,7 +54,7 @@ $attributeDataBaseName = 'ContentObjectAttribute';
 $class = eZContentClass::fetch( $classID );
 $contentObjectAttributes = $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
-     count( $contentObjectAttributes ) == 0 )
+     empty( $contentObjectAttributes ) )
 {
     $contentObjectAttributes = $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
@@ -67,7 +67,7 @@ if ( $FromLanguage !== false )
     $isTranslatingContent = true;
     $fromContentObjectAttributes = $object->contentObjectAttributes( true, false, $FromLanguage );
     if ( $fromContentObjectAttributes === null or
-         count( $fromContentObjectAttributes ) == 0 )
+         empty( $fromContentObjectAttributes ) )
     {
         unset( $fromContentObjectAttributes );
         $fromContentObjectAttributes = false;
@@ -241,7 +241,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
             break;
     }
     if ( (int)$_SERVER['CONTENT_LENGTH'] > $postMaxSizeBytes &&  // This is not 100% acurrate as $_SERVER['CONTENT_LENGTH'] doesn't only count post data but also other things
-        count( $_POST ) === 0 )                                 // Therefore we also check if request got no post variables.
+        empty( $_POST ) )                                 // Therefore we also check if request got no post variables.
     {
         $validation['attributes'][] = array( 'id' => '1',
                                              'identified' => 'generalid',

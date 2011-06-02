@@ -1021,7 +1021,7 @@ class eZContentUpload
                     if ( in_array( $classIdentifier, $classList ) )
                     {
                         $parentNodes = explode( ',', $classElements[1] );
-                        if ( count( $parentNodes ) == 0 )
+                        if ( empty( $parentNodes ) )
                             continue;
 
                         if ( isset( $classElements[2] ) )
@@ -1091,7 +1091,7 @@ class eZContentUpload
             }
         }
 
-        if ( !$parentNodes || count( $parentNodes ) == 0 )
+        if ( !$parentNodes || empty( $parentNodes ) )
         {
             return false;
         }

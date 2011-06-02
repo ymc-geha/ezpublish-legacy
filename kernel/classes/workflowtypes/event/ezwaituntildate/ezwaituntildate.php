@@ -110,7 +110,7 @@ class eZWaitUntilDate
 
     function setVersion( $version )
     {
-        if ( $version == 1 && count( $this->Entries ) == 0 )
+        if ( $version == 1 && empty( $this->Entries ) )
         {
             $this->Entries = eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, 0 );
             foreach( $this->Entries as $entry )

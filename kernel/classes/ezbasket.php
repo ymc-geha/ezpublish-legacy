@@ -321,7 +321,7 @@ class eZBasket extends eZPersistentObject
         }
 
         $currentBasket = false;
-        if ( count( $basketList ) == 0 )
+        if ( empty( $basketList ) )
         {
             $db = eZDB::instance();
             $db->begin();
@@ -478,7 +478,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         do
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $productCollectionIDList = array();
@@ -513,7 +513,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         {
             $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
 
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
                 break;
 
             $productCollectionIDList = array();

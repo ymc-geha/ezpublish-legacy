@@ -368,7 +368,7 @@ class eZPersistentObject
                     $important_keys[] = $relation;
             }
         }
-        if ( count( $important_keys ) == 0 && !$useFieldFilters )
+        if ( empty( $important_keys ) && !$useFieldFilters )
         {
             $insert_object = true;
         }
@@ -377,7 +377,7 @@ class eZPersistentObject
             $rows = eZPersistentObject::fetchObjectList( $def, $keys, $key_conds,
                                                           array(), null, false,
                                                           null, null );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 /* If we only want to update some fields in a record
                  * and that records does not exist, then we should do nothing, only return.

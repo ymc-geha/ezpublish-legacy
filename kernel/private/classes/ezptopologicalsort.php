@@ -59,7 +59,7 @@ class ezpTopologicalSort
         $sorted = array();
         while ( !empty( $this->nodes ) ) {
             // check for circular reference
-            if ( count( $rootNodes ) === 0 )
+            if ( empty( $rootNodes ) )
                 return false;
 
             // remove this node from rootNodes and add it to the output

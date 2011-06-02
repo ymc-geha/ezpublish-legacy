@@ -258,7 +258,7 @@ class eZContentObject extends eZPersistentObject
             $idArray = array( $idArray );
 
         // clear in-memory cache for all objects
-        if ( count( $idArray ) == 0 )
+        if ( empty( $idArray ) )
         {
             unset( $GLOBALS['eZContentObjectContentObjectCache'] );
             unset( $GLOBALS['eZContentObjectDataMapCache'] );
@@ -608,7 +608,7 @@ class eZContentObject extends eZPersistentObject
     */
     function fetchAttributesByIdentifier( $identifierArray, $version = false, $languageArray = false, $asObject = true )
     {
-        if ( count( $identifierArray ) === 0 )
+        if ( empty( $identifierArray ) )
         {
             return null;
         }
@@ -1159,7 +1159,7 @@ class eZContentObject extends eZPersistentObject
     {
         $remainingVersions = $this->versions( false );
         if ( !is_array( $remainingVersions ) or
-             count( $remainingVersions ) == 0 )
+             empty( $remainingVersions ) )
         {
             return false;
         }
@@ -4060,7 +4060,7 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $parentNodes = $this->attribute( 'parent_nodes' );
-                                if ( count( $parentNodes ) == 0 )
+                                if ( empty( $parentNodes ) )
                                 {
                                     if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                                     {
@@ -4123,7 +4123,7 @@ class eZContentObject extends eZPersistentObject
                             else
                             {
                                 $parentNodes = $this->attribute( 'parent_nodes' );
-                                if ( count( $parentNodes ) == 0 )
+                                if ( empty( $parentNodes ) )
                                 {
                                     if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                                     {
@@ -4478,7 +4478,7 @@ class eZContentObject extends eZPersistentObject
         // Create extra SQL statements for the class group filters.
         if ( is_array( $groupList ) )
         {
-            if ( count( $groupList ) == 0 )
+            if ( empty( $groupList ) )
             {
                 return $classList;
             }
@@ -4505,7 +4505,7 @@ class eZContentObject extends eZPersistentObject
         else
         {
             // If the constrained class list is empty we are not allowed to create any class
-            if ( count( $classIDArray ) == 0 )
+            if ( empty( $classIDArray ) )
             {
                 return $classList;
             }
@@ -5589,7 +5589,7 @@ class eZContentObject extends eZPersistentObject
         $objectNamePatternPartsPattern = '/<([^>]+)>/U';
         preg_match_all( $objectNamePatternPartsPattern, $objectNamePattern, $objectNamePatternParts );
 
-        if( count( $objectNamePatternParts ) === 0 || count( $objectNamePatternParts[1] ) == 0 )
+        if( empty( $objectNamePatternParts ) || empty( $objectNamePatternParts[1] ) )
             return false;
 
         $objectNamePatternParts = $objectNamePatternParts[1];
@@ -5606,7 +5606,7 @@ class eZContentObject extends eZPersistentObject
         $contentObjectVersion = $this->createNewVersion();
         // get contentObjectAttributes
         $dataMap = $contentObjectVersion->attribute( 'data_map' );
-        if ( count( $dataMap ) === 0 )
+        if ( empty( $dataMap ) )
             return false;
 
         // assign parts of $newName to the object's attributes.
@@ -5621,7 +5621,7 @@ class eZContentObject extends eZPersistentObject
             $attribute = $attributes[0];
 
             $newNamePart = $newNameParts[$pos+1];
-            if ( count( $newNamePart ) === 0 )
+            if ( empty( $newNamePart ) )
             {
                 if( $pos === 0 )
                 {

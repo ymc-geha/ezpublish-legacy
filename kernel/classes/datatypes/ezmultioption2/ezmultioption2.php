@@ -455,7 +455,7 @@ class eZMultiOption2
                 if ( !in_array( $moption, $this->MultioptionIDList ) )
                 {
                     unset( $this->Rules[$key][$moption] );
-                    if ( count( $this->Rules[$key] ) == 0 )
+                    if ( empty( $this->Rules[$key] ) )
                     {
                         unset( $this->Rules[$key] );
                         break;
@@ -467,7 +467,7 @@ class eZMultiOption2
                     if ( !in_array( $optionID, $this->OptionIDList ) )
                     {
                         unset( $this->Rules[$key][$moption][$index] );
-                        if( count( $rule ) == 0 )
+                        if( empty( $rule ) )
                         {
                             unset( $this->Rules[$key][$moption] );
                             break;
@@ -476,7 +476,7 @@ class eZMultiOption2
                     }
 
                 }
-                if( count( $this->Rules[$key] ) == 0 )
+                if( empty( $this->Rules[$key] ) )
                 {
                     unset( $this->Rules[$key] );
                     break;

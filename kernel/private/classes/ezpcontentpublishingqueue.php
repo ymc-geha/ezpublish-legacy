@@ -110,7 +110,7 @@ class ezpContentPublishingQueue implements ezpContentPublishingQueueReaderInterf
             array( 'offset' => 0, 'length' => 1 )
         );
 
-        if ( count( $queuedProcess ) == 0 )
+        if ( empty( $queuedProcess ) )
             return false;
         else
             return $queuedProcess[0];

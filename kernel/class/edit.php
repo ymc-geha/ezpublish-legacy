@@ -293,7 +293,7 @@ if ( !$EditLanguage )
     else
     {
         $canCreateLanguages = $class->attribute( 'can_create_languages' );
-        if ( count( $canCreateLanguages ) == 0)
+        if ( empty( $canCreateLanguages ) )
         {
             $EditLanguage = $class->attribute( 'top_priority_language_locale' );
         }
@@ -683,7 +683,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
 
     // check presence of attributes
-    if ( count( $newClassAttributes ) == 0 )
+    if ( empty( $newClassAttributes ) )
     {
         $validation['class_errors'][] = array( 'text' => ezpI18n::tr( 'kernel/class', 'The class should have at least one attribute.' ) );
         $basicClassPropertiesValid = false;

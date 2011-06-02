@@ -345,7 +345,7 @@ class eZWebDAVServer
         // Sanity check & action: if client forgot to ask, we'll still
         // play along revealing some basic/default properties. This is
         // necessary to make it work with Windows XP + SP2.
-        if( !is_array( $requestedProperties ) || count( $requestedProperties ) == 0 )
+        if( !is_array( $requestedProperties ) || empty( $requestedProperties ) )
         {
             $requestedProperties = array( 'displayname',
                                           'creationdate',

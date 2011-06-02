@@ -862,7 +862,7 @@ CODEPIECE;
 
             case $this->SysName:
             {
-                if ( count( $operatorParameters ) == 0 )
+                if ( empty( $operatorParameters ) )
                     $tpl->warning( 'eZURLOperator' . $operatorName, 'Requires attributename' );
                 else
                 {

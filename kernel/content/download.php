@@ -33,7 +33,7 @@ if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'ca
 
 // Get locations.
 $nodeAssignments = $contentObject->attribute( 'assigned_nodes' );
-if ( count( $nodeAssignments ) === 0 )
+if ( empty( $nodeAssignments ) )
 {
     // oops, no locations. probably it's related object. Let's check his owners
     $ownerList = eZContentObject::fetch( $contentObjectID )->reverseRelatedObjectList( false, false, false, false );

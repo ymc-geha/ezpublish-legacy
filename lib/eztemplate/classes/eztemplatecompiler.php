@@ -2335,7 +2335,7 @@ END;
                 if ( $variableParameters['text-result'] )
                 {
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
-                    if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
+                    if ( empty( $knownTypes ) or in_array( 'objectproxy', $knownTypes ) )
                     {
                         $php->addCodePiece( "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, false, \$$generatedVariableName ) : \$$generatedVariableName );" .  ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "\n" .
                                             "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
@@ -2975,7 +2975,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                 eZTemplateCompiler::generateVariableDataCode( $tmpPHP, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters, $resourceData );
                                 $newCode = $tmpPHP->fetch( false );
-                                if ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) )
+                                if ( empty( $tmpKnownTypes ) or in_array( 'objectproxy', $tmpKnownTypes ) )
                                 {
                                     $newCode .= ( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
                                                   "    \$$newVariableAssignmentName = \$$newVariableAssignmentName" . "->templateValue();\n" );
@@ -2988,7 +2988,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                                 $tmpKnownTypes = array();
                                 eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $tmpKnownTypes, $dataInspection,
                                                                               $persistence, $newParameters, $resourceData );
-                                if ( !$parameters['treat-value-as-non-object'] and ( count( $tmpKnownTypes ) == 0 or in_array( 'objectproxy', $tmpKnownTypes ) ) )
+                                if ( !$parameters['treat-value-as-non-object'] and ( empty( $tmpKnownTypes ) or in_array( 'objectproxy', $tmpKnownTypes ) ) )
                                 {
                                     $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$newVariableAssignmentName ) and method_exists( \$$newVariableAssignmentName, 'templateValue' ) )\n" .
                                                         "    \$$newVariableAssignmentName = \$$newVariableAssignmentName" . "->templateValue();\n",

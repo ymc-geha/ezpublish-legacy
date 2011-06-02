@@ -128,7 +128,7 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
             switch ( $type )
             {
                 case 'array':
-                    if ( count( $settingKey ) == 0 )
+                    if ( empty( $settingKey ) )
                         $settings[$block]['content'][$setting]['content'] = array();
 
                     foreach( $settingKey as $settingElementKey=>$settingElementValue )

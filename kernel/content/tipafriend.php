@@ -105,7 +105,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $error_strings[] = ezpI18n::tr( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
 
     // no validation errors
-    if ( count( $error_strings ) == 0 )
+    if ( empty( $error_strings ) )
     {
         $mail = new eZMail();
         $mail->setSender( $fromEmail, $yourName );

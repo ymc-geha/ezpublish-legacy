@@ -395,7 +395,7 @@ class eZDBFileHandlerMysqliBackend
     {
         // create parent directories
         $dirElements = explode( '/', $dir );
-        if ( count( $dirElements ) == 0 )
+        if ( empty( $dirElements ) )
             return true;
 
         $result = true;
@@ -1692,7 +1692,7 @@ class eZDBFileHandlerMysqliBackend
      */
     public function expiredFilesList( $scopes, $limit = array( 0, 100 ), $expiry = false )
     {
-        if ( count( $scopes ) == 0 )
+        if ( empty( $scopes ) )
             throw new ezcBaseValueException( 'scopes', $scopes, "array of scopes", "parameter" );
 
         $scopeString = $this->_sqlList( $scopes );

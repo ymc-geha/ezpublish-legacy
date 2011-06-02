@@ -270,7 +270,7 @@ class eZURL extends eZPersistentObject
         {
             $conditions['is_valid'] = $isValid;
         }
-        if ( count( $conditions ) == 0 )
+        if ( empty( $conditions ) )
             $conditions = null;
 
         if ( $onlyPublished )  // Only fetch published urls

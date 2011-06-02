@@ -484,7 +484,7 @@ class eZIniSettingType extends eZDataType
             }
         }
 
-        if ( count( $localSiteAccessArray ) == 0 )
+        if ( empty( $localSiteAccessArray ) )
         {
             $localIniInstanceArray = array( 0 );
         }

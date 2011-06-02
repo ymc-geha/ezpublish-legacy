@@ -39,7 +39,7 @@ class eZOverride
                     $foundOverrideFile = true;
                 }
                 if ( !$foundOverrideFile and
-                     count( $matchKeys ) == 0 )
+                     empty( $matchKeys ) )
                     continue;
                 if ( !$foundOverrideFile and
                      preg_match( $regexpMatch, $templatePath, $regs ) )// Check for dir/filebase_keyname_keyid.tpl, eg. content/view_section_1.tpl

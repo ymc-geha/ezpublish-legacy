@@ -500,7 +500,7 @@ class eZContentClass extends eZPersistentObject
         // Create extra SQL statements for the class group filters.
         if ( is_array( $groupList ) )
         {
-            if ( count( $groupList ) == 0 )
+            if ( empty( $groupList ) )
             {
                 return $classList;
             }
@@ -528,7 +528,7 @@ class eZContentClass extends eZPersistentObject
         else
         {
             // If the constrained class list is empty we are not allowed to create any class
-            if ( count( $classIDArray ) == 0 )
+            if ( empty( $classIDArray ) )
             {
                 return $classList;
             }
@@ -772,7 +772,7 @@ class eZContentClass extends eZPersistentObject
     function isRemovable()
     {
         $info = $this->removableInformation( false );
-        return count( $info['list'] ) == 0;
+        return empty( $info['list'] );
     }
 
     /*!
@@ -1117,7 +1117,7 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
 
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 $contentClass = null;
                 return $contentClass;
@@ -1162,7 +1162,7 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
         {
             $contentClass = null;
             return $contentClass;
@@ -1195,7 +1195,7 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
         {
             $contentClass = null;
             return $contentClass;

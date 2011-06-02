@@ -191,7 +191,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 
     showMessage2( "Configuring..." );
 
-    if ( !is_array( $packageList ) || count( $packageList ) == 0 )
+    if ( !is_array( $packageList ) || empty( $packageList ) )
         showError( "Package list is empty. Aborting..." );
 
     // 1. check if packages specified in $packageList exist in $packageRepository(means already downloaded and imported).
@@ -222,7 +222,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
         }
     }
 
-    if( count( $packageList ) == 0 )
+    if( empty( $packageList ) )
     {
         // all packages are imported.
         return true;

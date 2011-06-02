@@ -63,7 +63,7 @@ class eZKernelOperator
     function preferencesTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                         $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
-        if ( count( $parameters[0] ) == 0 )
+        if ( empty( $parameters[0] ) )
             return false;
         $values = array();
         if ( eZTemplateNodeTool::isConstantElement( $parameters[0] ) )

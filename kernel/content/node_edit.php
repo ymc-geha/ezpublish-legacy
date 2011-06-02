@@ -393,7 +393,7 @@ function checkNodeActions( $module, $class, $object, $version, $contentObjectAtt
              * the previous published version is assignned to.
              * Thus we avoid fatal errors in eZ Publish.
              */
-            if ( count($assigned) == 0 )
+            if ( empty( $assigned ) )
             {
                 $ignoreNodesSelect[] = $element['node_id'];
                 $ignoreNodesClick[]  = $element['node_id'];

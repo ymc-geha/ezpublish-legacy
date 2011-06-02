@@ -153,7 +153,7 @@ class eZTemplateIfFunction
      */
     function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        if ( count( $functionParameters ) == 0 || !count( $functionParameters['condition'] ) )
+        if ( empty( $functionParameters ) || !count( $functionParameters['condition'] ) )
         {
             eZDebug::writeError( "Not enough arguments passed to 'if' function." );
             return;

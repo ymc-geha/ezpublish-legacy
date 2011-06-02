@@ -313,7 +313,7 @@ class eZTemplateLogicOperator
                 $dynamicParameters[] = $parameter;
                 $staticValue = null;
             }
-            if ( count( $dynamicParameters ) == 0 )
+            if ( empty( $dynamicParameters ) )
             {
                 if ( !$staticResult )
                     $lastValue = false;
@@ -374,7 +374,7 @@ class eZTemplateLogicOperator
                 $dynamicParameters[] = $parameter;
                 $staticValue = null;
             }
-            if ( count( $dynamicParameters ) == 0 )
+            if ( empty( $dynamicParameters ) )
             {
                 $newElements[] = eZTemplateNodeTool::createConstantElement( $lastValue );
                 return $newElements;
@@ -847,7 +847,7 @@ class eZTemplateLogicOperator
                 if ( $operand === null )
                     $operand = true;
                 else if ( is_array( $operand ) )
-                    $operand = ( count( $operand ) == 0 );
+                    $operand = ( empty( $operand ) );
                 else if ( is_object( $operand ) and
                           method_exists( $operand, "attributes" ) )
                     $operand = ( count( $operand->attributes() ) == 0 );

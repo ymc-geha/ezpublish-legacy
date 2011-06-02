@@ -443,7 +443,7 @@ function fetchPathIdentificationStringChunk( $offset, $fetchLimit )
     $rows = $db->arrayQuery( $sql,
                              array( 'offset' => $offset,
                                     'limit' => $fetchLimit ) );
-    if ( count( $rows ) == 0 )
+    if ( empty( $rows ) )
         return false;
     $cond = createURLListCondition( $rows, 'contentobject_id', 'id' );
     $sql = 'SELECT path_identification_string, node_id, language_mask
@@ -454,7 +454,7 @@ function fetchPathIdentificationStringChunk( $offset, $fetchLimit )
 
 function createURLListCondition( $rows, $sqlField = 'id', $fieldKey = 'id' )
 {
-    if ( count( $rows ) == 0 )
+    if ( empty( $rows ) )
         return false;
     $cond = "";
     $start = false;
@@ -510,7 +510,7 @@ function createURLListCondition( $rows, $sqlField = 'id', $fieldKey = 'id' )
 
 function removeURLList( $rows )
 {
-    if ( count( $rows ) == 0 )
+    if ( empty( $rows ) )
         return;
     $db   = eZDB::instance();
     $cond =  createURLListCondition( $rows );
@@ -520,7 +520,7 @@ function removeURLList( $rows )
 
 function markAsImported( $rows )
 {
-    if ( count( $rows ) == 0 )
+    if ( empty( $rows ) )
         return;
     $db   = eZDB::instance();
     $cond =  createURLListCondition( $rows );
@@ -726,7 +726,7 @@ if ( $urlCount > 0 )
                 {
                     $query = "SELECT * FROM ezcontentobject_tree, ezcontentobject WHERE ezcontentobject_tree.contentobject_id = ezcontentobject.id AND ezcontentobject_tree.node_id = " . (int)$actionValue;
                     $tmprows = $db->arrayQuery( $query );
-                    if ( count( $tmprows ) == 0 )
+                    if ( empty( $tmprows ) )
                     {
                         logError( "Found the alias " . var_export( $source, true ) . " with ID {$row['id']} which points to " . var_export( $action, true ) . " but that content-object/node does not exist in the database" );
                         list( $column, $counter ) = displayProgress( 's', $urlImportStartTime, $counter, $urlCount, $column );
@@ -828,7 +828,7 @@ if ( $urlCount > 0 )
                 {
                     // Did not find in ml table either, try to find one with same destination in old table
                     $rows2 = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '" . $db->escapeString( $row['destination_url'] ) . "' AND forward_to_id = 0" );
-                    if ( count( $rows2 ) == 0 )
+                    if ( empty( $rows2 ) )
                     {
                         // Did not find forwarded item, mark as error
                         logError( "Could not find urlalias entry with ID $forwardToID which was referenced by '{$forwardFromURL}' with ID " . $row['id'] );
@@ -945,7 +945,7 @@ if ( $urlCount > 0 )
                     $newWildcardSQL = $db->escapeString( $newWildcard );
                     $query = "SELECT * FROM ezurlalias WHERE source_url = '{$newWildcardSQL}' AND is_wildcard=1";
                     $rowsw = $db->arrayQuery( $query );
-                    if ( count( $rowsw ) == 0 )
+                    if ( empty( $rowsw ) )
                     {
                         // The redirection has stopped, we can use the destination
                         break;
@@ -976,7 +976,7 @@ if ( $urlCount > 0 )
                 }
 
                 $elements = eZURLAliasML::fetchByPath( $toPath );
-                if ( count( $elements ) == 0 )
+                if ( empty( $elements ) )
                 {
                     // Referenced url does not exist
                     logError( "The referenced path '$toPath' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
@@ -1087,7 +1087,7 @@ if ( $updateNodeAlias )
                 verifyNodeData( $changeCharacter, $node );
                 list( $column, $counter ) = displayProgress( $changeCharacter, $nodeStartTime, $counter, $nodeCount, $column );
             }
-            if ( count( $nodeList ) == 0 )
+            if ( empty( $nodeList ) )
                 $done = true;
             unset( $nodeList );
             $offset += $fetchLimit;

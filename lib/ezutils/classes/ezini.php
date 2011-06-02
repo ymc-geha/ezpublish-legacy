@@ -541,7 +541,7 @@ class eZINI
                 eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'Find INI Files' );
                 $this->findInputFiles( $inputFiles, $iniFile );
                 eZDebug::accumulatorStop( 'ini_find_files' );
-                if ( count( $inputFiles ) === 0 )
+                if ( empty( $inputFiles ) )
                 {
                     eZDebug::accumulatorStop( 'ini' );
                     return false;

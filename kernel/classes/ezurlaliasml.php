@@ -278,7 +278,7 @@ class eZURLAliasML extends eZPersistentObject
 
         // Fetch data for the given entry
         $rows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = '" . $db->escapeString( $textMD5 ) . "' AND $bitMatch" );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
             return false;
 
         $id   = (int)$rows[0]['id'];
@@ -350,7 +350,7 @@ class eZURLAliasML extends eZPersistentObject
             }
             $rows = $db->arrayQuery( $query );
 
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 break;
             }
@@ -439,7 +439,7 @@ class eZURLAliasML extends eZPersistentObject
 
             $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . eZURLAliasML::md5( $db, $elementStr, false ) . " AND parent = {$parentID}";
             $rows = $db->arrayQuery( $query );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 // Create a fake element to ensure we have a parent
                 $elementObj = eZURLAliasML::create( $element, "nop:", $parentID, 1 );
@@ -511,7 +511,7 @@ class eZURLAliasML extends eZPersistentObject
 
                 $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
                 $rows = $db->arrayQuery( $query );
-                if ( count( $rows ) == 0 )
+                if ( empty( $rows ) )
                 {
                     // No such entry, create a new one
                     break;
@@ -712,7 +712,7 @@ class eZURLAliasML extends eZPersistentObject
                 $query = "SELECT * FROM ezurlalias_ml WHERE id = '{$linkID}'";
                 $rows = $db->arrayQuery( $query );
                 // Some sanity checking
-                if ( count( $rows ) == 0 )
+                if ( empty( $rows ) )
                 {
                     if ( $reportErrors )
                         eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", __METHOD__ );
@@ -757,7 +757,7 @@ class eZURLAliasML extends eZPersistentObject
 
                 $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentID AND text_md5 = {$textMD5}";
                 $rows = $db->arrayQuery( $query );
-                if ( count( $rows ) == 0 )
+                if ( empty( $rows ) )
                 {
                     // No such entry, create a new one
                     break;
@@ -918,7 +918,7 @@ class eZURLAliasML extends eZPersistentObject
         }
 
         $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
             return array();
         $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
         $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
@@ -1032,7 +1032,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function fetchPathByActionList( $actionName, $actionValues, $locale = null )
     {
-        if ( !is_array( $actionValues ) || count( $actionValues ) == 0 )
+        if ( !is_array( $actionValues ) || empty( $actionValues ) )
         {
             eZDebug::writeError( "Action values array must not be empty", __METHOD__ );
             return null;
@@ -1259,7 +1259,7 @@ class eZURLAliasML extends eZPersistentObject
                     {
                         $query = "SELECT id, parent, lang_mask, text, link FROM ezurlalias_ml WHERE id={$newLinkID}";
                         $rows = $db->arrayQuery( $query );
-                        if ( count( $rows ) == 0 )
+                        if ( empty( $rows ) )
                         {
                             return false;
                         }
@@ -1275,7 +1275,7 @@ class eZURLAliasML extends eZPersistentObject
                     {
                         $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
                         $rows = $db->arrayQuery( $query );
-                        if ( count( $rows ) == 0 )
+                        if ( empty( $rows ) )
                         {
                             break;
                         }
@@ -1602,7 +1602,7 @@ class eZURLAliasML extends eZPersistentObject
                     {
                         $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
                         $rows = $db->arrayQuery( $query );
-                        if ( count( $rows ) == 0 )
+                        if ( empty( $rows ) )
                         {
                             break;
                         }
@@ -1795,7 +1795,7 @@ class eZURLAliasML extends eZPersistentObject
                 $query .= " AND is_original = 1";
             }
             $rows = $db->arrayQuery( $query );
-            if ( count( $rows ) == 0 )
+            if ( empty( $rows ) )
             {
                 return $text . $suffix;
             }

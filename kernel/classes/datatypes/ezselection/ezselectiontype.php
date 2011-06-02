@@ -266,7 +266,7 @@ class eZSelectionType extends eZDataType
             }
         }
 
-        if ( count( $optionArray ) == 0 )
+        if ( empty( $optionArray ) )
         {
             $optionArray[] = array( 'id' => 0,
                                     'name' => '' );
@@ -284,7 +284,7 @@ class eZSelectionType extends eZDataType
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
         $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
         $return = '';
-        if ( count( $selected ) == 0)
+        if ( empty( $selected ) )
         {
             return '';
         }

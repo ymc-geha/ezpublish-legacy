@@ -36,7 +36,7 @@ class eZShopFunctionCollection
                                                             true );
 
         $currentBasket = false;
-        if ( count( $basketList ) == 0 )
+        if ( empty( $basketList ) )
         {
             // If we don't have a stored basket we create a temporary
             // one which can be returned.

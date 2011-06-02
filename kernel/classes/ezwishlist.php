@@ -180,7 +180,7 @@ class eZWishList extends eZPersistentObject
                                                           $asObject );
 
         $currentWishList = false;
-        if ( count( $WishListArray ) == 0 )
+        if ( empty( $WishListArray ) )
         {
             $collection = eZProductCollection::create();
             $collection->store();

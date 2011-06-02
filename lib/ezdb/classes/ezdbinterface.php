@@ -229,7 +229,7 @@ class eZDBInterface
     {
 
         $sqlQueryArray = array();
-        while( count( $sqlQueryArray ) == 0 && !feof( $fd ) )
+        while( empty( $sqlQueryArray ) && !feof( $fd ) )
         {
             $buffer  .= fread( $fd, 4096 );
             if ( $buffer )

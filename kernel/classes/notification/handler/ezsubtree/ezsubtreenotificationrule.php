@@ -120,7 +120,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
      */
     static function fetchUserList( $nodeIDList, $contentObject )
     {
-        if ( count( $nodeIDList ) == 0 )
+        if ( empty( $nodeIDList ) )
         {
             $retValue = array();
             return $retValue;
@@ -149,7 +149,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             $userNodeIDList[] = $row['node_id'];
         $userNodeIDList = array_unique( $userNodeIDList );
 
-        if ( count( $userNodeIDList ) == 0 )
+        if ( empty( $userNodeIDList ) )
         {
             $retValue = array();
             return $retValue;
@@ -173,7 +173,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                 $objectIDList[] = $row['contentobject_id'];
         $objectIDList = array_unique( $objectIDList );
 
-        if ( count( $objectIDList ) == 0 )
+        if ( empty( $objectIDList ) )
         {
             $retValue = array();
             return $retValue;
@@ -256,7 +256,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                 }
             }
 
-            if ( count( $policyIDArray[$policyID] ) == 0 )
+            if ( empty( $policyIDArray[$policyID] ) )
             {
                 continue;
             }
@@ -298,7 +298,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             }
         }
 
-        if ( count( $acceptedUserArray ) == 0 )
+        if ( empty( $acceptedUserArray ) )
         {
             $retValue = array();
             return $retValue;
@@ -378,7 +378,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         foreach ( array_keys( $limitationArray ) as $key )
         {
-            if ( count( $accessUserIDArray ) == 0 )
+            if ( empty( $accessUserIDArray ) )
             {
                 return array();
             }

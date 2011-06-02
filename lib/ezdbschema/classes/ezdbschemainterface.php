@@ -178,7 +178,7 @@ class eZDBSchemaInterface
     */
     function fetchTableData( $tableInfo, $offset = false, $limit = false )
     {
-        if ( count( $tableInfo['fields'] ) == 0 )
+        if ( empty( $tableInfo['fields'] ) )
             return false;
 
         $tableName = $tableInfo['name'];
@@ -672,7 +672,7 @@ class eZDBSchemaInterface
         $multiInsert = ( isset( $params['allow_multi_insert'] ) and $params['allow_multi_insert'] ) ? $this->isMultiInsertSupported() : false;
 
         // Make sure we don't generate SQL when there are no rows
-        if ( count( $dataEntries['rows'] ) == 0 )
+        if ( empty( $dataEntries['rows'] ) )
             return '';
 
         $sqlList = array();

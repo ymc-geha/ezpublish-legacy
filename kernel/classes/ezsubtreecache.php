@@ -31,7 +31,7 @@ class eZSubtreeCache
     */
     static function cleanupByNodeIDs( &$nodeIDList )
     {
-        if ( !is_array( $nodeIDList ) || count( $nodeIDList ) === 0 )
+        if ( !is_array( $nodeIDList ) || empty( $nodeIDList ) )
         {
             eZSubtreeCache::cleanupAll();
         }

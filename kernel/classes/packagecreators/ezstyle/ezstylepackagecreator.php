@@ -115,7 +115,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         foreach ( $collections as $collection )
         {
             $installItems = $package->installItemsList( 'ezfile', false, $collection, true );
-            if ( count( $installItems ) == 0 )
+            if ( empty( $installItems ) )
                 $package->appendInstall( 'ezfile', false, false, true,
                                          false, false,
                                          array( 'collection' => $collection ) );
@@ -123,13 +123,13 @@ class eZStylePackageCreator extends eZPackageCreationHandler
                                                           array( 'type'  => 'ezfile',
                                                                  'name'  => 'collection',
                                                                  'value' => $collection ) );
-            if ( count( $dependencyItems ) == 0 )
+            if ( empty( $dependencyItems ) )
                 $package->appendDependency( 'provides',
                                             array( 'type'  => 'ezfile',
                                                    'name'  => 'collection',
                                                    'value' => $collection ) );
             $installItems = $package->installItemsList( 'ezfile', false, $collection, false );
-            if ( count( $installItems ) == 0 )
+            if ( empty( $installItems ) )
                 $package->appendInstall( 'ezfile', false, false, false,
                                          false, false,
                                          array( 'collection' => $collection ) );

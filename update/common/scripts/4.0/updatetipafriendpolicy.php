@@ -48,7 +48,7 @@ if ( is_object( $anonymousUser ) )
 
 $topUserNodes = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $userRootNodeID );
 
-if ( count( $topUserNodes ) == 0 )
+if ( empty( $topUserNodes ) )
 {
     $cli->warning( "Unable to retrieve the user root node. Please make sure\n" .
                    "you log in to the system with the administrator's user\n" .

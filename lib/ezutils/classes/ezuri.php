@@ -411,8 +411,8 @@ class eZURI
         {
             return false;
         }
-        if ( count( $this->URIArray ) == 0 or
-             count( $uri->URIArray ) == 0 )
+        if ( empty( $this->URIArray ) or
+             empty( $uri->URIArray ) )
         {
             return false;
         }

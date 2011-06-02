@@ -300,7 +300,7 @@ foreach ( array_keys( $toolArray ) as $toolKey )
                          'parameters' => $toolParameters );
     if ( $storeList )
     {
-        if ( count( $newActionParameters ) == 0 )
+        if ( empty( $newActionParameters ) )
         {
             if ( $iniAppend->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
             {

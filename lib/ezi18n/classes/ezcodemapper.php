@@ -1140,7 +1140,7 @@ class eZCodeMapper
 //                     {
 //                         print( "<pre>newcode<br/>" ); var_dump( $toCode ); print( "</pre>" );
 //                     }
-                    if ( count( $allowedRanges ) == 0 )
+                    if ( empty( $allowedRanges ) )
                     {
                         if ( count( $toCode ) == 1 )
                             $toCode = $toCode[0];
@@ -1224,7 +1224,7 @@ class eZCodeMapper
                         $modulo = 1;
                     for ( $i = $start; $i <= $stop; $i += $modulo )
                     {
-                        if ( count( $allowedRanges ) == 0 )
+                        if ( empty( $allowedRanges ) )
                         {
                             $allowed = true;
                         }
@@ -1246,9 +1246,9 @@ class eZCodeMapper
 
                         $replace = $i + $add;
                         $replace = eZCodeMapper::ordinalValues( $unicodeMap, $replace );
-                        if ( count( $allowedRanges ) == 0 )
+                        if ( empty( $allowedRanges ) )
                         {
-                            if ( count( $replace ) == 0 )
+                            if ( empty( $replace ) )
                                 $replace = false;
                             else if ( count( $replace ) == 1 )
                                 $replace = $replace[0];
@@ -1274,7 +1274,7 @@ class eZCodeMapper
                                     }
                                 }
                             }
-                            if ( count( $newReplace ) == 0 )
+                            if ( empty( $newReplace ) )
                                 $replace = false;
                             else if ( count( $newReplace ) == 1 )
                                 $replace = $newReplace[0];
@@ -1305,9 +1305,9 @@ class eZCodeMapper
                     }
                     $replace = $rangeItem[2];
                     $replace = eZCodeMapper::ordinalValues( $unicodeMap, $replace );
-                    if ( count( $allowedRanges ) == 0 )
+                    if ( empty( $allowedRanges ) )
                     {
-                        if ( count( $replace ) == 0 )
+                        if ( empty( $replace ) )
                             $replace = false;
                         else if ( count( $replace ) == 1 )
                             $replace = $replace[0];
@@ -1335,7 +1335,7 @@ class eZCodeMapper
                                 }
                             }
                         }
-                        if ( count( $newReplace ) == 0 )
+                        if ( empty( $newReplace ) )
                             $replace = false;
                         else if ( count( $newReplace ) == 1 )
                             $replace = $newReplace[0];
@@ -1455,7 +1455,7 @@ class eZCodeMapper
             case 'uppercase':
             case 'search_cleanup':
             {
-                if ( count( $parameters ) == 0 )
+                if ( empty( $parameters ) )
                 {
                     // Include all normalize rules
                     foreach ( $names as $rule )
@@ -1481,7 +1481,7 @@ class eZCodeMapper
                 $dividers = array( 'transform' => '_to_',
                                    'transliterate' => '_transliterate_' );
                 $divider = $dividers[$name];
-                if ( count( $parameters ) == 0 )
+                if ( empty( $parameters ) )
                 {
                     // Include all transformation rules
                     foreach ( $names as $rule )

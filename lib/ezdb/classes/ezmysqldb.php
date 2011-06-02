@@ -911,7 +911,7 @@ class eZMySQLDB extends eZDBInterface
         $databases = array();
         $i = 0;
         $numRows = mysql_num_rows( $databaseArray );
-        if ( count( $numRows ) == 0 )
+        if ( empty( $numRows ) )
         {
             return false;
         }

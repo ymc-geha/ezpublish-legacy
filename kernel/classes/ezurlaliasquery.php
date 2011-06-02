@@ -164,7 +164,7 @@ class eZURLAliasQuery
         $query = "SELECT count(*) AS count {$this->query}";
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
             $this->count = 0;
         else
             $this->count = $rows[0]['count'];
@@ -192,7 +192,7 @@ class eZURLAliasQuery
                          'limit'  => $this->limit );
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $query, $params );
-        if ( count( $rows ) == 0 )
+        if ( empty( $rows ) )
             $this->items = array();
         else
             $this->items = eZURLAliasQuery::makeList( $rows );
@@ -231,7 +231,7 @@ class eZURLAliasQuery
         if ( $this->actions !== null )
         {
             // Check for conditions which will return no rows.
-            if ( count( $this->actions ) == 0 )
+            if ( empty( $this->actions ) )
                 return false;
 
             if ( count( $this->actions ) == 1 )
@@ -271,7 +271,7 @@ class eZURLAliasQuery
         if ( $actionTypes !== null )
         {
             // Check for conditions which will return no rows.
-            if ( count( $actionTypes ) == 0 )
+            if ( empty( $actionTypes ) )
                 return false;
 
             if ( count( $actionTypes ) == 1 )
@@ -314,7 +314,7 @@ class eZURLAliasQuery
      */
     static public function makeList( $rows )
     {
-        if ( !is_array( $rows ) || count( $rows ) == 0 )
+        if ( !is_array( $rows ) || empty( $rows ) )
             return array();
         $list = array();
         foreach ( $rows as $row )

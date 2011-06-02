@@ -220,7 +220,7 @@ class eZContentStructureTreeOperator
         $contentTree = eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
 
         // if root node is invisible then no point to fetch children
-        //if ( count( $contentTree ) == 0 )
+        //if ( empty( $contentTree ) )
         //    return $contentTree;
 
         if ( $contentTree === false)
@@ -244,7 +244,7 @@ class eZContentStructureTreeOperator
     {
         $parentNode = $contentTree['parent_node'];
 
-        if ( !is_array( $parentNode ) || count( $parentNode['node'] ) == 0 )
+        if ( !is_array( $parentNode ) || empty( $parentNode['node'] ) )
         {
             return false;
         }

@@ -220,7 +220,7 @@ class eZMultiPriceData extends eZPersistentObject
     {
         $db = eZDB::instance();
 
-        if ( !is_array( $currencyCodeList ) || count( $currencyCodeList ) === 0 )
+        if ( !is_array( $currencyCodeList ) || empty( $currencyCodeList ) )
             return;
 
         $currencyListStr = '';

@@ -688,7 +688,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $translationList = array();
         $locale = '';
 
-        if ( count( $localeList ) == 0 )
+        if ( empty( $localeList ) )
         {
             $localeList = eZDir::findSubdirs( $dir );
         }

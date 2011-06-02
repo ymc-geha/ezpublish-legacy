@@ -41,7 +41,7 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
 {
     foreach ( $functions[$currentFunction] as $key => $limitation )
     {
-        if ( ( count( $limitation['values'] ) == 0 ) && array_key_exists( 'class', $limitation ) )
+        if ( ( empty( $limitation['values'] ) ) && array_key_exists( 'class', $limitation ) )
         {
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array( array( $obj, $limitation['function'] ), $limitation['parameter'] );

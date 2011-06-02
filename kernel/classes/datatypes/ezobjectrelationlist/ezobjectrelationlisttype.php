@@ -69,7 +69,7 @@ class eZObjectRelationListType extends eZDataType
         }
 
         $content = $contentObjectAttribute->content();
-        if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
+        if ( $contentObjectAttribute->validateIsRequired() and empty( $content['relation_list'] ) )
         {
             $contentObjectAttribute->setValidationError( ezpI18n::tr( 'kernel/classes/datatypes',
                                                                  'Missing objectrelation list input.' ) );

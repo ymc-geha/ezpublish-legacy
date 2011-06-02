@@ -32,7 +32,7 @@ class eZClassFunctions
             }
         }
 
-        if ( count( $groups ) == 0 )
+        if ( empty( $groups ) )
         {
             return false;
         }

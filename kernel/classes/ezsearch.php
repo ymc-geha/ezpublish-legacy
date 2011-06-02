@@ -232,7 +232,7 @@ class eZSearch
 
                                 case 'integers':
                                 {
-                                    if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                                    if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                                         $removePart = true;
                                 }
                                 break;
@@ -262,7 +262,7 @@ class eZSearch
 
                                 case 'integersbyidentifier':
                                 {
-                                    if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                                    if ( !isset( $part['values'] ) || empty( $part['values'] ) )
                                         $removePart = true;
                                 }
                                 break;
@@ -358,7 +358,7 @@ class eZSearch
                         case 'class':
                         {
                             if ( !isset( $part['value'] ) ||
-                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( is_array( $part['value'] ) && empty( $part['value'] ) ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
                                 $removePart = true;
                         }
@@ -366,7 +366,7 @@ class eZSearch
                         case 'publishdate':
                         {
                             if ( !isset( $part['value'] ) ||
-                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( is_array( $part['value'] ) && empty( $part['value'] ) ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
                                 $removePart = true;
                         }
@@ -374,7 +374,7 @@ class eZSearch
                         case 'subtree':
                         {
                             if ( !isset( $part['value'] ) ||
-                                 ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
+                                 ( is_array( $part['value'] ) && empty( $part['value'] ) ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
 
                                 $removePart = true;

@@ -495,7 +495,7 @@ class eZURLWildcard extends eZPersistentObject
         while( 1 )
         {
             $wildcards = self::fetchList( $offset, $limit, false );
-            if ( count( $wildcards ) === 0 )
+            if ( empty( $wildcards ) )
             {
                 break;
             }

@@ -281,7 +281,7 @@ class eZModule
      */
     function singleFunction()
     {
-        return count( $this->Functions ) == 0;
+        return empty( $this->Functions );
     }
 
     /**

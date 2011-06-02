@@ -788,7 +788,7 @@ foreach ( $commandList as $commandItem )
                 foreach ( array( 'provides', 'requires', 'obsoletes', 'conflicts' ) as $dependencySection )
                 {
                     $dependencyItems = $package->dependencyItems( $dependencySection, false, false, false );
-                    if ( count( $dependencyItems ) == 0 )
+                    if ( empty( $dependencyItems ) )
                         continue;
                     if ( $i > 0 )
                         $cli->output();

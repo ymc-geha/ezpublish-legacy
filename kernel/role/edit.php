@@ -606,7 +606,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         }
     }
 
-    if ( $http->hasPostVariable( 'Limitation' ) && count( $currentFunctionLimitations ) == 0 )
+    if ( $http->hasPostVariable( 'Limitation' ) && empty( $currentFunctionLimitations ) )
     {
         $currentModule = $http->postVariable( 'CurrentModule' );
         $currentFunction = $http->postVariable( 'ModuleFunction' );

@@ -65,7 +65,7 @@ class eZClassFunctionCollection
             $sorts = array( $sortBy[0] => ( $sortBy[1] )? 'asc': 'desc' );
         }
         $contentClassList = array();
-        if ( is_array( $classFilter ) and count( $classFilter ) == 0)
+        if ( is_array( $classFilter ) and empty( $classFilter ) )
         {
             $classFilter = false;
         }
