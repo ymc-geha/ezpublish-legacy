@@ -262,7 +262,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
     $showModules = false;
     $showFunctions = true;
 
-    if ( count( $functionNames ) < 1 )
+    if ( empty( $functionNames ) )
     {
         $showModules = true;
         $showFunctions = false;
@@ -421,7 +421,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $currentFunctionLimitations[ $key ] = $limitation;
     }
 
-    if ( count( $currentFunctionLimitations ) < 1 )
+    if ( empty( $currentFunctionLimitations ) )
     {
         $showModules = false;
         $showFunctions = true;

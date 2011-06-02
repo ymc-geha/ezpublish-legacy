@@ -28,7 +28,7 @@ $options = $script->getOptions( "",
                                 array() );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
 {
     $script->shutdown( 1, "Missing script file" );
 }

@@ -1635,7 +1635,7 @@ class eZTemplateArrayOperator
                     $i = 0;
                     if ( is_array( $operatorValue ) )
                     {
-                        if ( count( $operatorParameters ) < 1 )
+                        if ( empty( $operatorParameters ) )
                         {
                             $tpl->error( $operatorName,
                                          "Requires at least one item!",
@@ -1685,7 +1685,7 @@ class eZTemplateArrayOperator
                         $tmpArray[] = $operatorValue;
                     }
 
-                    if ( count( $operatorParameters ) < 1 )
+                    if ( empty( $operatorParameters ) )
                     {
                         $tpl->error( $operatorName, "Requires an array (and at least one item!)",
                                      $placement );
@@ -1709,7 +1709,7 @@ class eZTemplateArrayOperator
                 // Check if the array contains a specified element:
                 case $this->ContainsName:
                 {
-                    if ( count( $operatorParameters ) < 1 )
+                    if ( empty( $operatorParameters ) )
                     {
                         $tpl->error( $operatorName, "Missing matching value!",
                                      $placement );

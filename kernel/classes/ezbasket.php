@@ -277,7 +277,7 @@ class eZBasket extends eZPersistentObject
     function isEmpty()
     {
         $items = $this->items();
-        return count( $items ) < 1;
+        return empty( $items );
     }
 
     /*!

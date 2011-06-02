@@ -29,7 +29,7 @@ $options = $script->getOptions( "[storage-dir:]",
                                 array( 'user' => true ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
 {
     $cli->error( 'Specify a node to export' );
     $script->shutdown( 1 );

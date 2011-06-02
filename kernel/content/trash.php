@@ -68,7 +68,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
                                                                null,
                                                                100,
                                                                true );
-            if ( count( $objectList ) < 1 )
+            if ( empty( $objectList ) )
                 break;
 
             foreach ( $objectList as $object )

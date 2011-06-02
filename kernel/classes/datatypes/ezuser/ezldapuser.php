@@ -674,7 +674,7 @@ class eZLDAPUser extends eZUser
             return false;
         }
 
-        if ( ( !is_array( $parentNodeIDs ) or count( $parentNodeIDs ) < 1 ) and
+        if ( ( !is_array( $parentNodeIDs ) or empty( $parentNodeIDs ) ) and
              !is_numeric( $defaultUserPlacement ) )
         {
             eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new user (login = "' .
@@ -968,7 +968,7 @@ class eZLDAPUser extends eZUser
             eZDebug::writeWarning( 'Cannot create user group with empty name.', __METHOD__ );
             return $newNodeIDs;
         }
-        if ( !is_array( $parentNodeIDs ) or count( $parentNodeIDs ) < 1 )
+        if ( !is_array( $parentNodeIDs ) or empty( $parentNodeIDs ) )
         {
             eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new group (group name = "' .
                                    $newGroupAttributes[ 'name' ] . '")',

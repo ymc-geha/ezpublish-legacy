@@ -53,7 +53,7 @@ $options = $script->getOptions( "[source-type:][source-host:][source-user:][sour
                                        ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
 {
     $cli->error( "Missing source database" );
     $script->shutdown( 1 );

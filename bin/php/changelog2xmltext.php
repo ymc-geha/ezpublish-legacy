@@ -28,7 +28,7 @@ $options = $script->getOptions( "",
                                        'siteaccess' => false ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
 {
     $cli->error( "Missing changelog file" );
     $script->shutdown( 1 );

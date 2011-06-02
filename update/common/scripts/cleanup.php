@@ -39,7 +39,7 @@ $options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:
                                        ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( empty( $options['arguments'] ) )
 {
     $cli->error( "Missing NAME value ( could be session, expired_session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
                  "collaboration, collectedinformation, notification, searchstats or all )" );

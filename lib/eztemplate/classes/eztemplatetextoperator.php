@@ -193,7 +193,7 @@ class eZTemplateTextOperator
         $values = array();
         $function = $operatorName;
 
-        if ( ( count( $parameters ) < 1 ) )
+        if ( ( empty( $parameters ) ) )
         {
             return false;
         }

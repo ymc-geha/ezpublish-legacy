@@ -982,7 +982,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $tmpLimit = ( !$limit or ( $limit - $processedCount ) > $fetchPortionSize ) ?
                             $fetchPortionSize : $limit - $processedCount;
             $versions = eZContentObjectVersion::fetchFiltered( $filters, 0, $tmpLimit );
-            if ( count( $versions ) < 1 )
+            if ( empty( $versions ) )
                 break;
 
             $db = eZDB::instance();

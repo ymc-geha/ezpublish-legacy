@@ -227,7 +227,7 @@ function importRSSItem( $item, $rssImport, $cli, $channel )
             }
 
             $importDescriptionArray = explode( ' - ', $importDescription['class_attributes'][$classAttributeID] );
-            if ( count( $importDescriptionArray ) < 1 )
+            if ( empty( $importDescriptionArray ) )
             {
                 $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid import definition. Please redit.' );
                 break;

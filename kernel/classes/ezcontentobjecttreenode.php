@@ -2860,7 +2860,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     static function fetchAliasesFromNodeList( $nodeList )
     {
-        if ( !is_array( $nodeList ) || count( $nodeList ) < 1 )
+        if ( !is_array( $nodeList ) || empty( $nodeList ) )
             return array();
 
         $db = eZDB::instance();
