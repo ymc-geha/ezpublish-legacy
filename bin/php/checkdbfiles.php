@@ -347,12 +347,12 @@ foreach ( $dbTypes as $dbType )
     }
 }
 
-if ( count( $missingFileList ) > 0 or
-     count( $exportMissingFileList ) > 0 or
-     count( $fileList ) > 0 or
-     count( $conflictFileList ) > 0 )
+if ( !empty( $missingFileList ) or
+     !empty( $exportMissingFileList ) or
+     !empty( $fileList ) or
+     !empty( $conflictFileList ) )
 {
-    if ( count( $fileList ) > 0 )
+    if ( !empty( $fileList ) )
     {
         foreach ( $fileList as $file )
         {
@@ -360,7 +360,7 @@ if ( count( $missingFileList ) > 0 or
         }
     }
 
-    if ( count( $missingFileList ) > 0 )
+    if ( !empty( $missingFileList ) )
     {
         foreach ( $missingFileList as $file )
         {
@@ -368,7 +368,7 @@ if ( count( $missingFileList ) > 0 or
         }
     }
 
-    if ( count( $exportMissingFileList ) > 0 )
+    if ( !empty( $exportMissingFileList ) )
     {
         foreach ( $exportMissingFileList as $file )
         {
@@ -376,7 +376,7 @@ if ( count( $missingFileList ) > 0 or
         }
     }
 
-    if ( count( $conflictFileList ) > 0 )
+    if ( !empty( $conflictFileList ) )
     {
         foreach ( $conflictFileList as $file )
         {

@@ -66,7 +66,7 @@ $http = eZHTTPTool::instance();
 $http->UseFullUrl = $useFullURL;
 
 
-if ( count( $options['arguments'] ) > 0 )
+if ( !empty( $options['arguments'] ) )
 {
     $ini = eZINI::instance();
     $tpl = eZTemplate::factory();

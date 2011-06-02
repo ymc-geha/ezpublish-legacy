@@ -631,7 +631,7 @@ class eZTemplateArithmeticOperator
                     $values[] = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                 }
                 $value = 0;
-                if ( count( $values ) > 0 )
+                if ( !empty( $values ) )
                 {
                     $value = $values[0];
                     for ( $i = 1; $i < count( $values ); ++$i )
@@ -783,7 +783,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->IntName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                     $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 else
                     $value = $operatorValue;
@@ -791,7 +791,7 @@ class eZTemplateArithmeticOperator
             } break;
             case $this->FloatName:
             {
-                if ( count( $operatorParameters ) > 0 )
+                if ( !empty( $operatorParameters ) )
                     $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 else
                     $value = $operatorValue;

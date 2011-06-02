@@ -661,7 +661,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         $unlinkArray = eZSys::globBrace( $wildcard );
-        if ( $unlinkArray !== false and ( count( $unlinkArray ) > 0 ) )
+        if ( $unlinkArray !== false and ( !empty( $unlinkArray ) ) )
         {
             array_map( 'unlink', $unlinkArray );
         }
@@ -686,7 +686,7 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         $unlinkArray = eZSys::globBrace( $wildcard );
-        if ( $unlinkArray !== false and ( count( $unlinkArray ) > 0 ) )
+        if ( $unlinkArray !== false and ( !empty( $unlinkArray ) ) )
         {
             array_map( 'unlink', $unlinkArray );
         }
@@ -849,7 +849,7 @@ class eZFSFileHandler
             if ( $printCallback )
                 call_user_func_array( $printCallback,
                                       array( $file, 1 ) );
-        } while ( count( $list ) > 0 );
+        } while ( !empty( $list ) );
     }
 
     /**

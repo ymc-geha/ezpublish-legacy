@@ -38,7 +38,7 @@ $street1 = $street2 = $zip = $place = $state = $country = $comment = '';
 
 // Check if user has an earlier order, copy order info from that one
 $orderList = eZOrder::activeByUserID( $user->attribute( 'contentobject_id' ) );
-if ( count( $orderList ) > 0 and  $user->isLoggedIn() )
+if ( !empty( $orderList ) and  $user->isLoggedIn() )
 {
     $accountInfo = $orderList[0]->accountInformation();
     $street1 = $accountInfo['street1'];

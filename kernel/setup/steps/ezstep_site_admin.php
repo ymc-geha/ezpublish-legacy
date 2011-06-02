@@ -174,7 +174,7 @@ class eZStepSiteAdmin extends eZStepInstaller
             }
         }
 
-        $this->Tpl->setVariable( 'has_errors', count( $this->Error ) > 0 );
+        $this->Tpl->setVariable( 'has_errors', !empty( $this->Error ) );
 
         $adminUser = array( 'first_name' => false,
                             'last_name' => false,

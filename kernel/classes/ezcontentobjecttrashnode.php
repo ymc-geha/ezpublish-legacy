@@ -301,7 +301,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         if ( $this->pathArray === 0 && $this->originalNodeParent instanceof eZContentObjectTreeNode )
             $this->pathArray = $this->attribute( 'path_array' );
 
-        if ( $this->pathArray && count( $this->pathArray ) > 0 )
+        if ( $this->pathArray && !empty( $this->pathArray ) )
         {
             $realParentPathArray = $this->originalNodeParent->attribute( 'path_array' );
             $realParentPath = implode( '/', $realParentPathArray );

@@ -529,7 +529,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
         }
 
-        if ( count( $extraOptions ) > 0 )
+        if ( !empty( $extraOptions ) )
         {
             $sql .= " " . implode( $diffFriendly ? "\n" : " ", $extraOptions );
         }

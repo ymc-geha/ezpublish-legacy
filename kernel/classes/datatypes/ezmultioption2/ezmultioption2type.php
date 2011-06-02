@@ -146,7 +146,7 @@ class eZMultiOption2Type extends eZDataType
                                                       $contentObjectAttribute->attribute( "id" ) . '_' .
                                                       $parentOptionGroup->attribute( 'group_id' ) )
                               : array();
-        $optionGroupNameList = count( $optionGroupIDArray ) > 0
+        $optionGroupNameList = !empty( $optionGroupIDArray )
              ? $http->postVariable( $base . "_data_optiongroup_name_" .
                                     $contentObjectAttribute->attribute( "id" )  . '_' .
                                     $parentOptionGroup->attribute( 'group_id' ) )
@@ -496,7 +496,7 @@ class eZMultiOption2Type extends eZDataType
     {
         $groups = $contentObjectAttribute->content();
         $grouplist = $groups->attribute( 'optiongroup_list' );
-        return count( $grouplist ) > 0;
+        return !empty( $grouplist );
     }
 
     /*!
@@ -586,7 +586,7 @@ class eZMultiOption2Type extends eZDataType
             }
         }
 
-        if ( count( $validationErrors ) > 0 )
+        if ( !empty( $validationErrors ) )
         {
             $errors = $validationErrors;
             return eZInputValidator::STATE_INVALID;

@@ -415,7 +415,7 @@ class eZObjectRelationType extends eZDataType
             case 'browsed_for_selection_node':
             {
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationNode' );
-                if ( count( $nodeSelection ) > 0 )
+                if ( !empty( $nodeSelection ) )
                 {
                     $nodeID = $nodeSelection[0];
                     $content = $classAttribute->content();

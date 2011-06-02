@@ -129,7 +129,7 @@ class eZContentFunctions
                 $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
                 $version->store();
 
-                if ( is_array( $attributesData ) && count( $attributesData ) > 0 )
+                if ( is_array( $attributesData ) && !empty( $attributesData ) )
                 {
                     $attributes = $contentObject->attribute( 'contentobject_attributes' );
 
@@ -228,7 +228,7 @@ class eZContentFunctions
      */
     public static function updateAndPublishObject( eZContentObject $object, array $params )
     {
-        if ( !array_key_exists( 'attributes', $params ) and !is_array( $params['attributes'] ) and count( $params['attributes'] ) > 0 )
+        if ( !array_key_exists( 'attributes', $params ) and !is_array( $params['attributes'] ) and !empty( $params['attributes'] ) )
         {
             eZDebug::writeError( 'No attributes specified for object' . $object->attribute( 'id' ), __METHOD__ );
             return false;

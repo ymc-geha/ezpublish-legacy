@@ -85,7 +85,7 @@ class eZStepSiteTemplates extends eZStepInstaller
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );
             $thumbnails = $package->thumbnailList( 'default' );
-            if ( count( $thumbnails ) > 0 )
+            if ( !empty( $thumbnails ) )
                 $site_templates[$key]['image_file_name'] = $package->fileItemPath( $thumbnails[0], 'default', 'kernel/setup/packages' );
             else
                 $site_templates[$key]['image_file_name'] = false;

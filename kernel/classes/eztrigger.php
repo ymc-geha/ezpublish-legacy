@@ -166,7 +166,7 @@ class eZTrigger extends eZPersistentObject
 
             $workflowProcessList = eZWorkflowProcess::fetchListByKey( $processKey );
 
-            if ( count( $workflowProcessList ) > 0 )
+            if ( !empty( $workflowProcessList ) )
             {
                 $existingWorkflowProcess = $workflowProcessList[0];
                 $existingWorkflowStatus = $existingWorkflowProcess->attribute( 'status' );

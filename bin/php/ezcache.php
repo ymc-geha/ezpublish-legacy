@@ -210,7 +210,7 @@ function checkPaths( $cacheEntries, $purge )
         }
     }
 
-    if ( count( $warnPaths ) > 0 )
+    if ( !empty( $warnPaths ) )
     {
         $cli->warning( 'The following cache paths are outside of the eZ Publish root directory, and have less than 2 path elements. ' .
                        'Are you sure you want to ' . ( $purge ? 'purge' : 'clear' ) . ' them?' );
@@ -316,7 +316,7 @@ if ( $idName )
             $missingIDList[] = $id;
         }
     }
-    if ( count( $missingIDList ) > 0 )
+    if ( !empty( $missingIDList ) )
     {
         $cli->warning( 'No such cache ID: ' . $cli->stylize( 'emphasize', implode( ', ', $missingIDList ) ) );
         $script->shutdown( 1 );

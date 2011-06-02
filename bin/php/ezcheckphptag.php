@@ -112,7 +112,7 @@ foreach ( $pathList as $path )
                 if ( $print )
                 {
                     $text = $cli->stylize( 'file', $file );
-                    if ( count( $errorText ) > 0 )
+                    if ( !empty( $errorText ) )
                         $text .= ": " . implode( ", ", $errorText );
                     $cli->output( $text );
                 }
@@ -128,7 +128,7 @@ foreach ( $pathList as $path )
     }
 }
 
-if ( count( $badFiles ) > 0 or $error )
+if ( !empty( $badFiles ) or $error )
     $script->setExitCode( 1 );
 
 $script->shutdown();

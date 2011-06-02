@@ -668,7 +668,7 @@ class eZImageInterface
     {
         if ( $color === false )
         {
-            if ( count( $this->PaletteIndex ) > 0)
+            if ( !empty( $this->PaletteIndex ))
                 $color = $this->PaletteIndex[0];
             else
                 $color = 'bgcol';

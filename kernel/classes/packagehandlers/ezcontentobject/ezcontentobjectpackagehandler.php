@@ -1375,7 +1375,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             //$blockArray[$blockName] = $blockArray[$blockName][0];
 
-            if ( isset( $blockArray[$blockName]['Constant'] ) && is_array( $blockArray[$blockName]['Constant'] ) && count( $blockArray[$blockName]['Constant'] ) > 0 )
+            if ( isset( $blockArray[$blockName]['Constant'] ) && is_array( $blockArray[$blockName]['Constant'] ) && !empty( $blockArray[$blockName]['Constant'] ) )
             {
                 foreach( $blockArray[$blockName]['Constant'] as $matchKey => $value )
                 {
@@ -1519,7 +1519,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
                 if ( $optionName == 'include-classes' or $optionName == 'exclude-classes' )
                 {
-                    if ( count( $nodeItem['node-id-list'] ) > 0 )
+                    if ( !empty( $nodeItem['node-id-list'] ) )
                     {
                         $nodeList[] = $nodeItem;
                         $nodeItem['node-id-list'] = array();
@@ -1528,7 +1528,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
                 else if ( $optionName == 'include-templates' or $optionName == 'exclude-templates' )
                 {
-                    if ( count( $nodeItem['node-id-list'] ) > 0 )
+                    if ( !empty( $nodeItem['node-id-list'] ) )
                     {
                         $nodeList[] = $nodeItem;
                         $nodeItem['node-id-list'] = array();
@@ -1608,7 +1608,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     return false;
             }
         }
-        if ( count( $nodeItem['node-id-list'] ) > 0 )
+        if ( !empty( $nodeItem['node-id-list'] ) )
         {
             $nodeList[] = $nodeItem;
         }

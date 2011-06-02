@@ -145,7 +145,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     {
         $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
         $versions = $obj->versions( true, $params );
-        if ( count( $versions ) > 0 )
+        if ( !empty( $versions ) )
         {
             $modified = $versions[0]->attribute( 'modified' );
             $removeVersion = $versions[0];

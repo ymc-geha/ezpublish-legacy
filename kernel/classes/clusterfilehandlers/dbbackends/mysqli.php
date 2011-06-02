@@ -813,7 +813,7 @@ class eZDBFileHandlerMysqliBackend
     {
         $query = 'SELECT name FROM ' . TABLE_METADATA;
 
-        if ( is_array( $scopes ) && count( $scopes ) > 0 )
+        if ( is_array( $scopes ) && !empty( $scopes ) )
         {
             $query .= ' WHERE scope ';
             if ( $excludeScopes )

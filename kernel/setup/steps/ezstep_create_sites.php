@@ -837,7 +837,7 @@ language_locale='eng-GB'";
                                 ? $this->PersistenceList['package_info']['language_map']
                                 : true;
 
-            if ( is_array( $languageMap ) && count( $languageMap ) > 0 )
+            if ( is_array( $languageMap ) && !empty( $languageMap ) )
             {
                 //
                 // Create necessary languages and set them as "prioritized languages" to avoid
@@ -1110,7 +1110,7 @@ language_locale='eng-GB'";
                 if ( $templateLookClass )
                 {
                     $objectList = $templateLookClass->objectList();
-                    if ( $objectList and count( $objectList ) > 0 )
+                    if ( $objectList and !empty( $objectList ) )
                     {
                         $templateLookObject = current( $objectList );
                         $dataMap = $templateLookObject->fetchDataMap();

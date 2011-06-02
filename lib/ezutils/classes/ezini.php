@@ -939,7 +939,7 @@ class eZINI
                     $varValue = $this->BlockValues[$blockName][$blockVariable];
                     if ( is_array( $varValue ) )
                     {
-                        if ( count( $varValue ) > 0 )
+                        if ( !empty( $varValue ) )
                         {
                             $customResetArray = ( isset( $this->BlockValues[$blockName]['ResetArrays'] ) and
                                                   $this->BlockValues[$blockName]['ResetArrays'] == 'false' )

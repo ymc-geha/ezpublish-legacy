@@ -186,7 +186,7 @@ class eZXMLTextType extends eZDataType
                 }
             }
 
-            if ( count( $urlIdArray ) > 0 )
+            if ( !empty( $urlIdArray ) )
             {
                 eZSimplifiedXMLInput::updateUrlObjectLinks( $attr, $urlIdArray );
             }

@@ -107,7 +107,7 @@ class eZStepInstaller
     {
         $commonCharsets = array();
 
-        if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
+        if ( is_array( $allLanguages ) and !empty( $allLanguages ) )
         {
 
             $language = $allLanguages[ 0 ];
@@ -133,7 +133,7 @@ class eZStepInstaller
         }
         $usableCharsets = array_values( $commonCharsets );
         $charset = false;
-        if ( count( $usableCharsets ) > 0 )
+        if ( !empty( $usableCharsets ) )
         {
             if ( in_array( eZCharsetInfo::realCharsetCode( $primaryLanguage->charset() ), $usableCharsets ) )
                 $charset = eZCharsetInfo::realCharsetCode( $primaryLanguage->charset() );
@@ -159,7 +159,7 @@ class eZStepInstaller
     {
         $commonCharsets = array();
 
-        if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
+        if ( is_array( $allLanguages ) and !empty( $allLanguages ) )
         {
 
             $language = $allLanguages[ 0 ];
@@ -185,7 +185,7 @@ class eZStepInstaller
         }
         $usableCharsets = array_values( $commonCharsets );
 
-        if ( count( $usableCharsets ) > 0 )
+        if ( !empty( $usableCharsets ) )
         {
             if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
             {

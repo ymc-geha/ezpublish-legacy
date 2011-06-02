@@ -227,9 +227,9 @@ class eZSection extends eZPersistentObject
         $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
         $userRoles = eZRole::fetchRolesByLimitation( 'section', $sectionID );
 
-        if ( count( $objects ) > 0 or
-             count( $limitations ) > 0 or
-             count( $userRoles ) > 0 )
+        if ( !empty( $objects ) or
+             !empty( $limitations ) or
+             !empty( $userRoles ) )
         {
             return false;
         }

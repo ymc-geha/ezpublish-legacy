@@ -29,7 +29,7 @@ class eZPackageFunctionCollection
         $filterList = false;
         if ( isset( $filterArray ) and
              is_array( $filterArray ) and
-             count( $filterArray ) > 0 )
+             !empty( $filterArray ) )
         {
             $filterList = $filterArray;
             if ( count( $filterArray ) > 1 and
@@ -42,7 +42,7 @@ class eZPackageFunctionCollection
         {
             foreach ( $filterList as $filter )
             {
-                if ( is_array( $filter ) and count( $filter ) > 0 )
+                if ( is_array( $filter ) and !empty( $filter ) )
                 {
                     $filterName = $filter[0];
                     switch ( $filterName )
@@ -114,7 +114,7 @@ class eZPackageFunctionCollection
         $filterList = false;
         if ( isset( $filterArray ) and
              is_array( $filterArray ) and
-             count( $filterArray ) > 0 )
+             !empty( $filterArray ) )
         {
             $filterList = $filterArray;
             if ( count( $filterArray ) > 1 and
@@ -127,7 +127,7 @@ class eZPackageFunctionCollection
         {
             foreach ( $filterList as $filter )
             {
-                if ( is_array( $filter ) and count( $filter ) > 0 )
+                if ( is_array( $filter ) and !empty( $filter ) )
                 {
                     $filterName = $filter[0];
                     switch ( $filterName )

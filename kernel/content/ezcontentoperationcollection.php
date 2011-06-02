@@ -485,7 +485,7 @@ class eZContentOperationCollection
             }
         }
 
-        if ( count( $removeAssignmentsList ) > 0 )
+        if ( !empty( $removeAssignmentsList ) )
         {
             eZNodeAssignment::purgeByID( $removeAssignmentsList );
         }

@@ -173,7 +173,7 @@ class eZTextFileUser extends eZUser
                                        AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
                     $groupObject = $db->arrayQuery( $groupQuery );
 
-                    if ( count( $groupObject ) > 0  )
+                    if ( !empty( $groupObject )  )
                     {
                         $defaultUserPlacement = $groupObject[0]['node_id'];
                     }
@@ -187,7 +187,7 @@ class eZTextFileUser extends eZUser
                                            AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
                     $groupObject = $db->arrayQuery( $groupQuery );
 
-                    if ( count( $groupObject ) > 0  )
+                    if ( !empty( $groupObject )  )
                     {
                         $defaultUserPlacement = $groupObject[0]['node_id'];
                     }

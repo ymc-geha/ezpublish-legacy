@@ -261,7 +261,7 @@ class eZIdentifierType extends eZDataType
                                         "       contentclassattribute_id = $classAttributeID AND" .
                                         "       data_type_string = 'ezidentifier' AND" .
                                         "       data_int != 0" );
-        if ( count( $existingIDs ) > 0 )
+        if ( !empty( $existingIDs ) )
         {
             $identifierValue = $existingIDs[0]['data_int'];
             $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );

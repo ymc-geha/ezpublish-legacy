@@ -273,7 +273,7 @@ function storeNodeAssignments( $module, $class, $object, $version, $contentObjec
 
     $db = eZDB::instance();
     $db->begin();
-    if ( count( $setPlacementNodeIDArray ) > 0 )
+    if ( !empty( $setPlacementNodeIDArray ) )
     {
         foreach ( $setPlacementNodeIDArray as $setPlacementRemoteID => $setPlacementNodeID )
         {

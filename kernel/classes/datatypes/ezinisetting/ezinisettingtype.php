@@ -175,7 +175,7 @@ class eZIniSettingType extends eZDataType
                 }
             }
 
-            if ( count( $configArray ) > 0 )
+            if ( !empty( $configArray ) )
             {
                 $data = '';
                 foreach( array_keys( $configArray ) as $key )

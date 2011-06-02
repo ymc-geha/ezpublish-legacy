@@ -91,7 +91,7 @@ else
     }
     fclose( $stdin );
 
-    if ( count( $usersToAssign ) > 0 )
+    if ( !empty( $usersToAssign ) )
     {
         $role = eZRole::create( $roleName );
         $role->store();

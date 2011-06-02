@@ -144,7 +144,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
                 $selection = $http->postVariable( 'CollaborationHandlerSelection_' . self::NOTIFICATION_HANDLER_ID );
             $createRules = array_diff( $selection, $oldSelection );
             $removeRules = array_diff( $oldSelection, $selection );
-            if ( count( $removeRules ) > 0 )
+            if ( !empty( $removeRules ) )
                 eZCollaborationNotificationRule::removeByIdentifier( array( $removeRules ) );
             foreach ( $createRules as $createRule )
             {

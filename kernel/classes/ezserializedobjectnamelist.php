@@ -452,7 +452,7 @@ class eZSerializedObjectNameList
     {
         $languageLocaleList = array();
 
-        if ( is_array( $this->NameList ) && count( $this->NameList ) > 0 )
+        if ( is_array( $this->NameList ) && !empty( $this->NameList ) )
         {
             foreach ( array_keys( $this->NameList ) as $languageLocale )
             {
@@ -566,7 +566,7 @@ class eZSerializedObjectNameList
     */
     function validate( $param = true )
     {
-        $languageMap = ( is_array( $param ) && (count( $param ) > 0) ) ? $param : false;
+        $languageMap = ( is_array( $param ) && (!empty( $param )) ) ? $param : false;
         $createLanguageIfNotExist = ( $param === true ) ? true : false;
         $nameList = $this->nameList();
         foreach ( $nameList as $nameLanguageLocale => $name )

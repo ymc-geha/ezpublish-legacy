@@ -516,7 +516,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                               'attributeTargetSQL'  => "",
                               'attributeWhereSQL'   => "" );
 
-        if ( $sortList and is_array( $sortList ) and count( $sortList ) > 0 )
+        if ( $sortList and is_array( $sortList ) and !empty( $sortList ) )
         {
             if ( count( $sortList ) > 1 and !is_array( $sortList[0] ) )
             {
@@ -533,7 +533,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             foreach ( $sortList as $sortBy )
             {
-                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                if ( is_array( $sortBy ) and !empty( $sortBy ) )
                 {
                     if ( $sortCount > 0 )
                     {
@@ -727,7 +727,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $classFilterType ) &&
              ( $classFilterType == 'include' || $classFilterType == 'exclude' ) &&
-             count( $classFilterArray ) > 0 )
+             !empty( $classFilterArray ) )
         {
             $classCondition = '  ';
             $i = 0;
@@ -751,7 +751,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
 
-            if ( count( $classIDArray ) > 0  )
+            if ( !empty( $classIDArray )  )
             {
                 $classCondition .= " ezcontentobject.contentclass_id ";
                 if ( $classFilterType == 'include' )
@@ -764,7 +764,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                if ( count( $classIDArray ) == 0 and count( $classFilterArray ) > 0 and $classFilterType == 'include' )
+                if ( count( $classIDArray ) == 0 and !empty( $classFilterArray ) and $classFilterType == 'include' )
                 {
                     $classCondition = false;
                 }
@@ -1535,7 +1535,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groupPermTempTable = false;
         $createdStateAliases = array();
 
-        if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
+        if ( is_array( $limitationList ) && !empty( $limitationList ) )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
@@ -1957,7 +1957,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db = eZDB::instance();
 
-        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
+        $server = !empty( $sqlPermissionChecking['temp_tables'] ) ? eZDBInterface::SERVER_SLAVE : false;
 
         $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
                                                          'limit'  => $limit ),
@@ -2186,7 +2186,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db = eZDB::instance();
 
-        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
+        $server = !empty( $sqlPermissionChecking['temp_tables'] ) ? eZDBInterface::SERVER_SLAVE : false;
 
         if ( !$offset && !$limit )
         {
@@ -2297,7 +2297,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( isset( $params['ClassFilterType'] ) and isset( $params['ClassFilterArray'] ) and
              ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
-             and count( $params['ClassFilterArray'] ) > 0 )
+             and !empty( $params['ClassFilterArray'] ) )
         {
             $classCondition = '  ';
             $i = 0;
@@ -2320,7 +2320,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     eZDebugSetting::writeWarning( 'kernel-content-class', "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
-            if ( count( $classIDArray ) > 0  )
+            if ( !empty( $classIDArray )  )
             {
                 $classCondition .= " ezcontentobject.contentclass_id ";
                 if ( $params['ClassFilterType'] == 'include' )
@@ -2399,7 +2399,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $objectNameFilterSQL
                         $languageFilter ";
 
-        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
+        $server = !empty( $sqlPermissionChecking['temp_tables'] ) ? eZDBInterface::SERVER_SLAVE : false;
 
         $nodeListArray = $db->arrayQuery( $query, array(), $server );
 
@@ -2511,7 +2511,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db = eZDB::instance();
 
-        $server = count( $sqlPermissionChecking['temp_tables'] ) > 0 ? eZDBInterface::SERVER_SLAVE : false;
+        $server = !empty( $sqlPermissionChecking['temp_tables'] ) ? eZDBInterface::SERVER_SLAVE : false;
 
         if ( !$offset && !$limit )
         {
@@ -3041,7 +3041,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $nodeListArray = $db->arrayQuery( $query );
 
-        if ( count( $nodeListArray ) > 0 )
+        if ( !empty( $nodeListArray ) )
         {
             if ( $asObject )
             {
@@ -3406,7 +3406,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $action       = "eznode:" . $nodeID;
 
         $elements = eZURLAliasML::fetchByAction( 'eznode', $nodeID );
-        if ( count( $elements ) > 0 and !$useParentFromNodeObject )
+        if ( !empty( $elements ) and !$useParentFromNodeObject )
         {
             $parentElementID = (int)$elements[0]->attribute( 'parent' );
             return eZURLAliasML::findUniqueText( $parentElementID, $element, $action );
@@ -3414,7 +3414,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $parentElements = eZURLAliasML::fetchByAction( 'eznode', $parentNodeID );
-            if ( count( $parentElements ) > 0 && $parentElements[0]->attribute( 'text' ) != '' )
+            if ( !empty( $parentElements ) && $parentElements[0]->attribute( 'text' ) != '' )
             {
                 // Pick one of the parents and get the ID
                 $parentElementID = (int)$parentElements[0]->attribute( 'id' );
@@ -3491,7 +3491,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentElementID = false;
         $existingElements = eZURLAliasML::fetchByAction( "eznode", $nodeID );
         $existingElementID = null;
-        if ( count( $existingElements ) > 0 )
+        if ( !empty( $existingElements ) )
         {
             $existingElementID = $existingElements[0]->attribute( 'id' );
             $parentElementID = $existingElements[0]->attribute( 'parent' );
@@ -4205,7 +4205,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $expireRoleCache = false;
 
             $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
-            if ( count( $limitationsToFix ) > 0 )
+            if ( !empty( $limitationsToFix ) )
             {
                 $limitationIDString = $db->generateSQLINStatement( $limitationsToFix, 'limitation_id' );
                 $subStringString =  $db->subString( 'value', $oldPathLength );
@@ -5284,7 +5284,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeListArray = $db->arrayQuery( $query );
             $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
 
-            if ( count( $retNodeArray ) > 0 )
+            if ( !empty( $retNodeArray ) )
             {
                 return $retNodeArray[0];
             }
@@ -5328,7 +5328,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             $db = eZDB::instance();
             $rows = $db->arrayQuery( $sql );
-            if ( count( $rows ) > 0 )
+            if ( !empty( $rows ) )
             {
                 if ( $language !== false )
                 {
@@ -5541,7 +5541,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
         $pathArray = explode( '/', $pathString );
 
-        if ( count( $pathArray ) > 0 )
+        if ( !empty( $pathArray ) )
         {
             $db = eZDB::instance();
             $db->query( 'UPDATE ezcontentobject_tree SET modified_subnode=' . time() .

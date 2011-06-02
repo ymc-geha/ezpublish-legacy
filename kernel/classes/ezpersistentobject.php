@@ -469,7 +469,7 @@ class eZPersistentObject
         else
         {
             $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
-            if ( count( $use_fields ) > 0 )
+            if ( !empty( $use_fields ) )
             {
                 // If we filter out some of the fields we need to intersect it with $use_fields
                 if ( is_array( $fieldFilters ) )
@@ -553,7 +553,7 @@ class eZPersistentObject
 
         $where_text = "";
         if ( is_array( $conditions ) and
-             count( $conditions ) > 0 )
+             !empty( $conditions ) )
         {
             $where_text = " WHERE  ";
             $i = 0;
@@ -796,7 +796,7 @@ class eZPersistentObject
             {
                 $sort_list = $def["sort"];
             }
-            if ( count( $sort_list ) > 0 )
+            if ( !empty( $sort_list ) )
             {
                 $sort_text = " ORDER BY ";
                 $i = 0;
@@ -814,12 +814,12 @@ class eZPersistentObject
         }
 
         $grouping_text = "";
-        if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
+        if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and !empty( $grouping ) ) )
         {
             $grouping_list = $def["grouping"];
             if ( is_array( $grouping ) )
                 $grouping_list = $grouping;
-            if ( count( $grouping_list ) > 0 )
+            if ( !empty( $grouping_list ) )
             {
                 $grouping_text = " GROUP BY ";
                 $i = 0;
@@ -924,7 +924,7 @@ class eZPersistentObject
         $keys = $def["keys"];
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
-        if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
+        if ( !empty( $rows ) and isset( $rows[0][$orderField] ) )
             return $rows[0][$orderField] + 1;
         else
             return 1;

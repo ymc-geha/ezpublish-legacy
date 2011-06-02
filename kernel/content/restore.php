@@ -149,7 +149,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     }
 
     // Check if we have failures
-    if ( count( $failedLocationList ) > 0 )
+    if ( !empty( $failedLocationList ) )
     {
         return $module->handleError( eZError::KERNEL_ACCESS_DENIED, 'kernel' );
     }

@@ -142,7 +142,7 @@ class eZURLWildcard extends eZPersistentObject
         if ( !is_array( $idList ) )
             return;
 
-        while ( count( $idList ) > 0 )
+        while ( !empty( $idList ) )
         {
             // remove by portion of 100 rows.
             $ids = array_splice( $idList, 0, 100 );

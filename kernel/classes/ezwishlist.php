@@ -207,7 +207,7 @@ class eZWishList extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezwishlist" );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $productCollectionIDList = array();
             foreach ( $rows as $row )

@@ -308,7 +308,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 foreach ( $matchFile['custom_match'] as $customMatch )
                 {
                     $matchOverride = true;
-                    if ( count( $customMatch['conditions'] ) > 0 )
+                    if ( !empty( $customMatch['conditions'] ) )
                     {
                         foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
                         {

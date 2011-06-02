@@ -726,7 +726,7 @@ class eZTemplateLogicOperator
                     else if ( $operand === true || $operand === false )
                         $operand_logic = $operand;
                     else if ( is_array( $operand ) )
-                        $operand_logic = count( $operand ) > 0;
+                        $operand_logic = !empty( $operand );
                     else if ( is_numeric( $operand ) )
                         $operand_logic = $operand != 0;
                     else if ( is_object( $operand ) )
@@ -754,7 +754,7 @@ class eZTemplateLogicOperator
                     else if ( $operand === true || $operand === false )
                         $operand_logic = $operand;
                     else if ( is_array( $operand ) )
-                        $operand_logic = count( $operand ) > 0;
+                        $operand_logic = !empty( $operand );
                     else if ( is_numeric( $operand ) )
                         $operand_logic = $operand != 0;
                     else if ( is_object( $operand ) )

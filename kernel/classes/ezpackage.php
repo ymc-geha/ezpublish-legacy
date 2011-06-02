@@ -393,7 +393,7 @@ class eZPackage
                         }
                     }
                     if ( $allowedType and
-                         count( $allowedRoles ) > 0 )
+                         !empty( $allowedRoles ) )
                     {
                         $allRoles = array_merge( $allRoles, $allowedRoles );
                     }
@@ -2103,7 +2103,7 @@ class eZPackage
                     $fileVariableName = $fileListNode->getAttribute( 'variable-name' );
                     $fileRoleValue = $fileListNode->getAttribute( 'role-value' );
                     $files = $fileListNode->getElementsByTagName( 'file' );
-                    if ( count( $files ) > 0 )
+                    if ( !empty( $files ) )
                     {
                         foreach ( $files as $fileNode )
                         {
@@ -2217,7 +2217,7 @@ class eZPackage
                             $installData[$arrayName] = $array;
                         }
                     }
-                    if ( count( $installData ) > 0 )
+                    if ( !empty( $installData ) )
                         $this->InstallData[$installDataType] = $installData;
                 }
             }
@@ -2250,7 +2250,7 @@ class eZPackage
                 $handler->parseDependencyNode( $this, $dependencyNode, $additionalDependencyParameters, $dependencySection );
             }
 
-            if ( count( $additionalDependencyParameters ) > 0 )
+            if ( !empty( $additionalDependencyParameters ) )
                 $dependencyParameters = array_merge( $dependencyParameters, $additionalDependencyParameters );
 
             $this->appendDependency( $dependencySection, $dependencyParameters );
@@ -2410,7 +2410,7 @@ class eZPackage
 
         $root->appendChild( $ezpublishNode );
 
-        if ( count( $maintainers ) > 0 )
+        if ( !empty( $maintainers ) )
         {
             $maintainersNode = $dom->createElement( 'maintainers' );
             foreach ( $maintainers as $maintainer )
@@ -2458,7 +2458,7 @@ class eZPackage
 
         $root->appendChild( $packagingNode );
 
-        if ( count( $documents ) > 0 )
+        if ( !empty( $documents ) )
         {
             $documentsNode = $dom->createElement( 'documents' );
             foreach ( $documents as $document )
@@ -2478,7 +2478,7 @@ class eZPackage
             $root->appendChild( $documentsNode );
         }
 
-        if ( count( $groups ) > 0 )
+        if ( !empty( $groups ) )
         {
             $groupsNode = $dom->createElement( 'groups' );
             foreach ( $groups as $group )
@@ -2491,7 +2491,7 @@ class eZPackage
             $root->appendChild( $groupsNode );
         }
 
-        if ( count( $changelog ) > 0 )
+        if ( !empty( $changelog ) )
         {
             $changelogNode = $dom->createElement( 'changelog' );
             foreach ( $changelog as $changeEntry )
@@ -2542,7 +2542,7 @@ class eZPackage
         $hasFileItems = false;
         foreach ( $fileList as $fileCollectionName => $fileCollection )
         {
-            if ( count( $fileCollection ) > 0 )
+            if ( !empty( $fileCollection ) )
             {
                 $hasFileItems = true;
 
@@ -2671,12 +2671,12 @@ class eZPackage
         $root->appendChild( $installNode );
         $root->appendChild( $uninstallNode );
 
-        if ( count( $this->InstallData ) > 0 )
+        if ( !empty( $this->InstallData ) )
         {
             $installDataNode = $dom->createElement( 'install-data' );
             foreach ( $this->InstallData as $installDataType => $installData )
             {
-                if ( count( $installData ) > 0 )
+                if ( !empty( $installData ) )
                 {
                     unset( $dataNode );
                     $dataNode = $dom->createElement( 'data' );

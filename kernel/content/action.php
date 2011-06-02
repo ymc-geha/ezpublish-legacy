@@ -901,7 +901,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
         else
             $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-        if ( is_array( $deleteIDArray ) && count( $deleteIDArray ) > 0 )
+        if ( is_array( $deleteIDArray ) && !empty( $deleteIDArray ) )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
@@ -954,7 +954,7 @@ else if ( $http->hasPostVariable( 'MoveButton' ) )
         else
             $moveIDArray = $http->postVariable( 'DeleteIDArray' );
 
-        if ( is_array( $moveIDArray ) && count( $moveIDArray ) > 0 )
+        if ( is_array( $moveIDArray ) && !empty( $moveIDArray ) )
         {
             $ignoreNodesSelect = array();
             $ignoreNodesSelectSubtree = array();

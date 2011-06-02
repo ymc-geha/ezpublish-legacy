@@ -188,7 +188,7 @@ class eZLDAPUser extends eZUser
             }
 
             $LDAPFilter = "( &";
-            if ( count( $LDAPFilters ) > 0 )
+            if ( !empty( $LDAPFilters ) )
             {
                 foreach ( array_keys( $LDAPFilters ) as $key )
                 {
@@ -336,11 +336,11 @@ class eZLDAPUser extends eZUser
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=$userGroupClassID";
                                 $groupObject = $db->arrayQuery( $groupQuery );
-                                if ( count( $groupObject ) > 0 and $key == 0 )
+                                if ( !empty( $groupObject ) and $key == 0 )
                                 {
                                     $defaultUserPlacement = $groupObject[0]['node_id'];
                                 }
-                                else if ( count( $groupObject ) > 0 )
+                                else if ( !empty( $groupObject ) )
                                 {
                                     $extraNodeAssignments[] = $groupObject[0]['node_id'];
                                 }
@@ -356,7 +356,7 @@ class eZLDAPUser extends eZUser
                                               AND ezcontentobject.contentclass_id=$userGroupClassID";
                             $groupObject = $db->arrayQuery( $groupQuery );
 
-                            if ( count( $groupObject ) > 0  )
+                            if ( !empty( $groupObject )  )
                             {
                                 $defaultUserPlacement = $groupObject[0]['node_id'];
                             }
@@ -375,11 +375,11 @@ class eZLDAPUser extends eZUser
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=$userGroupClassID";
                                 $groupObject = $db->arrayQuery( $groupQuery );
-                                if ( count( $groupObject ) > 0 and $key == 0 )
+                                if ( !empty( $groupObject ) and $key == 0 )
                                 {
                                     $defaultUserPlacement = $groupObject[0]['node_id'];
                                 }
-                                else if ( count( $groupObject ) > 0 )
+                                else if ( !empty( $groupObject ) )
                                 {
                                     $extraNodeAssignments[] = $groupObject[0]['node_id'];
                                 }
@@ -395,7 +395,7 @@ class eZLDAPUser extends eZUser
                                               AND ezcontentobject.contentclass_id=$userGroupClassID";
                             $groupObject = $db->arrayQuery( $groupQuery );
 
-                            if ( count( $groupObject ) > 0  )
+                            if ( !empty( $groupObject )  )
                             {
                                 $defaultUserPlacement = $groupObject[0]['node_id'];
                             }
@@ -503,7 +503,7 @@ class eZLDAPUser extends eZUser
                                                           AND ezcontentobject.contentclass_id=$userGroupClassID";
                                         $groupRow = $db->arrayQuery( $groupQuery );
 
-                                        if ( count( $groupRow ) > 0 )
+                                        if ( !empty( $groupRow ) )
                                         {
                                             $userRecord['new_parents'][] = $groupRow[ 0 ][ 'node_id' ];
                                         }
@@ -518,7 +518,7 @@ class eZLDAPUser extends eZUser
                         self::goAndPublishGroups( $requiredParams, $userData['dn'], $groupsTree, $stack, $groupSearchingDepth, true );
                     }
                     if ( isset( $userRecord['new_parents'] ) and
-                         count( $userRecord['new_parents'] ) > 0 )
+                         !empty( $userRecord['new_parents'] ) )
                     {
                         $defaultUserPlacement = $userRecord['new_parents'][0];
                         $extraNodeAssignments = array_merge( $extraNodeAssignments, $userRecord['new_parents'] );
@@ -1102,7 +1102,7 @@ class eZLDAPUser extends eZUser
         }
 
         // go through parents
-        if ( is_array( $current['parents'] ) and count( $current['parents'] ) > 0 )
+        if ( is_array( $current['parents'] ) and !empty( $current['parents'] ) )
         {
             foreach( array_keys( $current['parents'] ) as $key )
             {
@@ -1164,7 +1164,7 @@ class eZLDAPUser extends eZUser
                                          'Limitation' => array() );
                         $nodes = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
 
-                        if ( is_array( $nodes ) and count( $nodes ) > 0 and !$isUser )
+                        if ( is_array( $nodes ) and !empty( $nodes ) and !$isUser )
                         {
                             // if group with given name already exist under $parentNode then get fetch
                             // group node and remember its ID
@@ -1192,7 +1192,7 @@ class eZLDAPUser extends eZUser
             }
         }
 
-        if ( count( $parentNodesForNew ) > 0 )
+        if ( !empty( $parentNodesForNew ) )
         {
             if ( $isUser )
             {
@@ -1349,12 +1349,12 @@ class eZLDAPUser extends eZUser
                        AND ezcontentobject.contentclass_id = $userGroupClassID";
         $groupRows = $db->arrayQuery( $groupQuery );
 
-        if ( count( $groupRows ) > 0 and $isFirstGroupAssignment )
+        if ( !empty( $groupRows ) and $isFirstGroupAssignment )
         {
             $defaultUserPlacement = $groupRows[0]['node_id'];
             return;
         }
-        else if ( count( $groupRows ) > 0 )
+        else if ( !empty( $groupRows ) )
         {
             $extraNodeAssignments[] = $groupRows[0]['node_id'];
             return;
@@ -1368,11 +1368,11 @@ class eZLDAPUser extends eZUser
 
         $newNodeIDs = self::publishNewUserGroup( array( $parentNodeID ), array( 'name' => $groupName ) );
 
-        if ( count( $newNodeIDs ) > 0 and $isFirstGroupAssignment )
+        if ( !empty( $newNodeIDs ) and $isFirstGroupAssignment )
         {
             $defaultUserPlacement = $newNodeIDs[0]; // We only supplied one parent to publishNewUserGroup(), so there is only one node
         }
-        else if ( count( $newNodeIDs ) > 0 )
+        else if ( !empty( $newNodeIDs ) )
         {
             $extraNodeAssignments[] = $newNodeIDs[0]; // We only supplied one parent to publishNewUserGroup(), so there is only one node
         }

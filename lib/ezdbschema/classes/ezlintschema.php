@@ -256,7 +256,7 @@ class eZLintSchema extends eZDBSchemaInterface
                                               'to' => $fieldName );
                     }
 
-                    if ( count( $comments ) > 0 )
+                    if ( !empty( $comments ) )
                     {
                         $schema[$existingTableName]['fields'][$existingFieldName]['comments'] = $comments;
                         foreach ( $comments as $comment )
@@ -357,7 +357,7 @@ class eZLintSchema extends eZDBSchemaInterface
                         $badIndexes[] = array( 'from' => $existingIndexName,
                                                'to' => $indexName );
                     }
-                    if ( count( $comments ) > 0 )
+                    if ( !empty( $comments ) )
                     {
                         $schema[$existingTableName]['indexes'][$existingIndexName]['comments'] = $comments;
                         foreach ( $comments as $comment )
@@ -374,7 +374,7 @@ class eZLintSchema extends eZDBSchemaInterface
                 }
             }
 
-            if ( count( $tableComments ) > 0 )
+            if ( !empty( $tableComments ) )
             {
                 $schema[$existingTableName]['comments'] = $tableComments;
                 foreach ( $tableComments as $comment )

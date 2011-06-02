@@ -58,7 +58,7 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     eZRole::expireCache();
 
     $db->commit();
-    if ( count( $selectedObjectIDArray ) > 0 )
+    if ( !empty( $selectedObjectIDArray ) )
     {
         eZContentCacheManager::clearAllContentCache();
     }

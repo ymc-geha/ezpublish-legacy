@@ -670,7 +670,7 @@ class eZFS2FileHandler extends eZFSFileHandler
             if ( $printCallback )
                 call_user_func_array( $printCallback,
                                       array( $file, 1 ) );
-        } while ( count( $list ) > 0 );
+        } while ( !empty( $list ) );
     }
 
     /**

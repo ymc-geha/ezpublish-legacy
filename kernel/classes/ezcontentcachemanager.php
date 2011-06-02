@@ -204,7 +204,7 @@ class eZContentCacheManager
         }
 
         // Find all nodes that have the given keywords
-        if ( count( $keywordArray ) > 0 )
+        if ( !empty( $keywordArray ) )
         {
             $db = eZDB::instance();
             foreach( $keywordArray as $k => $keyword )
@@ -245,7 +245,7 @@ class eZContentCacheManager
         foreach ( $nodeList as $node )
         {
             $siblingNodeList = eZContentObjectTreeNode::subTreeByNodeID( $params, $node->attribute( 'parent_node_id' ) );
-            if ( count( $siblingNodeList ) > 0 )
+            if ( !empty( $siblingNodeList ) )
             {
                 foreach ( array_keys( $siblingNodeList ) as $siblingKey )
                 {
@@ -606,7 +606,7 @@ class eZContentCacheManager
                             }
                         }
 
-                        if ( count( $dependentClassInfo['object_filter'] ) > 0 )
+                        if ( !empty( $dependentClassInfo['object_filter'] ) )
                         {
                             if ( in_array( $objectID, $dependentClassInfo['object_filter'] ) )
                             {
@@ -823,7 +823,7 @@ class eZContentCacheManager
                                      'month' => false,
                                      'day' => false,
                                      'namefilter' => false );
-            if ( is_array( $preCacheSiteaccessArray ) && count( $preCacheSiteaccessArray ) > 0 )
+            if ( is_array( $preCacheSiteaccessArray ) && !empty( $preCacheSiteaccessArray ) )
             {
                 foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
                 {

@@ -189,7 +189,7 @@ class eZCountryType extends eZDataType
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            if ( count( $data ) > 0 and $data[0] != '' )
+            if ( !empty( $data ) and $data[0] != '' )
                 return eZInputValidator::STATE_ACCEPTED;
         }
 
@@ -207,7 +207,7 @@ class eZCountryType extends eZDataType
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            if ( count( $data ) > 0 and $data[0] != '' )
+            if ( !empty( $data ) and $data[0] != '' )
                 return eZInputValidator::STATE_ACCEPTED;
         }
 
@@ -406,7 +406,7 @@ class eZCountryType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        $result = ( ( !is_array( $content['value'] ) and trim( $content['value'] ) != '' ) or ( is_array( $content['value'] ) and count( $content['value'] ) > 0 ) );
+        $result = ( ( !is_array( $content['value'] ) and trim( $content['value'] ) != '' ) or ( is_array( $content['value'] ) and !empty( $content['value'] ) ) );
         return $result;
     }
 

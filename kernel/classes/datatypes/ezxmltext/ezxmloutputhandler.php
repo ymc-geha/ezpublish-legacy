@@ -206,7 +206,7 @@ class eZXMLOutputHandler
 
         // Fetch all links and cache urls
         $linkIDArray = $this->getAttributeValueArray( 'link', 'url_id' );
-        if ( count( $linkIDArray ) > 0 )
+        if ( !empty( $linkIDArray ) )
         {
             $inIDSQL = implode( ', ', $linkIDArray );
 
@@ -239,7 +239,7 @@ class eZXMLOutputHandler
             $embedInlineRelatedObjectIDArray );
         $relatedObjectIDArray = array_unique( $relatedObjectIDArray );
 
-        if ( count( $relatedObjectIDArray ) > 0 )
+        if ( !empty( $relatedObjectIDArray ) )
         {
             $this->ObjectArray = eZContentObject::fetchIDArray( $relatedObjectIDArray );
         }
@@ -251,7 +251,7 @@ class eZXMLOutputHandler
         );
         $nodeIDArray = array_unique( $nodeIDArray );
 
-        if ( count( $nodeIDArray ) > 0 )
+        if ( !empty( $nodeIDArray ) )
         {
             $nodes = eZContentObjectTreeNode::fetch( $nodeIDArray );
 

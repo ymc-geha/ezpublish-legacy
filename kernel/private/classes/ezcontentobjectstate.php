@@ -73,7 +73,7 @@ class eZContentObjectState extends eZPersistentObject
     public static function fetchById( $id )
     {
         $states = self::fetchByConditions( array( "ezcobj_state.id=$id" ), 1, 0 );
-        $state = count( $states ) > 0 ? $states[0] : false;
+        $state = !empty( $states ) ? $states[0] : false;
         return $state;
     }
 
@@ -90,7 +90,7 @@ class eZContentObjectState extends eZPersistentObject
         $db = eZDB::instance();
         $identifier = $db->escapeString( $identifier );
         $states = self::fetchByConditions( array( "ezcobj_state.identifier='$identifier'", "ezcobj_state_group.id=$groupID" ), 1, 0 );
-        $state = count( $states ) > 0 ? $states[0] : false;
+        $state = !empty( $states ) ? $states[0] : false;
         return $state;
     }
 
@@ -341,7 +341,7 @@ class eZContentObjectState extends eZPersistentObject
             {
                 $rows = $db->arrayQuery( "SELECT MAX(priority) AS max_priority FROM ezcobj_state WHERE group_id=" . $this->GroupID );
 
-                if ( count( $rows ) > 0 && $rows[0]['max_priority'] !== null )
+                if ( !empty( $rows ) && $rows[0]['max_priority'] !== null )
                 {
                     $this->setAttribute( 'priority', $rows[0]['max_priority'] + 1 );
                 }

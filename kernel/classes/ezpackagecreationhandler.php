@@ -161,7 +161,7 @@ class eZPackageCreationHandler
     function initializeStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->initializeStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$step['id']] ) )
             {
@@ -177,7 +177,7 @@ class eZPackageCreationHandler
     function loadStep( $package, $http, $currentStepID, &$persistentData, $tpl, &$module )
     {
         $methodMap = $this->loadStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$currentStepID] ) )
             {
@@ -219,7 +219,7 @@ class eZPackageCreationHandler
     function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$currentStepID] ) )
             {
@@ -237,7 +237,7 @@ class eZPackageCreationHandler
     function commitStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
-        if ( count( $methodMap ) > 0 )
+        if ( !empty( $methodMap ) )
         {
             if ( isset( $methodMap[$step['id']] ) )
             {
@@ -883,7 +883,7 @@ class eZPackageCreationHandler
     function checkPackageMaintainer( $package, &$persistentData )
     {
         $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
-        if ( count( $roleList ) > 0 )
+        if ( !empty( $roleList ) )
         {
             if ( $package instanceof eZPackage )
             {

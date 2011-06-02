@@ -49,7 +49,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
         $conditions = array( 'identifier' => $sectionIdentifier,
                              'id' => array( '!=', $SectionID ) );
         $existingSection = eZSection::fetchFilteredList( $conditions );
-        if( count( $existingSection ) > 0 )
+        if( !empty( $existingSection ) )
         {
             $errorMessage = ezpI18n::tr( 'design/admin/section/edit', 'The identifier has been used in another section.' );
         }

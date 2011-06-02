@@ -266,7 +266,7 @@ class eZObjectForwarder
         $hasAttributeAccess = false;
         if ( is_array( $attributeAccess ) )
         {
-            $hasAttributeAccess = count( $attributeAccess ) > 0;
+            $hasAttributeAccess = !empty( $attributeAccess );
             $attributeAccessCount = 0;
             foreach ( $attributeAccess as $attributeAccessEntries )
             {
@@ -413,7 +413,7 @@ class eZObjectForwarder
                     }
                 }
 
-                if ( count( $matchLookupArray ) > 0 )
+                if ( !empty( $matchLookupArray ) )
                 {
                     $newNodes = array_merge( $newNodes, $accessNodes );
                     $accessNodes = array();
@@ -448,7 +448,7 @@ class eZObjectForwarder
                                                                        eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                        array( 'spacing' => $acquisitionSpacing ) );
                 }
-                if ( count( $matchLookupArray ) > 0 and $hasAcquisitionNodes )
+                if ( !empty( $matchLookupArray ) and $hasAcquisitionNodes )
                 {
                     $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}", array( 'spacing' => $spacing ) );

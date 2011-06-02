@@ -73,7 +73,7 @@ if ( is_numeric( $ClassID ) )
             $ingroup = eZContentClassClassGroup::create( $ClassID, eZContentClass::VERSION_STATUS_TEMPORARY, $groupID, $groupName );
             $ingroup->store();
         }
-        if ( count( $classGroups ) > 0 )
+        if ( !empty( $classGroups ) )
         {
             $mainGroupID = $classGroups[0]->attribute( 'group_id' );
             $mainGroupName = $classGroups[0]->attribute( 'group_name' );
@@ -86,7 +86,7 @@ if ( is_numeric( $ClassID ) )
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         $groupList = $class->fetchGroupList();
-        if ( count( $groupList ) > 0 )
+        if ( !empty( $groupList ) )
         {
             $mainGroupID = $groupList[0]->attribute( 'group_id' );
             $mainGroupName = $groupList[0]->attribute( 'group_name' );

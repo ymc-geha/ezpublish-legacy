@@ -287,7 +287,7 @@ class eZURLAliasML extends eZPersistentObject
         {
             // No more languages for this entry so we need to check for children
             $childRows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml WHERE parent = {$id}" );
-            if ( count( $childRows ) > 0 )
+            if ( !empty( $childRows ) )
             {
                 // Turn entry into a nop: to disable it
                 $element = new eZURLAliasML( $rows[0] );
@@ -458,7 +458,7 @@ class eZURLAliasML extends eZPersistentObject
         {
             $sql = "SELECT text, parent FROM ezurlalias_ml WHERE id = {$parentID}";
             $rows = $db->arrayQuery( $sql );
-            if ( count( $rows ) > 0 )
+            if ( !empty( $rows ) )
             {
                 // A special case. If the special entry with empty text is used as parent
                 // the parent must be adjust to 0 (ie. real top level).
@@ -547,7 +547,7 @@ class eZURLAliasML extends eZPersistentObject
                 $query = "SELECT * FROM ezurlalias_ml " .
                          "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
                 $rows = $db->arrayQuery( $query );
-                if ( count( $rows ) > 0 )
+                if ( !empty( $rows ) )
                 {
                     $newElementID = (int)$rows[0]['id'];
                 }
@@ -561,7 +561,7 @@ class eZURLAliasML extends eZPersistentObject
                 $query = "SELECT * FROM ezurlalias_ml " .
                          "WHERE parent = $parentID AND action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
                 $rows = $db->arrayQuery( $query );
-                if ( count( $rows ) > 0 )
+                if ( !empty( $rows ) )
                 {
                     $existingEntryId = (int)$rows[0]['id'];
 
@@ -613,7 +613,7 @@ class eZURLAliasML extends eZPersistentObject
             // IF NO:
             //  1. Mark entry as a history entry
 
-            if ( count( $toBeUpdated ) > 0 )
+            if ( !empty( $toBeUpdated ) )
             {
                 $languageMask = $toBeUpdated[0]['lang_mask'];
                 if ( ( $languageMask & ~( $languageID | 1 ) ) != 0 )
@@ -1222,7 +1222,7 @@ class eZURLAliasML extends eZPersistentObject
 
         $pathRows = $db->arrayQuery( $query );
         $elements = array();
-        if ( count( $pathRows ) > 0 )
+        if ( !empty( $pathRows ) )
         {
             foreach ( $pathRows as $pathRow )
             {
@@ -1324,7 +1324,7 @@ class eZURLAliasML extends eZPersistentObject
         $nodeID = false;
 
         $urlAliasMLList = eZURLAliasML::fetchByPath( $uriString, $glob );
-        if ( is_array( $urlAliasMLList ) && count( $urlAliasMLList ) > 0 )
+        if ( is_array( $urlAliasMLList ) && !empty( $urlAliasMLList ) )
             $nodeID = eZURLAliasML::nodeIDFromAction( $urlAliasMLList[0]->Action );
 
         return $nodeID;
@@ -1507,7 +1507,7 @@ class eZURLAliasML extends eZPersistentObject
         $query = "SELECT " . join( ", ", $selects ) . " FROM " . join( ", ", $tables ) . " WHERE " . join( " AND ", $conds );
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
-        if ( count( $urlAliasArray ) > 0 )
+        if ( !empty( $urlAliasArray ) )
         {
             $pathRow = $urlAliasArray[0];
             $l   = count( $pathRow );
@@ -1576,7 +1576,7 @@ class eZURLAliasML extends eZPersistentObject
                 {
                     $query = "SELECT id FROM ezurlalias_ml WHERE action = '" . $db->escapeString( $action ) . "' AND is_original = 1 AND is_alias = 0";
                     $rows  = $db->arrayQuery( $query );
-                    if ( count( $rows ) > 0 )
+                    if ( !empty( $rows ) )
                     {
                         $id        = (int)$rows[0]['id'];
                     }
@@ -1951,7 +1951,7 @@ class eZURLAliasML extends eZPersistentObject
             }
             ++$score;
         }
-        if ( count( $scores ) > 0 )
+        if ( !empty( $scores ) )
         {
             return max( $scores );
         }

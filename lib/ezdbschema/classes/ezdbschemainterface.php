@@ -134,7 +134,7 @@ class eZDBSchemaInterface
                     continue;
 
                 $tableEntry = $this->fetchTableData( $tableInfo, $params['offset'], $params['limit'] );
-                if ( count( $tableEntry['rows'] ) > 0 )
+                if ( !empty( $tableEntry['rows'] ) )
                     $data[$tableName] = $tableEntry;
             }
             $this->transformData( $data, $params['format'] == 'local' );
@@ -859,7 +859,7 @@ class eZDBSchemaInterface
     {
         if ( isset( $def['comments'] ) )
         {
-            if ( count( $def['comments'] ) > 0 )
+            if ( !empty( $def['comments'] ) )
                 $sql .= "\n";
             foreach ( $def['comments'] as $comment )
             {

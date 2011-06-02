@@ -121,7 +121,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 
     $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
-    if ( count( $workflowGroups ) > 0 )
+    if ( !empty( $workflowGroups ) )
         $groupID = $workflowGroups[0]->attribute( 'group_id' );
     if ( !$groupID )
         $groupID = $GroupID;
@@ -299,7 +299,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 
     $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
-    if ( count( $workflowGroups ) > 0 )
+    if ( !empty( $workflowGroups ) )
         $groupID = $workflowGroups[0]->attribute( 'group_id' );
     if ( $groupID )
         return $Module->redirectToView( 'workflowlist', array( $groupID ) );

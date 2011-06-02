@@ -124,7 +124,7 @@ class eZModule
             $this->Functions = $ViewList;
             if ( isset( $FunctionList ) and
                  is_array( $FunctionList ) and
-                 count( $FunctionList ) > 0 )
+                 !empty( $FunctionList ) )
             {
                 ksort( $FunctionList, SORT_STRING );
                 $this->FunctionList = $FunctionList;
@@ -1402,7 +1402,7 @@ class eZModule
      */
     function run( $functionName, $parameters = array(), $overrideParameters = false, $userParameters = false )
     {
-        if ( count( $this->Functions ) > 0 and
+        if ( !empty( $this->Functions ) and
              !isset( $this->Functions[$functionName] ) )
         {
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
@@ -1501,7 +1501,7 @@ class eZModule
                 $params['UserParameters'] = array();
             }
 
-            if ( is_array( $userParameters ) && count( $userParameters ) > 0 )
+            if ( is_array( $userParameters ) && !empty( $userParameters ) )
             {
                 foreach ( array_keys( $userParameters ) as $paramKey )
                 {
@@ -1556,7 +1556,7 @@ class eZModule
             $Return = $this->viewResult( $functionName );
         }
 
-        if ( count( $viewStack ) > 0 )
+        if ( !empty( $viewStack ) )
             $currentView = array_pop( $viewStack );
         else
             $currentView = false;
@@ -1800,12 +1800,12 @@ class eZModule
             $msg = "\nThese directories had a directory named '$moduleName' but did not contain the module.php file:\n" .
                    implode( ", ", $triedList ) . "\n" .
                    "This usually means it is missing or has a wrong name.";
-            if ( count( $triedDirList ) > 0 )
+            if ( !empty( $triedDirList ) )
                 $msg .= "\n\nThese directories were tried too but none of them exists:\n" . implode( ', ', $triedDirList );
         }
         else
         {
-            if ( count( $triedDirList ) > 0 )
+            if ( !empty( $triedDirList ) )
                 $msg.= "\nThese directories were tried but none of them exists:\n" . implode( ", ", $triedDirList );
         }
         if ( $showError )

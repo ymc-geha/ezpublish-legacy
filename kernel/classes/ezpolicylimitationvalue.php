@@ -111,7 +111,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
             {
                 $limitationIDList[] = $limitationArray['id'];
             }
-            if  ( count( $limitationIDList ) > 0 )
+            if  ( !empty( $limitationIDList ) )
             {
                 eZPersistentObject::removeObject( eZPolicyLimitationValue::definition(),
                                                   array( 'limitation_id' => array( $limitationIDList  ),

@@ -356,7 +356,7 @@ class ezpObject
         $xml = eZXMLTextType::domString( $xml );
 
         $urlIdArray = $parser->getUrlIDArray();
-        if ( count( $urlIdArray ) > 0 )
+        if ( !empty( $urlIdArray ) )
             eZSimplifiedXMLInput::updateUrlObjectLinks( $attribute, $urlIdArray );
 
         return $xml;

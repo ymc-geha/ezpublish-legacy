@@ -63,7 +63,7 @@ foreach ( $plist as $p )
     $triggers = eZTrigger::fetchList( array( 'module_name' => $mementoChildData['module_name'],
                                              'function_name' => $mementoChildData['operation_name'],
                                              'name' => $mementoChildData['name'] ) );
-    if ( count( $triggers ) > 0 )
+    if ( !empty( $triggers ) )
     {
         $trigger = $triggers[0];
         if ( is_object( $trigger ) )

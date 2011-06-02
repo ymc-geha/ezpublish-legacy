@@ -120,7 +120,7 @@ function addListItem( &$listLines, $changeText )
 
 function createList( &$newLines, &$listLines )
 {
-    if ( count( $listLines ) > 0 )
+    if ( !empty( $listLines ) )
     {
         $ulEntry = array( 'type' => 'ul',
                           'items' => $listLines );
@@ -221,7 +221,7 @@ function dumpToText( $nodes )
                 } break;
                 case 'section':
                 {
-                    if ( count( $node['items'] ) > 0 )
+                    if ( !empty( $node['items'] ) )
                     {
                         $text .= "<header level='" . $node['level'] . "'>" . $node['name'] . "</header>\n";
                         $text .= dumpToText( $node['items'] );

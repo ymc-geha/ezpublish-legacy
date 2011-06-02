@@ -223,7 +223,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 }
             }
             if ( $mainNodeAssignment === null and
-                 count( $nodeAssignments ) > 0 )
+                 !empty( $nodeAssignments ) )
             {
                 $mainNodeAssignment = $nodeAssignments[0];
             }
@@ -417,7 +417,7 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $limitationList = $accessResult['policies'];
 
-            if ( count( $limitationList ) > 0 )
+            if ( !empty( $limitationList ) )
             {
                 $access = 'denied';
                 foreach ( $limitationList as $limitationArray  )

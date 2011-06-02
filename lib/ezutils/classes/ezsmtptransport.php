@@ -60,7 +60,7 @@ class eZSMTPTransport extends eZMailTransport
         }
 
         $excludeHeaders = $ini->variable( 'MailSettings', 'ExcludeHeaders' );
-        if ( count( $excludeHeaders ) > 0 )
+        if ( !empty( $excludeHeaders ) )
             $mail->Mail->appendExcludeHeaders( $excludeHeaders );
 
         $options = new ezcMailSmtpTransportOptions();

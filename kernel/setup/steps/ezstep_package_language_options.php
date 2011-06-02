@@ -95,7 +95,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         //
         $packageLanguageLocaleList = array_diff( $packageLanguageLocaleList, $siteLanguageLocaleList );
 
-        if( count( $packageLanguageLocaleList ) > 0 )
+        if( !empty( $packageLanguageLocaleList ) )
         {
             //
             // Get language names

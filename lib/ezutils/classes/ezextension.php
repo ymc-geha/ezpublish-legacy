@@ -546,7 +546,7 @@ class eZExtension
             if ( class_exists( $handler ) )
             {
                 // only use reflection if we have params to avoid exception on objects withouth constructor
-                if ( $handlerParams !== null && is_array( $handlerParams ) && count( $handlerParams ) > 0 )
+                if ( $handlerParams !== null && is_array( $handlerParams ) && !empty( $handlerParams ) )
                 {
                     $reflection = new ReflectionClass( $handler );
                     $object = $reflection->newInstanceArgs( $handlerParams );

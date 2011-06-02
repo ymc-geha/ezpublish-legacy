@@ -76,7 +76,7 @@ class eZAuthor
      */
     function removeAuthors( $removeList )
     {
-        if ( count( $removeList ) > 0 )
+        if ( !empty( $removeList ) )
             foreach ( $removeList as $id )
             {
                 foreach ( $this->Authors as $authorKey => $author )

@@ -90,7 +90,7 @@ class eZCurrencyData extends eZPersistentObject
                                                      $limitation,
                                                      $asObjects );
 
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             if ( $asHash )
             {
@@ -137,7 +137,7 @@ class eZCurrencyData extends eZPersistentObject
         if ( $currencyCode )
         {
             $currency = eZCurrencyData::fetchList( array( 'code' => $currencyCode ), $asObject );
-            if ( is_array( $currency ) && count( $currency ) > 0 )
+            if ( is_array( $currency ) && !empty( $currency ) )
                 return $currency[$currencyCode];
         }
 
@@ -246,7 +246,7 @@ class eZCurrencyData extends eZPersistentObject
     */
     static function removeCurrencyList( $currencyCodeList )
     {
-        if ( is_array( $currencyCodeList ) && count( $currencyCodeList ) > 0 )
+        if ( is_array( $currencyCodeList ) && !empty( $currencyCodeList ) )
         {
             $db = eZDB::instance();
             $db->begin();

@@ -132,7 +132,7 @@ class eZCollaborationItemHandler
             $userIDList[] = $rule['user_id'];
         }
         $userList = array();
-        if ( count( $userIDList ) > 0 )
+        if ( !empty( $userIDList ) )
         {
             $db = eZDB::instance();
             $userIDListText = $db->generateSQLINStatement( $userIDList, 'contentobject_id', false, false, 'int' );

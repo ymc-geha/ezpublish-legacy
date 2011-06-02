@@ -100,7 +100,7 @@ class eZTemplateCacheBlock
         $sql = "SELECT modified_subnode FROM ezcontentobject_tree WHERE node_id=$nodeID";
         $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
             return $rows[0]['modified_subnode'];
         return -1;
     }

@@ -72,7 +72,7 @@ class eZPreferences
             $userID = $user->attribute( 'contentobject_id' );
             $existingRes = $db->arrayQuery( "SELECT * FROM ezpreferences WHERE user_id = $userID AND name='$name'" );
 
-            if ( count( $existingRes ) > 0 )
+            if ( !empty( $existingRes ) )
             {
                 $prefID = $existingRes[0]['id'];
                 $query = "UPDATE ezpreferences SET value='$value' WHERE id = $prefID AND name='$name'";

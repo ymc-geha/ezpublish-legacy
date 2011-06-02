@@ -277,7 +277,7 @@ class eZOptionType extends eZDataType
     {
         $option = $contentObjectAttribute->content( );
         $options = $option->attribute( 'option_list' );
-        return count( $options ) > 0;
+        return !empty( $options );
     }
 
     /*!

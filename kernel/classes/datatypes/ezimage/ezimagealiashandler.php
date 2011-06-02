@@ -1281,7 +1281,7 @@ class eZImageAliasHandler
                             }
                         }
 
-                        if ( count( $toRemove ) > 0 )
+                        if ( !empty( $toRemove ) )
                         {
                             eZDebug::writeDebug( 'removing image information items containing non-printable characters: ' . implode( ', ', $toRemove ) );
 

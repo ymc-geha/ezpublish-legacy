@@ -313,7 +313,7 @@ class eZMultiOptionType extends eZDataType
     {
         $multioption = $contentObjectAttribute->content();
         $multioptions = $multioption->attribute( 'multioption_list' );
-        return count( $multioptions ) > 0;
+        return !empty( $multioptions );
     }
 
     /*!

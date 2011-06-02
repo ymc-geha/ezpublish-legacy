@@ -102,7 +102,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         if ( !$action )
         {
             $elements = eZURLAliasML::fetchByPath( $aliasDestinationText );
-            if ( count( $elements ) > 0 )
+            if ( !empty( $elements ) )
             {
                 $action = $elements[0]->attribute( 'action' );
                 $linkID = $elements[0]->attribute( 'link' );

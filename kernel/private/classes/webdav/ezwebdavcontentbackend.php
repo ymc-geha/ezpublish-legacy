@@ -994,7 +994,7 @@ class eZWebDAVContentBackend extends ezcWebdavSimpleBackend implements ezcWebdav
 
         // If an error will occur return the proper status. We return
         // multistatus in any case.
-        if ( count( $errors ) > 0 )
+        if ( !empty( $errors ) )
         {
             return new ezcWebdavMultistatusResponse(
                 $errors

@@ -885,7 +885,7 @@ class eZMail
         $headerNames = array();
         if ( !in_array( 'to', $excludeHeaders ) )
         {
-            $toHeaderContent = count( $this->ReceiverElements ) > 0 ? $this->composeEmailItems( $this->ReceiverElements ) : 'undisclosed-recipients:;';
+            $toHeaderContent = !empty( $this->ReceiverElements ) ? $this->composeEmailItems( $this->ReceiverElements ) : 'undisclosed-recipients:;';
             $headers[] = array( 'name' => 'To',
                                 'content' => $toHeaderContent );
             $headerNames[] = 'to';
@@ -910,14 +910,14 @@ class eZMail
                                 'content' => $this->composeEmailName( $this->From ) );
             $headerNames[] = 'from';
         }
-        if ( count( $this->CcElements ) > 0 and
+        if ( !empty( $this->CcElements ) and
              !in_array( 'cc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Cc',
                                 'content' => $this->composeEmailItems( $this->CcElements ) );
             $headerNames[] = 'cc';
         }
-        if ( count( $this->BccElements ) > 0 and
+        if ( !empty( $this->BccElements ) and
              !in_array( 'bcc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Bcc',

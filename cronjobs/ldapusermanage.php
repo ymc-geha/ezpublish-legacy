@@ -98,11 +98,11 @@ if ( $LDAPUserGroupType != null )
                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                   AND ezcontentobject.contentclass_id=3";
                 $groupObject = $db->arrayQuery( $groupQuery );
-                if ( count( $groupObject ) > 0 and $key == 0 )
+                if ( !empty( $groupObject ) and $key == 0 )
                 {
                     $defaultUserPlacement = $groupObject[0]['node_id'];
                 }
-                else if ( count( $groupObject ) > 0 )
+                else if ( !empty( $groupObject ) )
                 {
                     $extraNodeAssignments[] = $groupObject[0]['node_id'];
                 }
@@ -119,7 +119,7 @@ if ( $LDAPUserGroupType != null )
                               AND ezcontentobject.contentclass_id=3";
             $groupObject = $db->arrayQuery( $groupQuery );
 
-            if ( count( $groupObject ) > 0  )
+            if ( !empty( $groupObject )  )
             {
                 $defaultUserPlacement = $groupObject[0]['node_id'];
             }
@@ -138,11 +138,11 @@ if ( $LDAPUserGroupType != null )
                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                   AND ezcontentobject.contentclass_id=3";
                 $groupObject = $db->arrayQuery( $groupQuery );
-                if ( count( $groupObject ) > 0 and $key == 0 )
+                if ( !empty( $groupObject ) and $key == 0 )
                 {
                     $defaultUserPlacement = $groupObject[0]['node_id'];
                 }
-                else if ( count( $groupObject ) > 0 )
+                else if ( !empty( $groupObject ) )
                 {
                     $extraNodeAssignments[] = $groupObject[0]['node_id'];
                 }
@@ -158,7 +158,7 @@ if ( $LDAPUserGroupType != null )
                               AND ezcontentobject.contentclass_id=3";
             $groupObject = $db->arrayQuery( $groupQuery );
 
-            if ( count( $groupObject ) > 0  )
+            if ( !empty( $groupObject )  )
             {
                 $defaultUserPlacement = $groupObject[0]['node_id'];
             }
@@ -200,7 +200,7 @@ foreach ( $LDAPUsers as $LDAPUser )
     $userID = $LDAPUser['contentobject_id'];
 
     $LDAPFilter = "( &";
-    if ( count( $LDAPFilters ) > 0 )
+    if ( !empty( $LDAPFilters ) )
     {
         foreach ( array_keys( $LDAPFilters ) as $key )
         {
@@ -345,7 +345,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                                           AND ezcontentobject.contentclass_id=3";
                         $groupObject = $db->arrayQuery( $groupQuery );
 
-                        if ( count( $groupObject ) > 0 )
+                        if ( !empty( $groupObject ) )
                         {
                             $hasLDAPNodeType = true;
                             if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )
@@ -412,7 +412,7 @@ foreach ( $LDAPUsers as $LDAPUser )
                                           AND ezcontentobject.contentclass_id=3";
                         $groupObject = $db->arrayQuery( $groupQuery );
 
-                        if ( count( $groupObject ) > 0 )
+                        if ( !empty( $groupObject ) )
                         {
                             $hasLDAPNodeType = true;
                             if ( $IsLDAPMain and count( $newLDAPNodeArray ) == 0 )

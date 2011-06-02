@@ -371,7 +371,7 @@ class eZSiteInstaller
             }
         }
 
-        if( count( $validation ) > 0 )
+        if( !empty( $validation ) )
         {
             $this->reportError( $validation, 'eZSiteInstaller::removeClassAttribute: Unable to remove eZClassAttribute(s)' );
         }
@@ -644,7 +644,7 @@ class eZSiteInstaller
         $objectList = eZContentObject::fetchList( true, $conditions, 0, 1 );
 
         $object = false;
-        if( count( $objectList ) > 0 )
+        if( !empty( $objectList ) )
             $object = $objectList[0];
 
         return $object;
@@ -709,7 +709,7 @@ class eZSiteInstaller
         if( is_object( $contentObject ) )
         {
             $attributes = $contentObject->contentObjectAttributes();
-            if( count( $attributes ) > 0 )
+            if( !empty( $attributes ) )
             {
                 $objectAttribute = false;
                 foreach( $attributes as $attribute )
@@ -1187,7 +1187,7 @@ class eZSiteInstaller
             }
 
             $roleID = $role->attribute( 'id' );
-            if( count( $policiesDefinition ) > 0 )
+            if( !empty( $policiesDefinition ) )
             {
                 foreach( $policiesDefinition as $policyDefinition )
                 {
@@ -1263,7 +1263,7 @@ class eZSiteInstaller
 
         $sectionList = eZSection::fetchFilteredList( array( 'name' => $sectionName ), false, false, true );
 
-        if( is_array( $sectionList ) && count( $sectionList ) > 0 )
+        if( is_array( $sectionList ) && !empty( $sectionList ) )
         {
             $section = $sectionList[0];
             if( is_object( $section ) )

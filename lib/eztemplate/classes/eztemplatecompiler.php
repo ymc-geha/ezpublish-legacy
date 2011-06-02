@@ -825,7 +825,7 @@ class eZTemplateCompiler
         {
             $data = $node[2];
             if ( is_array( $data ) and
-                 count( $data ) > 0 )
+                 !empty( $data ) )
             {
                 $dataType = $data[0][0];
                 if ( $dataType == eZTemplate::TYPE_STRING or
@@ -980,7 +980,7 @@ class eZTemplateCompiler
                 else
                     $newChildren = array_merge( $newChildren, $newChildNode );
             }
-            if ( count( $newChildren ) > 0 )
+            if ( !empty( $newChildren ) )
                 return $newChildren;
         }
         return $children;
@@ -1009,7 +1009,7 @@ class eZTemplateCompiler
                     else
                         $newChildren = array_merge( $newChildren, $newChildNode );
                 }
-                if ( count( $newChildren ) > 0 )
+                if ( !empty( $newChildren ) )
                     $newNode[1] = $newChildren;
             }
             return $newNode;
@@ -1078,7 +1078,7 @@ class eZTemplateCompiler
                             else
                                 $newChildren = array_merge( $newChildren, $newChildNode );
                         }
-                        if ( count( $newChildren ) > 0 )
+                        if ( !empty( $newChildren ) )
                             $node[1] = $newChildren;
                     }
 
@@ -1097,7 +1097,7 @@ class eZTemplateCompiler
                             else
                                 $newParameters[$parameterName] = $newParamNode;
                         }
-                        if ( count( $newParameters ) > 0 )
+                        if ( !empty( $newParameters ) )
                         {
                             $node[3] = $newParameters;
                             $functionParameters = $newParameters;
@@ -1252,7 +1252,7 @@ class eZTemplateCompiler
                             {
                                 $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
                                                                                                                $elementTree, $newElementList, $resourceData );
-                                if ( count( $newParameterElements ) > 0 or
+                                if ( !empty( $newParameterElements ) or
                                      $inputAsParameter === 'always' )
                                 {
                                     $newParameters[] = $newParameterElements;

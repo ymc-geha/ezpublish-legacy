@@ -405,7 +405,7 @@ class eZWorkflow extends eZPersistentObject
                                                       false );
 
         eZDebugSetting::writeDebug( 'workflow-event', $list, "event indexed" );
-        if ( count( $list ) > 0 )
+        if ( !empty( $list ) )
             return $list[$index - 1]["id"];
         return null;
     }

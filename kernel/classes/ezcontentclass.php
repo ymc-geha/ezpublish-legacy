@@ -800,7 +800,7 @@ FROM ezcontentobject_tree ezcot, ezcontentobject ezco
 WHERE ezcot.depth = 1 AND
       ezco.contentclass_id = $this->ID AND
       ezco.id=ezcot.contentobject_id" );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
 You will need to change the class of the node by using the swap functionality.' ) );
@@ -1011,7 +1011,7 @@ You will need to change the class of the node by using the swap functionality.' 
         }
 
         // Set contentobject_name to something sensible if it is missing
-        if ( count( $attributes ) > 0 && trim( $this->attribute( 'contentobject_name' ) ) == '' )
+        if ( !empty( $attributes ) && trim( $this->attribute( 'contentobject_name' ) ) == '' )
         {
             $this->setAttribute( 'contentobject_name', '<' . $attributes[0]->attribute( 'identifier' ) . '>' );
         }
@@ -1087,7 +1087,7 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 1 ),
                                                       false );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
             return $rows[0]['id'];
         return false;
     }
@@ -1321,7 +1321,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $attributeArray = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
                                                                              'version' => $this->Version,
                                                                              'identifier' => $identifier ), $asObject );
-        if ( count( $attributeArray ) > 0 )
+        if ( !empty( $attributeArray ) )
         {
             return $attributeArray[0];
         }

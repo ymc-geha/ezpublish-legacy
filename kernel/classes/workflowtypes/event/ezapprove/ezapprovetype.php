@@ -293,7 +293,7 @@ class eZApproveType extends eZWorkflowEventType
             $collaborationID = false;
             $db = eZDb::instance();
             $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
-            if ( count( $taskResult ) > 0 )
+            if ( !empty( $taskResult ) )
                 $collaborationID = $taskResult[0]['collaboration_id'];
 
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $collaborationID, 'approve collaborationID' );
@@ -356,7 +356,7 @@ class eZApproveType extends eZWorkflowEventType
     {
         $returnState = eZInputValidator::STATE_ACCEPTED;
         $groupClassNames = eZUser::fetchUserGroupClassNames();
-        if ( count( $groupClassNames ) > 0 )
+        if ( !empty( $groupClassNames ) )
         {
             foreach( $userGroupIDList as $userGroupID )
             {
@@ -388,7 +388,7 @@ class eZApproveType extends eZWorkflowEventType
             // check approve-users
             $approversIDs = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_users' ) );
             if ( is_array( $approversIDs ) and
-                 count( $approversIDs ) > 0 )
+                 !empty( $approversIDs ) )
             {
                 $returnState = eZApproveType::validateUserIDList( $approversIDs, $reason );
             }
@@ -400,7 +400,7 @@ class eZApproveType extends eZWorkflowEventType
                 // check approve-groups
                 $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_groups' ) );
                 if ( is_array( $userGroupIDList ) and
-                     count( $userGroupIDList ) > 0 )
+                     !empty( $userGroupIDList ) )
                 {
                     $returnState = eZApproveType::validateGroupIDList( $userGroupIDList, $reason );
                 }
@@ -425,7 +425,7 @@ class eZApproveType extends eZWorkflowEventType
                 {
                     $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ) );
                     if ( is_array( $userGroupIDList ) and
-                         count( $userGroupIDList ) > 0 )
+                         !empty( $userGroupIDList ) )
                     {
                         $returnState = eZApproveType::validateGroupIDList( $userGroupIDList, $reason );
                     }
@@ -446,7 +446,7 @@ class eZApproveType extends eZWorkflowEventType
                     {
                         $objectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
                         if ( is_array( $objectIDArray ) and
-                             count( $objectIDArray ) > 0 )
+                             !empty( $objectIDArray ) )
                         {
                             switch( $customData['browse_action'] )
                             {
@@ -543,7 +543,7 @@ class eZApproveType extends eZWorkflowEventType
                     {
                         $objectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
                         if ( is_array( $objectIDArray ) and
-                             count( $objectIDArray ) > 0 )
+                             !empty( $objectIDArray ) )
                         {
 
                             switch( $customData['browse_action'] )
@@ -614,7 +614,7 @@ class eZApproveType extends eZWorkflowEventType
             case 'AddApproveUsers' :
             {
                 $userClassNames = eZUser::fetchUserClassNames();
-                if ( count( $userClassNames ) > 0 )
+                if ( !empty( $userClassNames ) )
                 {
                     eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                     'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
@@ -638,7 +638,7 @@ class eZApproveType extends eZWorkflowEventType
             case 'AddExcludeUser' :
             {
                 $groupClassNames = eZUser::fetchUserGroupClassNames();
-                if ( count( $groupClassNames ) > 0 )
+                if ( !empty( $groupClassNames ) )
                 {
                     eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                     'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),

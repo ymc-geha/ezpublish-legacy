@@ -33,7 +33,7 @@ class eZDiscount
             // Fetch discount rules for the current user
             $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
 
-            if ( count( $rules ) > 0 )
+            if ( !empty( $rules ) )
             {
                 $db = eZDB::instance();
 

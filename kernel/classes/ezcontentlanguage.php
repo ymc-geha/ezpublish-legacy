@@ -478,7 +478,7 @@ class eZContentLanguage extends eZPersistentObject
     {
         $result = array();
 
-        if ( is_array( $languageLocaleList ) && count( $languageLocaleList ) > 0 )
+        if ( is_array( $languageLocaleList ) && !empty( $languageLocaleList ) )
         {
             $languages = eZContentLanguage::prioritizedLanguages();
             foreach ( $languages as $language )
@@ -521,7 +521,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     static function topPriorityLanguageByLocaleList( $languageLocaleList )
     {
-        if ( is_array( $languageLocaleList ) && count( $languageLocaleList ) > 0 )
+        if ( is_array( $languageLocaleList ) && !empty( $languageLocaleList ) )
         {
             $languages = eZContentLanguage::prioritizedLanguages();
             foreach ( $languages as $language )

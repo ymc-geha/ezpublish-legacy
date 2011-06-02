@@ -259,7 +259,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     // download
     //
     showMessage2( "Downloading..." );
-    if( count( $downloadPackageList ) > 0 )
+    if( !empty( $downloadPackageList ) )
     {
         // TODO: using 'eZStepSiteTypes' is hack.
         //       need to exclude 'downloadFile' from that class.
@@ -341,7 +341,7 @@ function installPackages( $packageList, $params = array() )
                 $action = false;
                 $package->installItem( $item, $params );
 
-                if ( isset( $params['error'] ) && is_array( $params['error'] ) && count( $params['error'] ) > 0 )
+                if ( isset( $params['error'] ) && is_array( $params['error'] ) && !empty( $params['error'] ) )
                 {
                     global $autoMode;
                     if( $autoMode == 'on' )

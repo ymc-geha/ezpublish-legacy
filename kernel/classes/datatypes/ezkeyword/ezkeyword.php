@@ -94,7 +94,7 @@ class eZKeyword
         $classID = $object->attribute( 'contentclass_id' );
 
         // Get already existing keywords
-        if ( count( $this->KeywordArray ) > 0 )
+        if ( !empty( $this->KeywordArray ) )
         {
             $escapedKeywordArray = array();
             foreach( $this->KeywordArray as $keyword )
@@ -193,7 +193,7 @@ class eZKeyword
             }
         }
 
-        if ( count( $removeWordRelationIDArray ) > 0 )
+        if ( !empty( $removeWordRelationIDArray ) )
         {
             $removeIDString = implode( ', ', $removeWordRelationIDArray );
             $db->query( "DELETE FROM ezkeyword_attribute_link WHERE keyword_id IN ( $removeIDString ) AND  ezkeyword_attribute_link.objectattribute_id='$attributeID'" );
@@ -302,7 +302,7 @@ class eZKeyword
 
             $keywordCondition = $db->generateSQLINStatement( $keywordIDArray, 'keyword_id' );
 
-            if ( count( $keywordIDArray ) > 0 )
+            if ( !empty( $keywordIDArray ) )
             {
                 $objectArray = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_attribute.contentobject_id FROM ezkeyword_attribute_link, ezcontentobject_attribute
                                                   WHERE $keywordCondition AND
@@ -315,7 +315,7 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                if ( count( $objectIDArray ) > 0 )
+                if ( !empty( $objectIDArray ) )
                 {
                     $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
 

@@ -1008,7 +1008,7 @@ class eZObjectRelationListType extends eZDataType
                 if ( isset( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] ) )
                     $browseParameters['start_node'] = eZContentBrowse::nodeAliasID( $nodePlacement[$contentObjectAttribute->attribute( 'id' )] );
             }
-            if ( count($classConstraintList) > 0 )
+            if ( !empty( $classConstraintList ) )
                 $browseParameters['class_array'] = $classConstraintList;
 
             eZContentBrowse::browse( $browseParameters,
@@ -1135,7 +1135,7 @@ class eZObjectRelationListType extends eZDataType
                                                                                   'contentobject_id' => $hostObject->attribute( 'id' ),
                                                                                   'contentclassattribute_id' => $contentObjectAttribute->attribute( 'contentclassattribute_id' ) ) );
 
-                if ( count( $relationAttribute ) > 0 )
+                if ( !empty( $relationAttribute ) )
                 {
                     $relationContent = $relationAttribute[0]->content();
                     if ( is_array( $relationContent ) and
@@ -1453,7 +1453,7 @@ class eZObjectRelationListType extends eZDataType
             case 'browsed_for_placement':
             {
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationListNode' );
-                if ( $nodeSelection and count( $nodeSelection ) > 0 )
+                if ( $nodeSelection and !empty( $nodeSelection ) )
                 {
                     $nodeID = $nodeSelection[0];
                     $content = $classAttribute->content();
@@ -1552,7 +1552,7 @@ class eZObjectRelationListType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        return count( $content['relation_list'] ) > 0;
+        return !empty( $content['relation_list'] );
     }
 
     function isIndexable()
@@ -1568,7 +1568,7 @@ class eZObjectRelationListType extends eZDataType
     {
         $objectAttributeContent = $this->objectAttributeContent( $contentObjectAttribute );
 
-        if ( count( $objectAttributeContent['relation_list'] ) > 0 )
+        if ( !empty( $objectAttributeContent['relation_list'] ) )
         {
             $target = $objectAttributeContent['relation_list'][0];
             $targetObject = eZContentObject::fetch( $target['contentobject_id'], false );

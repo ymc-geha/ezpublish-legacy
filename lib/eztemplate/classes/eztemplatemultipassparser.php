@@ -572,7 +572,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $attr_pos = $var_end;
                     }
 
-                    if ( $type == eZTemplate::ELEMENT_END_TAG and count( $args ) > 0 )
+                    if ( $type == eZTemplate::ELEMENT_END_TAG and !empty( $args ) )
                     {
                         if ( $tag != 'do' )
                         {

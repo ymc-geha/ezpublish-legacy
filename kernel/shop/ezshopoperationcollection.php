@@ -359,7 +359,7 @@ class eZShopOperationCollection
                 }
             }
         }
-        if ( count( $unvalidatedAttributes ) > 0 )
+        if ( !empty( $unvalidatedAttributes ) )
         {
             return array( 'status' => eZModuleOperationInfo::STATUS_CANCELLED,
                           'reason' => 'validation',

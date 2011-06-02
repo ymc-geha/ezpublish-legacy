@@ -707,7 +707,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
 
     // Only continue if the database is using the same version as the PHP code
     $rows = $db->arrayQuery( "SELECT * FROM ezsite_data WHERE name = 'ezpublish-version'" );
-    if ( count( $rows ) > 0 )
+    if ( !empty( $rows ) )
     {
         $version = $rows[0]['value'];
         if ( version_compare( $version, eZPublishSDK::version() ) != 0 )
@@ -742,7 +742,7 @@ foreach ( $commandList as $commandItem )
              $cli->output( "The list of all packages:" );
 
         $packages = eZPackage::fetchPackages( $fetchParameters );
-        if ( count( $packages ) > 0 )
+        if ( !empty( $packages ) )
         {
             foreach ( $packages as $package )
             {
@@ -823,7 +823,7 @@ foreach ( $commandList as $commandItem )
                 case 'group':
                 {
                     $groups = $commandItem['item-parameters'];
-                    if ( count( $groups ) > 0 )
+                    if ( !empty( $groups ) )
                     {
                         foreach ( $groups as $group )
                         {

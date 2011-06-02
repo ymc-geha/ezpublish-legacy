@@ -71,7 +71,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
     public static function fetchById( $id )
     {
         $stateGroups = self::fetchByConditions( array( "ezcobj_state_group.id=$id" ), 1, 0 );
-        $stateGroup = count( $stateGroups ) > 0 ? $stateGroups[0] : false;
+        $stateGroup = !empty( $stateGroups ) ? $stateGroups[0] : false;
         return $stateGroup;
     }
 
@@ -86,7 +86,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
         $db = eZDB::instance();
         $identifier = $db->escapeString( $identifier );
         $stateGroups = self::fetchByConditions( array( "ezcobj_state_group.identifier='$identifier'" ), 1, 0 );
-        $stateGroup = count( $stateGroups ) > 0 ? $stateGroups[0] : false;
+        $stateGroup = !empty( $stateGroups ) ? $stateGroups[0] : false;
         return $stateGroup;
     }
 

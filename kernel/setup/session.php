@@ -87,7 +87,7 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
         if ( $http->hasPostVariable( 'UserIDArray' ) )
         {
             $userIDArray = $http->postVariable( 'UserIDArray' );
-            if ( count( $userIDArray ) > 0 )
+            if ( !empty( $userIDArray ) )
             {
                 eZSession::getHandlerInstance()->deleteByUserIDs( $userIDArray );
             }

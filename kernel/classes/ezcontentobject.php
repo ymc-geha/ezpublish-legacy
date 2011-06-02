@@ -669,7 +669,7 @@ class eZContentObject extends eZPersistentObject
 
         $rows = $db->arrayQuery( $query );
 
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             if ( $asObject )
             {
@@ -1199,7 +1199,7 @@ class eZContentObject extends eZPersistentObject
                 // Remove oldest archived version
                 $params = array( 'conditions'=> array( 'status' => eZContentObjectVersion::STATUS_ARCHIVED ) );
                 $versions = $this->versions( true, $params );
-                if ( count( $versions ) > 0 )
+                if ( !empty( $versions ) )
                 {
                     $modified = $versions[0]->attribute( 'modified' );
                     $removeVersion = $versions[0];
@@ -1608,7 +1608,7 @@ class eZContentObject extends eZPersistentObject
                                           link.from_contentobject_version=attr.version AND
                                           link.contentclassattribute_id=attr.contentclassattribute_id AND
                                           link.to_contentobject_id=$objectID" );
-        if ( count( $result ) > 0 )
+        if ( !empty( $result ) )
         {
             foreach( $result as $row )
             {
@@ -1638,7 +1638,7 @@ class eZContentObject extends eZPersistentObject
                                           link.to_contentobject_id=$objectID" );
 
         // Remove references from XML.
-        if ( count( $result ) > 0 )
+        if ( !empty( $result ) )
         {
             foreach( $result as $row )
             {
@@ -1725,7 +1725,7 @@ class eZContentObject extends eZPersistentObject
                          ezproductcollection_item.productcollection_id=ezwishlist.productcollection_id ) AND
                        ezproductcollection_item.contentobject_id=' . $delID;
         $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $countElements = 50;
             $deletedArray = array();
@@ -2050,7 +2050,7 @@ class eZContentObject extends eZPersistentObject
     {
         $db = eZDB::instance();
 
-        if ( count( $objList ) > 0 )
+        if ( !empty( $objList ) )
         {
             $objectArray = array();
             $tmpLanguageObjectList = array();
@@ -2877,13 +2877,13 @@ class eZContentObject extends eZPersistentObject
                             else
                                 $sortByParam[] = $sortByTuple;
                         }
-                        if ( count( $invalidSortBy ) > 0 )
+                        if ( !empty( $invalidSortBy ) )
                         {
                             eZDebug::writeWarning( "Unsupported sort_by parameter(s) " . implode( ', ', $invalidSortBy ) . "; check the online documentation for the list of supported sort types", __METHOD__ );
                         }
                     }
                 }
-                if ( count( $sortByParam ) > 0 )
+                if ( !empty( $sortByParam ) )
                 {
                     $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortByParam );
                     $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
@@ -3271,7 +3271,7 @@ class eZContentObject extends eZPersistentObject
             $outerObjectIDSQL = 'outer_object.id = outer_link.from_contentobject_id';
             if ( is_array( $objectID ) )
             {
-                if ( count( $objectID ) > 0 )
+                if ( !empty( $objectID ) )
                 {
                     $objectIDSQL = ' AND ' . $db->generateSQLINStatement( $objectID, 'inner_link.to_contentobject_id', false, false, 'int' ) . ' AND
                                      inner_link.from_contentobject_version = inner_object.current_version';
@@ -3652,7 +3652,7 @@ class eZContentObject extends eZPersistentObject
                         // find group(s) which is common for 'user' and 'owner'
                         $commonGroup = array_intersect( $groupList[$userID], $groupList[$ownerID] );
 
-                        if ( count( $commonGroup ) > 0 )
+                        if ( !empty( $commonGroup ) )
                         {
                             // ok, we have at least 1 common group
                             $access = 'allowed';
@@ -3861,7 +3861,7 @@ class eZContentObject extends eZPersistentObject
                         case 'ParentDepth':
                         {
                             $assignedNodes = $this->attribute( 'assigned_nodes' );
-                            if ( count( $assignedNodes ) > 0 )
+                            if ( !empty( $assignedNodes ) )
                             {
                                 foreach ( $assignedNodes as  $assignedNode )
                                 {
@@ -4734,7 +4734,7 @@ class eZContentObject extends eZPersistentObject
         $id = (int)$this->ClassID;
         $sql = "SELECT serialized_name_list FROM ezcontentclass WHERE id=$id and version=0";
         $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $this->ClassName = eZContentClass::nameFromSerializedString( $rows[0]['serialized_name_list'] );
         }
@@ -5933,7 +5933,7 @@ class eZContentObject extends eZPersistentObject
                     }
                 }
 
-                if ( isset( $policy['NewState'] ) and count( $policy['NewState'] ) > 0 )
+                if ( isset( $policy['NewState'] ) and !empty( $policy['NewState'] ) )
                 {
                     $allowedStateIDList = array_merge( $allowedStateIDList, $policy['NewState'] );
                 }

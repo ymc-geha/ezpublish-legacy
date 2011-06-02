@@ -716,7 +716,7 @@ class eZScript
         }
         $description = $this->Description;
         $helpText =  "Usage: " . $program;
-        if ( count( $optionList ) > 0 or count( $generalOptionList ) > 0 )
+        if ( !empty( $optionList ) or !empty( $generalOptionList ) )
         {
             $helpText .= " [OPTION]...";
         }
@@ -734,7 +734,7 @@ class eZScript
         }
         if ( $description )
             $helpText .= "\n" . $description . "\n";
-        if ( count( $generalOptionList ) > 0 )
+        if ( !empty( $generalOptionList ) )
         {
             $helpText .= "\nGeneral options:\n";
             $maxLength = 0;
@@ -770,7 +770,7 @@ class eZScript
                 }
             }
         }
-        if ( count( $optionList ) > 0 )
+        if ( !empty( $optionList ) )
         {
             $helpText .= "\nOptions:\n";
             $maxLength = 0;
@@ -1005,7 +1005,7 @@ class eZScript
                 $this->setUseIncludeFiles( $useIncludeFiles );
                 $this->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
             }
-            if ( count( $options['verbose'] ) > 0 )
+            if ( !empty( $options['verbose'] ) )
             {
                 $this->setShowVerboseOutput( count( $options['verbose'] ) );
             }

@@ -891,7 +891,7 @@ class eZOrder extends eZPersistentObject
         $items = $this->orderItems();
 
         $total = 0.0;
-        if ( count( $items ) > 0 )
+        if ( !empty( $items ) )
         {
             foreach ( $items as $item )
             {
@@ -906,7 +906,7 @@ class eZOrder extends eZPersistentObject
         $items = $this->orderItems();
 
         $total = 0.0;
-        if ( count( $items ) > 0 )
+        if ( !empty( $items ) )
         {
             foreach ( $items as $item )
             {
@@ -1185,7 +1185,7 @@ class eZOrder extends eZPersistentObject
                     }
                 }
             }
-            if ( count( $accessList ) > 0 )
+            if ( !empty( $accessList ) )
             {
                 $accessList = array_unique( array_merge( $accessList, array( $currentStatusID ) ) );
                 $statuses = eZOrderStatus::fetchOrderedList( true, false );
@@ -1371,7 +1371,7 @@ class eZOrder extends eZPersistentObject
         $db = eZDB::instance();
         $orderID =(int) $orderID;
         $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             // Who deletes which order in shop should be logged.
             eZAudit::writeAudit( 'order-delete', array( 'Order ID' => $orderID,
@@ -1428,7 +1428,7 @@ class eZOrder extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $productCollectionIDList = array();
             foreach ( $rows as $row )
@@ -1485,7 +1485,7 @@ class eZOrder extends eZPersistentObject
         }
 
         $orderItems = $this->orderItems();
-        if ( count( $orderItems ) > 0 )
+        if ( !empty( $orderItems ) )
         {
             foreach ( $orderItems as $orderItem )
             {

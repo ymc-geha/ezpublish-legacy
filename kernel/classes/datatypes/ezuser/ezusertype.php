@@ -314,7 +314,7 @@ class eZUserType extends eZDataType
 
         $sql = "SELECT id FROM ezcontentobject WHERE id = $anonID AND contentclass_id = $classID";
         $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "The account is currently used by the anonymous user." ) );
@@ -327,7 +327,7 @@ class eZUserType extends eZDataType
        ezuser.login = 'admin' AND
        ezco.id = ezuser.contentobject_id ";
         $rows = $db->arrayQuery( $sql );
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $result['list'][] = array( 'text' => ezpI18n::tr( 'kernel/classes/datatypes',
                                                          "The account is currently used the administrator user." ) );

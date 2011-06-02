@@ -1621,7 +1621,7 @@ class eZDebug
             }
             $groupList[$groupKey]['children'] = $groupChildren;
         }
-        if ( count( $timeList ) > 0 )
+        if ( !empty( $timeList ) )
         {
             $groupList['general'] = array( 'name' => 'General',
                                            'children' => $timeList );

@@ -343,7 +343,7 @@ foreach ( $sourceNodeList as $sourceNode )
 $cli->output( "Copying subtree:" );
 
 $k = 0;
-while ( count( $sourceNodeList ) > 0 )
+while ( !empty( $sourceNodeList ) )
 {
     if ( $k > $countNodeList )
     {

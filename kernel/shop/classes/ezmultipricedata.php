@@ -105,7 +105,7 @@ class eZMultiPriceData extends eZPersistentObject
                                                      $asObjects );
 
 
-        if ( count( $rows ) > 0 )
+        if ( !empty( $rows ) )
         {
             $keys = array_keys( $rows );
             foreach ( $keys as $key )
