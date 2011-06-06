@@ -121,11 +121,11 @@ class eZPolicy extends eZPersistentObject
     {
         $policy = new eZPolicy( array( 'id' => null ) );
         $policy->setAttribute( 'role_id', $roleID );
-        if ( array_key_exists( 'ModuleName', $params ))
+        if ( isset( $params['ModuleName'] ))
         {
             $policy->setAttribute( 'module_name', $params['ModuleName'] );
         }
-        if ( array_key_exists( 'FunctionName', $params ))
+        if ( isset( $params['FunctionName'] ))
         {
             $policy->setAttribute( 'function_name', $params['FunctionName'] );
         }

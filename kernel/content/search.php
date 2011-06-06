@@ -199,10 +199,9 @@ else
     $searchData = $searchResult;
 }
 
-if ( $logSearchStats and
-     trim( $searchText ) != "" and
-     is_array( $searchData ) and
-     array_key_exists( 'SearchCount', $searchData ) and
+if ( $logSearchStats &&
+     isset( $searchData['SearchCount'] ) &&
+     trim( $searchText ) != "" &&
      is_numeric( $searchData['SearchCount'] ) )
 {
     eZSearchLog::addPhrase( $searchText, $searchData["SearchCount"] );

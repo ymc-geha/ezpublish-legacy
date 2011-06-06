@@ -246,7 +246,7 @@ class eZMimeType
             {
                 $subURL = substr( $file, 0, $suffixPosition );
                 $suffixList =& $instance->SuffixList;
-                if ( array_key_exists( $suffix, $suffixList ) )
+                if ( isset( $suffixList[$suffix] ) )
                 {
                     $mimeName = $suffixList[$suffix];
                 }
@@ -262,7 +262,7 @@ class eZMimeType
                 {
                     $subURL = substr( $file, $suffixPosition + 1 );
                     $prefixList =& $instance->PrefixList;
-                    if ( array_key_exists( $prefix, $prefixList ) )
+                    if ( isset( $prefixList[$prefix] ) )
                     {
                         $mimeName = $prefixList[$prefix];
                     }
@@ -271,7 +271,7 @@ class eZMimeType
             if ( $mimeName )
             {
                 $mimeList =& $instance->MIMEList;
-                if ( array_key_exists( $mimeName, $mimeList ) )
+                if ( isset( $mimeList[$mimeName] ) )
                 {
                     $lastDirPosition = strrpos( $url, '/' );
                     $filename = $url;

@@ -57,7 +57,7 @@ class eZFunctionHandler
                 foreach( array_keys( $parameterTranslation ) as $functionKey )
                 {
                     $translatedParameter = $parameterTranslation[$functionKey];
-                    if ( array_key_exists( $translatedParameter, $functionParameters ) )
+                    if ( isset( $functionParameters[$translatedParameter] ) )
                          $functionArray[$functionKey] = $functionParameters[$translatedParameter];
                     else
                         $functionArray[$functionKey] = null;
@@ -77,9 +77,9 @@ class eZFunctionHandler
                         /*
                          Check if have Constant overriden by function parameter
                          */
-                        if ( array_key_exists( $constKey, $functionParameters ) )
+                        if ( isset( $functionParameters[$constKey] ) )
                         {
-                            $functionArray[$constKey] =& $functionParameters[$constKey] ;
+                            $functionArray[$constKey] =& $functionParameters[$constKey];
                             continue;
                         }
                         /*
@@ -124,7 +124,7 @@ class eZFunctionHandler
  */
             foreach ( $functionParameters as $paramName => $value )
             {
-                if ( !array_key_exists( $paramName, $functionArray ) )
+                if ( !isset( $functionArray[$paramName] ) )
                 {
                     $functionArray[$paramName] = $value;
                 }

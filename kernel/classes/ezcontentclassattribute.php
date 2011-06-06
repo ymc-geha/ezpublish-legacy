@@ -558,7 +558,7 @@ class eZContentClassAttribute extends eZPersistentObject
         if ( !$this->DisplayInfo )
         {
             $dataType = $this->dataType();
-            if ( is_object( $dataType ) )
+            if ( $dataType instanceof eZDataType )
             {
                 $this->DisplayInfo = $dataType->classDisplayInformation( $this, false );
             }
@@ -629,7 +629,7 @@ class eZContentClassAttribute extends eZPersistentObject
             {
                 unset( $dataType );
                 $dataType = eZDataType::create( $key );
-                if( is_object( $dataType ) )
+                if( $dataType instanceof eZDataType )
                     $sortKeyTypeArray[$key] = $dataType->sortKeyType();
             }
             unset( $dataType );

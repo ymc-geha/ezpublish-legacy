@@ -493,7 +493,7 @@ class eZLDAPUser extends eZUser
                                     }
 
                                     // remap group name and check that group exists
-                                    if ( array_key_exists( $ldapGroupName, $LDAPUserGroupMap ) )
+                                    if ( isset( $LDAPUserGroupMap[ $ldapGroupName ] ) )
                                     {
                                         $remmapedGroupName = $LDAPUserGroupMap[ $ldapGroupName ];
                                         $groupQuery = "SELECT ezcontentobject_tree.node_id

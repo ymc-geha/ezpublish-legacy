@@ -404,7 +404,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
     $currentFunctionLimitations = array();
     foreach( $functions[ $currentFunction ] as $key => $limitation )
     {
-        if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+        if ( empty( $limitation['values'] ) && isset( $limitation['class'] ) )
         {
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( $obj , $limitation['function']) , $limitation['parameter'] );

@@ -451,7 +451,7 @@ class eZXMLTextType extends eZDataType
     function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentObjectAttribute );
-        if ( is_object( $content ) and
+        if ( $content instanceof eZXMLText &&
              !$content->attribute( 'is_empty' ) )
             return true;
         return false;

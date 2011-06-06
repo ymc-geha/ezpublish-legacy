@@ -425,12 +425,12 @@ class eZHTTPTool
         $ini = eZINI::instance();
         $AUTHKey = $ini->variable( 'SiteSettings', 'HTTPAUTHServerVariable' );
         $matches = array();
-        if ( array_key_exists( 'PHP_AUTH_USER', $_SERVER ) )
+        if ( isset( $_SERVER['PHP_AUTH_USER'] ) )
         {
             return $_SERVER['PHP_AUTH_USER'];
         }
-        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and
-                 array_key_exists( $AUTHKey, $_SERVER ) and
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' &&
+                 isset( $_SERVER[$AUTHKey] ) &&
                  preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
         {
             list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
@@ -450,12 +450,12 @@ class eZHTTPTool
         $ini = eZINI::instance();
         $AUTHKey = $ini->variable( 'SiteSettings', 'HTTPAUTHServerVariable' );
         $matches = array();
-        if ( array_key_exists( 'PHP_AUTH_PW', $_SERVER ) )
+        if ( isset( $_SERVER['PHP_AUTH_PW'] ) )
         {
             return $_SERVER['PHP_AUTH_PW'];
         }
-        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' and
-                 array_key_exists( $AUTHKey, $_SERVER ) and
+        elseif ( substr( php_sapi_name(), 0, 3 ) == 'cgi' &&
+                 isset( $_SERVER[$AUTHKey] ) &&
                  preg_match('/Basic\s+(.*)$/i', $_SERVER[$AUTHKey], $matches ) )
         {
             list( $name, $password ) = explode( ':', base64_decode( $matches[1] ) );
@@ -679,7 +679,7 @@ class eZHTTPTool
             if ( substr( $key, -2 ) == '_x' )
             {
                 $yKey = substr( $key, 0, -2 ) . '_y';
-                if ( array_key_exists( $yKey, $_POST ) )
+                if ( isset( $_POST[$yKey] ) )
                 {
                     $keyClean = substr( $key, 0, -2 );
                     $matches = array();

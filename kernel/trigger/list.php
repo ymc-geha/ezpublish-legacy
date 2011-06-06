@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
             $workflowID = $http->postVariable( 'WorkflowID_' . $trigger['key'] );
             if( $workflowID != -1 )
             {
-                if ( !array_key_exists( $trigger['key'], $triggers ) )
+                if ( !isset( $triggers[$trigger['key']] ) )
                 {
                     //create trigger
                     if ( $trigger['connect_type'] == 'before' )
@@ -104,14 +104,13 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
                     $existendTrigger = $triggers[$trigger['key']];
                     if ( $existendTrigger->attribute( 'workflow_id' ) != $workflowID )
                     {
-                        $existendTrigger = $triggers[$trigger['key']];
                         $existendTrigger->setAttribute( 'workflow_id', $workflowID );
                         $existendTrigger->store();
                     }
                     // update trigger
                 }
             }
-            else if ( array_key_exists( $trigger['key'], $triggers ) )
+            else if ( isset( $triggers[$trigger['key']] ) )
             {
                 $existendTrigger = $triggers[$trigger['key']];
                 $existendTrigger->remove();

@@ -279,7 +279,7 @@ class eZMultiOption2
             {
                 return $option;
             }
-            else if ( array_key_exists( 'child_group',  $optionList ) && $optionList['child_group'] )
+            else if ( isset( $optionList['child_group'] ) && $optionList['child_group'] )
             {
                 if ( $option = $optionList['child_group']->findOption( false, $optionID ) )
                      return $option;
@@ -828,7 +828,7 @@ class eZMultiOption2
                 $optionNode->setAttribute( 'is_selectable', $option['is_selectable'] );
                 $multioptionNode->appendChild( $optionNode );
             }
-            if ( array_key_exists( 'child_group', $multioption ) && $multioption['child_group'] )
+            if ( isset( $multioption['child_group'] ) && $multioption['child_group'] )
             {
                 $childGroup = $multioption['child_group'];
                 unset( $childGroupNode );

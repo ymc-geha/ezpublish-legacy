@@ -28,7 +28,7 @@ class eZPathElement extends eZPersistentObject
     {
         $this->Path = null;
         $this->PathArray = null;
-        if ( array_key_exists( 'always_available', $row )  )
+        if ( isset( $row['always_available'] ) )
         {
             $this->AlwaysAvailable = $row['always_available'];
         }

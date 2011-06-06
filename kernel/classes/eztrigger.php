@@ -101,19 +101,19 @@ class eZTrigger extends eZPersistentObject
     static function fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
-        if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )
+        if ( isset( $parameters['module'] ) && $parameters[ 'module' ] !== '*' )
         {
             $filterArray['module_name'] = $parameters['module'];
         }
-        if ( array_key_exists('function', $parameters ) && $parameters[ 'function' ] != '*' )
+        if ( isset( $parameters['function'] ) && $parameters[ 'function' ] !== '*' )
         {
             $filterArray['function_name'] = $parameters['function'];
         }
-        if ( array_key_exists('connectType', $parameters ) && $parameters[ 'connectType' ] != '*' )
+        if ( isset( $parameters['connectType'] ) && $parameters[ 'connectType' ] !== '*' )
         {
             $filterArray['connect_type'] = $parameters['connectType'];
         }
-        if ( array_key_exists('name', $parameters ) && $parameters[ 'name' ] != '' )
+        if ( isset( $parameters['name'] ) && $parameters[ 'name' ] != '' )
         {
             $filterArray['name'] = $parameters['name'];
         }

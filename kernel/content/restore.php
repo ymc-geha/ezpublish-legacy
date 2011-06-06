@@ -176,7 +176,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $user = eZUser::currentUser();
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
-    if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != eZModuleOperationInfo::STATUS_CONTINUE ) )
+    if ( isset( $operationResult['status'] ) && $operationResult['status'] !== eZModuleOperationInfo::STATUS_CONTINUE )
     {
         switch( $operationResult['status'] )
         {

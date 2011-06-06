@@ -26,7 +26,7 @@ class eZDbSchema
      */
     static function instance( $params = false )
     {
-        if ( is_object( $params ) )
+        if ( $params instanceof eZDBInterface )
         {
             $db = $params;
             $params = array( 'instance' => $db );

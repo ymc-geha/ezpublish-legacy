@@ -1462,7 +1462,7 @@ class eZModule
             $this->UIComponent = $functionName;
         }
 
-        if ( array_key_exists( 'Limitation', $parameters  ) )
+        if ( isset( $parameters[ 'Limitation' ] ) )
         {
             $params['Limitation'] =& $parameters[ 'Limitation' ];
         }
@@ -1508,7 +1508,7 @@ class eZModule
                     if( isset( $function['unordered_params'] ) &&
                         $unorderedParams != null )
                     {
-                        if ( array_key_exists( $paramKey, $unorderedParams ) )
+                        if ( isset( $unorderedParams[$paramKey] ) )
                         {
                             $params[$unorderedParams[$paramKey]] = $userParameters[$paramKey];
                             $unorderedParametersList[$unorderedParams[$paramKey]] = $userParameters[$paramKey];

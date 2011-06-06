@@ -865,11 +865,11 @@ END;
     {
         if ( ( $checkMode === $generatingMode ) and $inProgressAutoloadArray !== null )
         {
-            $classCollision = array_key_exists( $class, $inProgressAutoloadArray );
+            $classCollision = isset( $inProgressAutoloadArray[$class] );
         }
         else
         {
-            $classCollision = array_key_exists( $class, $this->existingAutoloadArrays[$checkMode] );
+            $classCollision = isset( $this->existingAutoloadArrays[$checkMode][$class] );
         }
 
         if ( $classCollision )
@@ -896,7 +896,7 @@ END;
 
         if ( $generatingMode === self::MODE_KERNEL_OVERRIDE and $checkMode === self::MODE_KERNEL )
         {
-            if ( $inProgressAutoloadArray !== null and array_key_exists( $class, $inProgressAutoloadArray ) )
+            if ( $inProgressAutoloadArray !== null and isset( $inProgressAutoloadArray[$class] ) )
             {
                 return;
             }

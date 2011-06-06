@@ -400,7 +400,7 @@ class eZImageAliasHandler
         }
 
         $aliasList = $this->aliasList();
-        if ( array_key_exists( $aliasName, $aliasList ) )
+        if ( isset( $aliasList[$aliasName] ) )
         {
             return $aliasList[$aliasName];
         }

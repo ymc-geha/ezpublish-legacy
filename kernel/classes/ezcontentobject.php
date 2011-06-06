@@ -1833,7 +1833,7 @@ class eZContentObject extends eZPersistentObject
         else if ( $nodeID !== null )
         {
             $node = eZContentObjectTreeNode::fetch( $nodeID , false );
-            if ( is_object( $node ) )
+            if ( $node instanceof eZContentObjectTreeNode )
             {
                 if ( $node->attribute( 'main_node_id' ) == $nodeID )
                 {
@@ -5641,7 +5641,7 @@ class eZContentObject extends eZPersistentObject
 
             $contentAttribute =& $dataMap[$attribute];
             $dataType = $contentAttribute->dataType();
-            if( is_object( $dataType ) && $dataType->isSimpleStringInsertionSupported() )
+            if( $dataType instanceof eZDataType && $dataType->isSimpleStringInsertionSupported() )
             {
                 $result = '';
                 $dataType->insertSimpleString( $this, $contentObjectVersion, false, $contentAttribute, $attributeValue, $result );

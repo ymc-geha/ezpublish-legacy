@@ -418,7 +418,7 @@ class eZImageType extends eZDataType
         $value = $original['alternative_text'];
         if ( trim( $value ) == '' )
         {
-            if ( array_key_exists( $name, $original ) )
+            if ( isset( $original[$name] ) )
                 $value = $original[$name];
             else
                 $value = $original['original_filename'];

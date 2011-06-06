@@ -568,7 +568,7 @@ class eZSiteInstaller
         $object = false;
 
         $node = $this->nodeByUrl( $params );
-        if( is_object( $node ) )
+        if( $node instanceof eZContentObjectTreeNode )
         {
             $object = $node->object();
         }
@@ -902,7 +902,7 @@ class eZSiteInstaller
 
         $node = $this->nodeByUrl( $params );
 
-        if( is_object( $node ) )
+        if( $node instanceof eZContentObjectTreeNode )
         {
             $pathString = $node->attribute( 'path_string' );
         }
@@ -921,7 +921,7 @@ class eZSiteInstaller
 
         $node = eZContentObjectTreeNode::fetchByURLPath( $path_identification_string );
 
-        if( !is_object( $node ) )
+        if( !$node instanceof eZContentObjectTreeNode )
         {
             $this->reportError( "The node '$path_identification_string' doesn't exist", 'eZSiteInstaller::nodeByUrl' );
         }
@@ -939,7 +939,7 @@ class eZSiteInstaller
         $node = $this->nodeByName( $params );
 
         $id = false;
-        if( is_object( $node ) )
+        if( $node instanceof eZContentObjectTreeNode )
             $id = $node->attribute( 'node_id' );
 
         return $id;
@@ -996,7 +996,7 @@ class eZSiteInstaller
         $nodeID = $node1;
         $node = eZContentObjectTreeNode::fetch( $nodeID );
 
-        if( !is_object( $node ) )
+        if( !$node instanceof eZContentObjectTreeNode )
         {
             $this->reportError( "Can't fetch node '$nodeID'", 'eZSiteInstaller::swapNodes' );
             return false;
@@ -1152,7 +1152,7 @@ class eZSiteInstaller
         $roleName = $params['role_name'];
 
         $node = $this->nodeByUrl( $params );
-        if( is_object( $node ) )
+        if( $node instanceof eZContentObjectTreeNode )
         {
             $role = eZRole::fetchByName( $roleName );
             if( is_object( $role ) )

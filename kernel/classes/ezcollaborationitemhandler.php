@@ -248,11 +248,7 @@ class eZCollaborationItemHandler
     function hasContentAttribute( $collaborationItem, $attribute )
     {
         $content = $collaborationItem->content();
-        if ( is_array( $content ) )
-        {
-            return array_key_exists( $attribute, $content );
-        }
-        return false;
+        return isset( $content[$attribute] );
     }
 
     /*!
@@ -261,10 +257,9 @@ class eZCollaborationItemHandler
     function contentAttribute( $collaborationItem, $attribute )
     {
         $content = $collaborationItem->content();
-        if ( is_array( $content ) )
+        if ( isset( $content[$attribute] ) )
         {
-            if ( array_key_exists( $attribute, $content ) )
-                return $content[$attribute];
+            return $content[$attribute];
         }
         $content = null;
         return $content;

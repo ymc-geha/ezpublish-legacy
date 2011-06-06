@@ -428,7 +428,7 @@ class eZStepSiteTypes extends eZStepInstaller
                     $sitePackagesInfoChoosen = $sitePackagesInfo;
                 }
             }
-            if ( isset( $sitePackagesInfoChoosen ) and array_key_exists( 'url', $sitePackagesInfoChoosen ) )
+            if ( isset( $sitePackagesInfoChoosen['url'] ) )
             {
                 // we already know that we should download the package anyway as it has newer version
                 // so use force download mode

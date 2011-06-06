@@ -383,7 +383,7 @@ class eZDBSchemaInterface
                                       'data' => false ),
                                $params );
 
-        if ( !is_object( $this->DBInstance ) )
+        if ( !$this->DBInstance instanceof eZDBInterface )
         {
             eZDebug::writeError( "No database instance is available, cannot insert", __METHOD__ );
             return false;

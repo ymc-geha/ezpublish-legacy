@@ -213,7 +213,7 @@ class eZContentObjectState extends eZPersistentObject
             foreach ( $languages as $language )
             {
                 $languageID = $language->attribute( 'id' );
-                if ( !array_key_exists( $languageID, $allTranslations ) )
+                if ( !isset( $allTranslations[$languageID] ) )
                 {
                     $row = array( 'language_id' => $languageID );
                     if ( isset( $this->ID ) )

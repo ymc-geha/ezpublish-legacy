@@ -44,7 +44,7 @@ if ( $http->hasPostVariable( 'EditLanguage' ) )
 if ( is_numeric( $ClassID ) )
 {
     $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_MODIFIED );
-    if ( is_object( $class ) )
+    if ( $class instanceof eZContentClass )
     {
         $tpl = eZTemplate::factory();
         $tpl->setVariable( 'class', $class );
@@ -58,7 +58,7 @@ if ( is_numeric( $ClassID ) )
     $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
-    if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
+    if ( !$class instanceof eZContentClass || $class->attribute( 'id' ) == null )
     {
         $class = eZContentClass::fetch( $ClassID, true, eZContentClass::VERSION_STATUS_DEFINED );
         if( $class === null ) // Class does not exist
@@ -420,7 +420,7 @@ if ( $contentClassHasInput )
             // check if the category is set for this attribute key, may not be the case when using old admin and new attributes
             // if this is not set at all, it gets a default value from the DB
             // if it is set, we want to leave it like that of course
-            if ( array_key_exists( $key, $categoryArray ) )
+            if ( isset( $categoryArray[$key] ) )
             {
                 $attribute->setAttribute( 'category', $categoryArray[$key] );
             }

@@ -101,7 +101,7 @@ class eZPersistentObject
         {
             if( is_numeric( $key ) ) // $fields is not an associative array
             {
-                if ( array_key_exists( $val,  $fieldDefs ) &&
+                if ( isset( $fieldDefs[$val] ) &&
                      array_key_exists( 'short_name', $fieldDefs[$val] ) )
                 {
                     $short_fields_names[$key] = $fieldDefs[$val]['short_name'];
@@ -111,7 +111,7 @@ class eZPersistentObject
             }
             else // $fields is an associative array
             {
-                if ( array_key_exists( $key,  $fieldDefs ) &&
+                if ( isset( $fieldDefs[$key] ) &&
                      array_key_exists( 'short_name', $fieldDefs[$key] ) )
                 {
                     $newkey = $fieldDefs[$key]['short_name'];
@@ -305,8 +305,8 @@ class eZPersistentObject
                     if ( array_key_exists( 'default', $field_def ) &&
                          ( $field_def['default'] !== null ||
                           ( $field_name == 'data_int' &&
-                            array_key_exists( 'required', $field_def ) &&
-                            $field_def[ 'required' ] == false ) ) )
+                            isset( $field_def['required'] ) &&
+                            $field_def['required'] == false ) ) )
                     {
                         $obj->setAttribute( $field_name, $field_def[ 'default' ] );
                     }
@@ -329,7 +329,7 @@ class eZPersistentObject
 
             if ( $value !== null                                &&
                  $field_def['datatype'] === 'string'            &&
-                 array_key_exists( 'max_length', $field_def )   &&
+                 isset( $field_def['max_length'] )              &&
                  $field_def['max_length'] > 0                   &&
                  strlen( $value ) > $field_def['max_length'] )
             {
@@ -477,7 +477,7 @@ class eZPersistentObject
                 $use_field_names = array();
                 foreach ( $use_fields as $key )
                 {
-                    if ( $db->useShortNames() && is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
+                    if ( $db->useShortNames() && isset( $fields[$key]['short_name'] ) && strlen( $fields[$key]['short_name'] ) > 0 )
                         $use_field_names[$key] = $fields[$key]['short_name'];
                     else
                         $use_field_names[$key] = $key;
@@ -1085,10 +1085,8 @@ static function definition()
             $fieldDef = $fields[ $field ];
             $numericDataTypes = array( 'integer', 'float', 'double' );
             if ( strlen( $value ) == 0 &&
-                 is_array( $fieldDef ) &&
-                 in_array( $fieldDef['datatype'], $numericDataTypes  ) &&
-                 array_key_exists( 'default', $fieldDef ) &&
-                 $fieldDef[ 'default' ] !== null )
+                 isset( $fieldDef[ 'default' ] ) &&
+                 in_array( $fieldDef['datatype'], $numericDataTypes  ) )
             {
                 $value = $fieldDef[ 'default' ];
             }
@@ -1279,7 +1277,7 @@ static function definition()
     {
         $fields = $def['fields'];
 
-        if ( $db->useShortNames() && isset( $fields[$attrName] ) && array_key_exists( 'short_name', $fields[$attrName] ) && $fields[$attrName]['short_name'] )
+        if ( $db->useShortNames() && isset( $fields[$attrName]['short_name'] ) && $fields[$attrName]['short_name'] )
             return $fields[$attrName]['short_name'];
 
         return $attrName;

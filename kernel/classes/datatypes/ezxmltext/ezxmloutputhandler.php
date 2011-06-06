@@ -27,7 +27,7 @@ class eZXMLOutputHandler
         $this->AliasedHandler = null;
         $this->AliasedType = $aliasedType;
 
-        if ( is_object( $contentObjectAttribute ) )
+        if ( $contentObjectAttribute instanceof eZContentObjectAttribute )
         {
             $this->ContentObjectAttribute = $contentObjectAttribute;
             $this->ObjectAttributeID = $contentObjectAttribute->attribute( 'id' );

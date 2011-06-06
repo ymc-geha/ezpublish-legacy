@@ -33,7 +33,7 @@ if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = (int)$http->variable( 'NodeID' );
 
 $node = eZContentObjectTreeNode::fetch( $NodeID );
-if ( is_object( $node ) )
+if ( $node instanceof eZContentObjectTreeNode )
 {
     $nodeName = $node->getName();
 }

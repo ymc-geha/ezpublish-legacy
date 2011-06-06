@@ -235,7 +235,7 @@ class eZContentObjectVersion extends eZPersistentObject
         else if ( $object->attribute( 'status' ) == eZContentObject::STATUS_PUBLISHED )
         {
             $mainNode = $object->mainNode();
-            if ( is_object( $mainNode ) )
+            if ( $mainNode instanceof eZContentObjectTreeNode )
             {
                 $this->TempNode = eZContentObjectTreeNode::create( $mainNode->attribute( 'parent_node_id' ),
                                                                    $mainNode->attribute( 'contentobject_id' ),
@@ -1149,7 +1149,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
             $dataType = $attr->dataType();
 
-            if ( is_object( $dataType ) &&
+            if ( $dataType instanceof eZDataType &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&
                  $attribute['can_translate'] )
                 $attr->setContentClassAttributeCanTranslate( 1 );

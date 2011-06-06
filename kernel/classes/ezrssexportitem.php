@@ -203,7 +203,7 @@ class eZRSSExportItem extends eZPersistentObject
             {
                 // fetch path for class attribute to RSS field mapping
                 $node = eZContentObjectTreeNode::fetch( $rssSource->SourceNodeID );
-                if ( is_object( $node ) )
+                if ( $node instanceof eZContentObjectTreeNode )
                 {
                     $attributeMappings[] = array( $rssSource, $node );
                 }
