@@ -40,7 +40,7 @@ class eZContentBrowse
         $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'BrowseParameters' ) )
         {
-            $this->Parameters =& $http->sessionVariable( 'BrowseParameters' );
+            $this->Parameters = $http->sessionVariable( 'BrowseParameters' );
         }
         else
         {
@@ -246,6 +246,8 @@ class eZContentBrowse
     function setStartNode( $nodeID )
     {
         $this->Parameters['start_node'] = $nodeID;
+        $http = eZHTTPTool::instance();
+        $http->setSessionVariable( 'BrowseParameters', $this->Parameters );
     }
 
     /*!

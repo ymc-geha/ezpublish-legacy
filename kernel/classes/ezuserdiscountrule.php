@@ -106,7 +106,7 @@ class eZUserDiscountRule extends eZPersistentObject
             if ( $handler->hasTimestamp( 'user-discountrules-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-discountrules-cache' );
 
-            $ruleTimestamp =& $http->sessionVariable( 'eZUserDiscountRulesTimestamp' );
+            $ruleTimestamp = $http->sessionVariable( 'eZUserDiscountRulesTimestamp' );
 
             $ruleArray = false;
             // check for cached version in session
@@ -114,7 +114,7 @@ class eZUserDiscountRule extends eZPersistentObject
             {
                 if ( $http->hasSessionVariable( 'eZUserDiscountRules' . $userID ) )
                 {
-                    $ruleArray =& $http->sessionVariable( 'eZUserDiscountRules' . $userID );
+                    $ruleArray = $http->sessionVariable( 'eZUserDiscountRules' . $userID );
                 }
             }
 

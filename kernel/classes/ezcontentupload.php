@@ -59,7 +59,7 @@ class eZContentUpload
         $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'ContentUploadParameters' ) )
         {
-            $this->Parameters =& $http->sessionVariable( 'ContentUploadParameters' );
+            $this->Parameters = $http->sessionVariable( 'ContentUploadParameters' );
         }
         else
         {

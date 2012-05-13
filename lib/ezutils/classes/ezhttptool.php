@@ -765,7 +765,7 @@ class eZHTTPTool
      *              if null(default), then force start session and return null if undefined.
      * @return mixed ByRef
      */
-    function &sessionVariable( $name, $fallbackValue = null )
+    function sessionVariable( $name, $fallbackValue = null )
     {
         return eZSession::get( $name, $fallbackValue );
     }

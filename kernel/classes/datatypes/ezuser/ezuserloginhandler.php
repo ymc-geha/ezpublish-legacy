@@ -182,7 +182,7 @@ class eZUserLoginHandler
             $http->setSessionVariable( self::STEP, self::STEP_PRE_CHECK_USER_INFO );
         }
 
-        $loginStep =& $http->sessionVariable( self::STEP );
+        $loginStep = $http->sessionVariable( self::STEP );
 
         if ( $http->hasSessionVariable( self::FORCE_LOGIN ) &&
              $loginStep < self::STEP_PRE_COLLECT_USER_INFO )
@@ -242,10 +242,11 @@ class eZUserLoginHandler
                 }
                 else
                 {
-                    $redirect =& $http->sessionVariable( self::LAST_CHECK_REDIRECT );
+                    $redirect = $http->sessionVariable( self::LAST_CHECK_REDIRECT );
                     if ( !$redirect )
                     {
                         $redirect = array( 'module' => 'user', 'function' => 'login' );
+                        $http->setSessionVariable( self::LAST_CHECK_REDIRECT, $redirect );
                     }
                     return $redirect;
                 }
@@ -284,7 +285,7 @@ class eZUserLoginHandler
                     $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
                 }
 
-                $userInfoArray =& $http->sessionVariable( self::USER_INFO );
+                $userInfoArray = $http->sessionVariable( self::USER_INFO );
                 $http->removeSessionVariable( self::USER_INFO );
 
                 if ( $http->hasSessionVariable( self::FORCE_LOGIN ) )
