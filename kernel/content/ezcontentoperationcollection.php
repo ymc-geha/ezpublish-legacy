@@ -689,23 +689,28 @@ class eZContentOperationCollection
     /**
      * Moves a node
      *
-     * @param int $nodeID
-     * @param int $objectID
+     * @param string $nodeID, ex: '1' or '1, 2'
+     * @param int $objectID, useless since it will fetch object from nodeID only for backward-compatibility since 5.0
      * @param int $newParentNodeID
      *
      * @return array An array with operation status, always true
      */
     static public function moveNode( $nodeID, $objectID, $newParentNodeID )
     {
-       if( !eZContentObjectTreeNodeOperations::move( $nodeID, $newParentNodeID ) )
+       $nodeID = explode( ',', $nodeID );
+       $nodeIDIntList = array();
+       foreach( $nodeID as $item )
+       {
+            $nodeIDIntList[] = (int) $item;
+       }
+
+       if( !eZContentObjectTreeNodeOperations::move( $nodeIDIntList, $newParentNodeID ) )
        {
            eZDebug::writeError( "Failed to move node $nodeID as child of parent node $newParentNodeID",
                                 __METHOD__ );
 
            return array( 'status' => false );
        }
-
-       eZContentObject::fixReverseRelations( $objectID, 'move' );
 
        return array( 'status' => true );
     }

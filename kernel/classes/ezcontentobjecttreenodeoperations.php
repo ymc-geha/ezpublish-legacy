@@ -30,6 +30,8 @@ class eZContentObjectTreeNodeOperations
     /*!
      \static
      A wrapper for eZContentObjectTreeNode's 'move' operation.
+     Add move node array support when $nodeID is an int array. Nodes in $nodeIDArray shouldn't have parent-child relationship
+            otherwise it may cause node-not-found exception.
      It does:
       - clears caches for old placement;
       - performs actual move( calls eZContentObjectTreeNode->move() );
@@ -38,7 +40,7 @@ class eZContentObjectTreeNodeOperations
       - updates assignment( setting new 'parent_node' );
       - clears caches for new placement;
 
-     \param $nodeID The id of a node to move.
+     \param $nodeID The id/idarray of a node to move.
      \param $newParentNodeID The id of a new parent.
      \return \c true if 'move' was done successfully, otherwise \c false;
     */
@@ -46,81 +48,113 @@ class eZContentObjectTreeNodeOperations
     {
         $result = false;
 
-        if ( !is_numeric( $nodeID ) || !is_numeric( $newParentNodeID ) )
+        if ( ( !is_numeric( $nodeID ) && !is_array( $nodeID ) ) || !is_numeric( $newParentNodeID ) )
             return false;
 
-        $node = eZContentObjectTreeNode::fetch( $nodeID );
-        if ( !$node )
-            return false;
-
-        $object = $node->object();
-        if ( !$object )
-            return false;
-
-        $objectID = $object->attribute( 'id' );
-        $oldParentNode = $node->fetchParent();
-        $oldParentObject = $oldParentNode->object();
-
-        // clear user policy cache if this is a user object
-        if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
+        if( is_array( $nodeID ) )
         {
-            eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
-        }
-
-        // clear cache for old placement.
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
-
-        $db = eZDB::instance();
-        $db->begin();
-
-        $node->move( $newParentNodeID );
-
-        $newNode = eZContentObjectTreeNode::fetchNode( $objectID, $newParentNodeID );
-
-        if ( $newNode )
-        {
-            $newNode->updateSubTreePath( true, true );
-            if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
+            foreach( $nodeID as $item )
             {
-                // If the main node is moved we need to check if the section ID must change
-                $newParentNode = $newNode->fetchParent();
-                $newParentObject = $newParentNode->object();
-                if ( $object->attribute( 'section_id' ) != $newParentObject->attribute( 'section_id' ) )
+                if( !is_numeric( $item ) )
                 {
-
-                    eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
-                                                                     $newParentObject->attribute( 'section_id' ),
-                                                                     $oldParentObject->attribute( 'section_id' ) );
+                    return false;
                 }
             }
+        }
 
-            // modify assignment
-            $curVersion     = $object->attribute( 'current_version' );
-            $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
+        if( is_numeric( $nodeID ) )
+        {
+         $nodeID = array( $nodeID );
+        }
 
-            if ( $nodeAssignment )
+        $nodeList = eZContentObjectTreeNode::fetchList( true, false, false, $nodeID );
+
+        if ( empty( $nodeList) )
+            return false;
+
+        // clear cache for old placement. clear old cache only once for relavent.
+        $firstObjectID = $nodeList[0]->object()->attribute( 'id' );
+
+        eZContentCacheManager::clearContentCacheIfNeeded( $firstObjectID, true, $nodeID );
+
+        $expireRoleCache = false;
+        foreach( $nodeList as $node )
+        {
+            $object = $node->object();
+
+            $objectID = $object->attribute( 'id' );
+            $oldParentNode = $node->fetchParent();
+            $oldParentObject = $oldParentNode->object();
+            $currentNodeID = $node->attribute( 'node_id' );
+
+            // clear user policy cache if this is a user object
+            if ( in_array( $object->attribute( 'contentclass_id' ), eZUser::contentClassIDs() ) )
             {
-                $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
-                $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
-                $nodeAssignment->store();
-
-                // update search index
-                $nodeIDList = array( $nodeID );
-                eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
-                eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
             }
 
-            $result = true;
+            $db = eZDB::instance();
+            $db->begin();
+
+            if( $expireRoleCache )
+                $node->move( $newParentNodeID, 0, false );
+            else
+                $node->move( $newParentNodeID, 0, false, $expireRoleCache );  //expireRoleCache once out of the loop
+
+            eZContentObject::fixReverseRelations( $objectID, 'move' );
+
+            $newNode = eZContentObjectTreeNode::fetchNode( $objectID, $newParentNodeID );
+
+            if ( $newNode )
+            {
+                $newNode->updateSubTreePath( true, true );
+                if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
+                {
+                    // If the main node is moved we need to check if the section ID must change
+                    $newParentNode = $newNode->fetchParent();
+                    $newParentObject = $newParentNode->object();
+                    if ( $object->attribute( 'section_id' ) != $newParentObject->attribute( 'section_id' ) )
+                    {
+
+                        eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
+                                                                         $newParentObject->attribute( 'section_id' ),
+                                                                         $oldParentObject->attribute( 'section_id' ) );
+                    }
+                }
+
+                // modify assignment
+                $curVersion     = $object->attribute( 'current_version' );
+                $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
+
+                if ( $nodeAssignment )
+                {
+                    $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
+                    $nodeAssignment->setAttribute( 'op_code', eZNodeAssignment::OP_CODE_MOVE );
+                    $nodeAssignment->store();
+
+                    // update search index
+                    $nodeIDList = array( $currentNodeID );
+                    eZSearch::removeNodeAssignment( $node->attribute( 'main_node_id' ), $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                    eZSearch::addNodeAssignment( $newNode->attribute( 'main_node_id' ), $object->attribute( 'id' ), $nodeIDList );
+                }
+
+                $result = true;
+            }
+            else
+            {
+                eZDebug::writeError( "Node $currentNodeID was moved to $newParentNodeID but fetching the new node failed" );
+            }
+
+            $db->commit();
+
         }
-        else
+
+        if( $expireRoleCache )
         {
-            eZDebug::writeError( "Node $nodeID was moved to $newParentNodeID but fetching the new node failed" );
+            eZRole::expireCache();
         }
-
-        $db->commit();
-
-        // clear cache for new placement.
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
+        // clear cache once for new placement.
+        eZContentCacheManager::clearContentCacheIfNeeded( $firstObjectID, true, $nodeID );
 
         return $result;
     }

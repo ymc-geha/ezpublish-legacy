@@ -248,8 +248,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         if ( !$object )
             return $module->handleError( eZError::KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-        $nodeToMoveList[] = array( 'node_id'   => $nodeID,
-                                   'object_id' => $object->attribute( 'id' ) );
+//        $nodeToMoveList[] = array( 'node_id'   => $nodeID,
+//                                   'object_id' => $object->attribute( 'id' ) );
 
         $class = $object->contentClass();
         $classID = $class->attribute( 'id' );
@@ -272,22 +272,28 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     }
 
     // move selected nodes, this should probably be inside a transaction
-    foreach( $nodeToMoveList as $nodeToMove )
-    {
-        if ( eZOperationHandler::operationIsAvailable( 'content_move' ) )
-        {
-            $operationResult = eZOperationHandler::execute( 'content',
-                                                            'move', array( 'node_id'            => $nodeToMove['node_id'],
-                                                                           'object_id'          => $nodeToMove['object_id'],
-                                                                           'new_parent_node_id' => $selectedNodeID ),
-                                                            null,
-                                                            true );
-        }
-        else
-        {
-            eZContentOperationCollection::moveNode( $nodeToMove['node_id'], $nodeToMove['object_id'], $selectedNodeID );
-        }
-    }
+    $operationResult = eZOperationHandler::execute( 'content',
+        'move', array( 'node_id'            => implode( ',', $nodeIDlist ),
+                        'object_id'          => '',
+                        'new_parent_node_id' => $selectedNodeID ),
+                null,
+                true );
+//    foreach( $nodeToMoveList as $nodeToMove )
+//    {
+//        if ( eZOperationHandler::operationIsAvailable( 'content_move' ) )
+//        {
+//            $operationResult = eZOperationHandler::execute( 'content',
+//                                                            'move', array( 'node_id'            => $nodeToMove['node_id'],
+//                                                                           'object_id'          => $nodeToMove['object_id'],
+//                                                                           'new_parent_node_id' => $selectedNodeID ),
+//                                                            null,
+//                                                            true );
+//        }
+//        else
+//        {
+//            eZContentOperationCollection::moveNode( $nodeToMove['node_id'], $nodeToMove['object_id'], $selectedNodeID );
+//        }
+//    }
 
     return $module->redirectToView( 'view', array( $viewMode, $selectedNodeID, $languageCode ) );
 }
