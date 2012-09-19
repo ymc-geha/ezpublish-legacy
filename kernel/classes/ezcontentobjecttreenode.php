@@ -4202,34 +4202,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-
-//    /**
-//     * @static move node array under new node.
-//     *   \note nodes in $nodeIDArray shouldn't have parent-child relationship otherwise it may cause node-not-found exception.
-//     *  This doesn't update node assignment, see eZContentObjectTreeNodeOperations::move for actual node moving.
-//     * @param $newParentNodeID
-//     * @param array $nodeID
-//     */
-//    static function moveArray( $newParentNodeID, $nodeIDList = array() )
-//    {
-//        $nodeArray = self::fetchList( true, false, false, $nodeIDList );
-//        $expireRoleCache = false;
-//        foreach( $nodeArray as $node )
-//        {
-//            $refreshRoleCache = false;
-//            // move one node, without clearing view cache and role cache
-//            $node->move( $newParentNodeID, 0, false, $refreshRoleCache );
-//            if( $refreshRoleCache )
-//            {
-//                $expireRoleCache = true;
-//            }
-//        }
-//        if( $expireRoleCache )
-//        {
-//            eZRole::expireCache();
-//        }
-//    }
-
     /*!
       Moves the node to the given node.
       \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
