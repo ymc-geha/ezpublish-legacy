@@ -40,7 +40,7 @@ class eZContentObjectTreeNodeOperations
       - updates assignment( setting new 'parent_node' );
       - clears caches for new placement;
 
-     \param $nodeID The id/idarray of a node to move.
+     \param $nodeID The id|idarray of a node/nodes to move. ex: 1, array(1,2,3)
      \param $newParentNodeID The id of a new parent.
      \return \c true if 'move' was done successfully, otherwise \c false;
     */
@@ -72,11 +72,6 @@ class eZContentObjectTreeNodeOperations
         if ( empty( $nodeList) )
             return false;
 
-        // clear cache for old placement. clear old cache only once for relavent.
-        $firstObjectID = $nodeList[0]->object()->attribute( 'id' );
-
-        eZContentCacheManager::clearContentCacheIfNeeded( $firstObjectID, true, $nodeID );
-
         $expireRoleCache = false;
         foreach( $nodeList as $node )
         {
@@ -92,6 +87,8 @@ class eZContentObjectTreeNodeOperations
             {
                 eZUser::purgeUserCacheByUserId( $object->attribute( 'id' ) );
             }
+
+            eZContentObjectTreeNode::clearViewCacheForSubtree( $node );
 
             $db = eZDB::instance();
             $db->begin();
@@ -153,7 +150,9 @@ class eZContentObjectTreeNodeOperations
         {
             eZRole::expireCache();
         }
+
         // clear cache once for new placement.
+        $firstObjectID = $nodeList[0]->object()->attribute( 'id' );
         eZContentCacheManager::clearContentCacheIfNeeded( $firstObjectID, true, $nodeID );
 
         return $result;
