@@ -34,6 +34,7 @@ class eZContentCacheManager
     const CLEAR_ALL_CACHE      = 63;
     const CLEAR_DEFAULT        = 15; // CLEAR_NODE_CACHE and CLEAR_PARENT_CACHE and CLEAR_RELATING_CACHE and CLEAR_KEYWORD_CACHE
 
+    static $isAllViewCacheExpired = false;  //Flag to check if clearing all view cache expiry is done. This is to advoid expiry.php 0 byte issue. Set it to true to reexpire all view cache.
     /*!
      \static
      Appends parent nodes ids of \a $object to \a $nodeIDList array.
@@ -732,8 +733,12 @@ class eZContentCacheManager
             eZContentCache::cleanup( $nodeList );
         else
         {
-            eZDebug::writeDebug( "Expiring all view cache since list of nodes({$cleanupValue}) related to object({$objectID}) exeeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
-            eZContentObject::expireAllViewCache();
+            if( !self::$isAllViewCacheExpired )
+            {
+                eZDebug::writeDebug( "Expiring all view cache since list of nodes({$cleanupValue}) related to object({$objectID}) exeeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
+                eZContentObject::expireAllViewCache();
+                self::$isAllViewCacheExpired = true;
+            }
         }
 
         eZDebug::accumulatorStop( 'node_cleanup' );
@@ -800,8 +805,12 @@ class eZContentCacheManager
         }
         else
         {
-            eZDebug::writeDebug( "Expiring all view cache since list of nodes({$cleanupValue}) exceeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
-            eZContentObject::expireAllViewCache();
+            if( !self::$isAllViewCacheExpired )
+            {
+                eZDebug::writeDebug( "Expiring all view cache since list of nodes({$cleanupValue}) exceeds site.ini\[ContentSettings]\CacheThreshold", __METHOD__ );
+                eZContentObject::expireAllViewCache();
+                self::$isAllViewCacheExpired = true;
+            }
         }
 
         eZDebug::accumulatorStop( 'node_cleanup' );
