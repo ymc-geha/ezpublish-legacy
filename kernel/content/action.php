@@ -278,22 +278,6 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
                         'new_parent_node_id' => $selectedNodeID ),
                 null,
                 true );
-//    foreach( $nodeToMoveList as $nodeToMove )
-//    {
-//        if ( eZOperationHandler::operationIsAvailable( 'content_move' ) )
-//        {
-//            $operationResult = eZOperationHandler::execute( 'content',
-//                                                            'move', array( 'node_id'            => $nodeToMove['node_id'],
-//                                                                           'object_id'          => $nodeToMove['object_id'],
-//                                                                           'new_parent_node_id' => $selectedNodeID ),
-//                                                            null,
-//                                                            true );
-//        }
-//        else
-//        {
-//            eZContentOperationCollection::moveNode( $nodeToMove['node_id'], $nodeToMove['object_id'], $selectedNodeID );
-//        }
-//    }
 
     return $module->redirectToView( 'view', array( $viewMode, $selectedNodeID, $languageCode ) );
 }
