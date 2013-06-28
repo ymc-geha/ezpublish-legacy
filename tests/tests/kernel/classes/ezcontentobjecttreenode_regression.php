@@ -296,5 +296,239 @@ class eZContentObjectTreeNodeRegression extends ezpDatabaseTestCase
         ezpINIHelper::restoreINISettings();
         eZContentLanguage::setPrioritizedLanguages( $bkpLanguages );
     }
+
+    /**
+     * Regression test for EZP-20933
+     * Two policies coming from two groups should be additive, not substractive
+     * @covers eZContentObjectTreeNode::canCreateClassList()
+     */
+    public function testCanCreateClassList_EZP20933()
+    {
+        eZINI::instance()->setVariable( 'RoleSettings', 'EnableCaching', 'no' );
+
+        // create <group1>
+        $group1 = $this->createGroup( __METHOD__ . " Group 1" );
+
+        // create <group2>
+        $group2 = $this->createGroup( __METHOD__ . " Group 2" );
+
+        // create <folder> in /Media
+        $folder = $this->createFolder( __METHOD__, 43 );
+
+        // create <role1> with content/create, no limitations
+        $role1 = $this->createRole( __METHOD__ . " Role 1" );
+        $this->createPolicy( $role1, 'content', 'create' );
+
+        // assign <role1> to <group1> with limitation to <Media>
+        $role1->assignToUser( $group1->attribute( 'id' ), 43 );
+
+        // role2  <role2> with content/create, classes( Image )
+        $role2 = $this->createRole( __METHOD__ . " Role 2" );
+        $policy = $this->createPolicy( $role2, 'content', 'create' );
+        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Class' );
+        eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), 5 );
+
+        // assign <role2> to <group2> with limitation to <Media>
+        $role2->assignToUser( $group2->attribute( 'id' ), 'subtree', 43 );
+
+        // create <user> in <group1>, add location to <group2>
+        $user = $this->createUser(
+            array( $group1->attribute( 'main_node_id' ), $group2->attribute( 'main_node_id' ) ),
+            'ezp20933'
+        );
+
+        eZRole::expireCache();
+        eZUser::cleanupCache();
+
+        // check that <user> is allowed to create any Content class in <folder>
+        eZUser::setCurrentlyLoggedInUser(
+            eZUser::fetch( $user->attribute( 'id' ) ),
+            $user->attribute( 'id' )
+        );
+
+        $canCreateClassList = $folder->mainNode()->canCreateClassList();
+        self::assertCount(
+            count( eZContentClass::fetchList() ),
+            $canCreateClassList,
+            "User should be able to create all classes"
+        );
+
+        ezpINIHelper::restoreINISettings();
+    }
+
+    /**
+     * Test for a possible border case in EZP-20933
+     * @covers eZContentObjectTreeNode::canCreateClassList()
+     */
+    public function testCanCreateClassList_EZP20933_languages()
+    {
+        $limitedClassId = 5;
+
+        $this->addLanguage( 'fre-FR' );
+        eZContentLanguage::setPrioritizedLanguages(
+            array( 'eng-GB', 'fre-FR' )
+        );
+
+        // create a user
+        eZINI::instance()->setVariable( 'RoleSettings', 'EnableCaching', 'no' );
+
+        // create <group1>
+        $group1 = $this->createGroup( __METHOD__ . " Group 1" );
+
+        // create <group2>
+        $group2 = $this->createGroup( __METHOD__ . " Group 2" );
+
+        // create <folder> in /Media
+        $folder = $this->createFolder( __METHOD__, 43 );
+
+        // create <role1> with content/create, limited to eng-GB content
+        $role1 = $this->createRole( __METHOD__ . " Role 1" );
+        $policy = $this->createPolicy( $role1, 'content', 'create' );
+        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Language' );
+        eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), 'eng-GB' );
+
+        // role2  <role2> with content/create, classes( Image )
+        $role2 = $this->createRole( __METHOD__ . " Role 2" );
+        $policy = $this->createPolicy( $role2, 'content', 'create' );
+        $policyLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Class' );
+        eZPolicyLimitationValue::createNew( $policyLimitation->attribute( 'id' ), $limitedClassId );
+
+        // assign <role1> to <group1> with limitation to <testFolder>
+        $role1->assignToUser( $group1->attribute( 'id' ), 'subtree', $folder->mainNodeID() );
+
+        // assign <role2> to <group2> with limitation to <testFolder>
+        $role2->assignToUser( $group2->attribute( 'id' ), 'subtree', $folder->mainNodeID() );
+
+        // create <user> in <group1>, add location to <group2>
+        $user = $this->createUser(
+            array( $group1->attribute( 'main_node_id' ), $group2->attribute( 'main_node_id' ) ),
+            'ezp20933_languages'
+        );
+
+        eZRole::expireCache();
+        eZUser::cleanupCache();
+
+        // check that <user> is allowed to create any Content class in <folder>
+        eZUser::setCurrentlyLoggedInUser(
+            eZUser::fetch( $user->attribute( 'id' ) ),
+            $user->attribute( 'id' )
+        );
+
+        $canCreateClassList = $folder->mainNode()->canCreateClassList( true );
+
+        self::assertCount(
+            count( eZContentClass::fetchList() ),
+            $canCreateClassList,
+            "User should be able to create all classes"
+        );
+
+        /** @var $class eZContentClass */
+        foreach ( $canCreateClassList as $class )
+        {
+            $expectedLanguages = ( $class->attribute( 'id' ) != $limitedClassId )
+                ? array( 'eng-GB' )
+                : array( 'eng-GB', 'fre-FR' );
+            self::assertEquals(
+                $expectedLanguages,
+                $class->canInstantiateLanguages(),
+                "Failed asserting that user can create " . $class->attribute( 'identifier' ) . "objects in " . join( ', ', $expectedLanguages )
+            );
+        }
+
+        ezpINIHelper::restoreINISettings();
+    }
+
+
+    /**
+     * @return \eZRole
+     */
+    private function createRole( $roleName )
+    {
+        $role = \eZRole::create( $roleName );
+        $role->store();
+        return $role;
+    }
+
+    /**
+     * @param eZRole $role
+     * @param string $module
+     * @param string $function
+     *
+     * @return eZPolicy
+     */
+    private function createPolicy( \eZRole $role, $moduleName = '*', $functionName = '*' )
+    {
+        $policy = \eZPolicy::create(
+            $role->attribute( 'id' ),
+            $moduleName,
+            $functionName
+        );
+        $policy->store();
+        return $policy;
+    }
+
+    /**
+     * @return \eZContentObject
+     */
+    public function createGroup( $name )
+    {
+        $group = new \ezpObject( 'user_group', 5, 14, 2 );
+        $group->name = $name;
+        $group->addTranslation( 'eng-GB', array( 'name' => $name ) );
+        $group->publish();
+
+        return $group->object;
+    }
+
+    /**
+     * Creates a user in groups $parentGroupsIds.
+     * The login will be used for the email (<login>@example.com),
+     * and the password will be set to publish.
+     *
+     * @return \eZContentObject
+     */
+    private function createUser( array $parentGroupsIds, $login, $options = array() )
+    {
+        $password = eZUser::createHash( $login, 'publish', null, \eZUser::PASSWORD_HASH_MD5_USER );
+
+        $user = new \ezpObject( 'user', array_shift( $parentGroupsIds ), 14, 2 );
+        $user->user_account = "$login|$login@example.com|$password|0|2";
+        foreach ( $parentGroupsIds as $groupId )
+        {
+            $user->addNode( $groupId );
+        }
+        $user->publish();
+        return $user->object;
+    }
+
+    /**
+     * @param $name
+     * @param $parentNodeId
+     *
+     * @return \eZContentObject
+     */
+    private function createFolder( $name, $parentNodeId )
+    {
+        $folder = new \ezpObject( 'folder', $parentNodeId  );
+        $folder->name = $name;
+        $folder->addTranslation( 'eng-GB', array( 'name' => $name ) );
+        $folder->publish();
+        return $folder->object;
+    }
+
+    /**
+     * Adds a language to the system if it isn't there yet
+     * @param string $locale
+     */
+    private function addLanguage( $localeCode )
+    {
+        if ( eZContentLanguage::fetchByLocale( $localeCode ) )
+            return;
+
+        $locale = eZLocale::instance( $localeCode );
+        if ( $locale->isValid() )
+        {
+            eZContentLanguage::addLanguage( $localeCode );
+        }
+    }
 }
-?>
