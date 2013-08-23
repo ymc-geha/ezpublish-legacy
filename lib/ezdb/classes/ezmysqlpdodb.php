@@ -162,6 +162,7 @@ class eZMySQLPDODB extends eZDBInterface
 
             $analysisText = false;
 
+            file_put_contents('/tmp/test.geha.log', $sql . PHP_EOL.PHP_EOL, FILE_APPEND);
             $statement = $connection->prepare($sql);
             $statement->execute();
 
@@ -617,17 +618,7 @@ class eZMySQLPDODB extends eZDBInterface
 
     function escapeString( $str )
     {
-        if ( $this->IsConnected )
-        {
-            $result = $this->DBConnection->quote($str);
-            $result = substr($result,1, -1);
-            return $result;
-        }
-        else
-        {
-            eZDebug::writeDebug( 'escapeString called before connection is made', __METHOD__ );
-            return $str;
-        }
+        return mysql_escape_string((string)$str);
     }
 
     function close()
